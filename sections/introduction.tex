@@ -1,0 +1,72 @@
+\section{Introduction}
+\label{introduction}
+
+\shorthandoff{;:!?}
+
+\subsection*{Contexte général}
+
+Le secteur bancaire traverse depuis deux décennies une transformation profonde de ses fonctions opérationnelles. La pression réglementaire croissante, l'intensification concurrentielle et l'accélération des volumes de transactions ont conduit les banques de financement et d'investissement (BFI) à repenser l'organisation de leurs activités de Back Office. Cette transformation répond à un impératif économique central : réduire le \textit{cost to serve}, c'est-à-dire le coût unitaire de traitement de chaque opération. Chez BNP Paribas, cet impératif a été formalisé à travers des plans stratégiques successifs. Le plan \textit{GTS2025} (\textit{Growth, Technology, Sustainability}), lancé en 2022, a placé la technologie et l'industrialisation au cœur du modèle opérationnel, avec un objectif explicite de génération de \textit{hard savings}. Au sein de CIB, cette ambition s'est déclinée à travers le programme \textit{GB~Indus} (\textit{Global Banking Modernisation \& Industrialisation}), visant à industrialiser les processus opérationnels d'un métier présent dans une cinquantaine de pays. Le plan 2027 - 2030, en cours de préparation, prolonge cette trajectoire en engageant un programme structurel de transformation des activités de support — revue des processus de bout en bout, mutualisation des infrastructures, simplification applicative et intensification de l'usage de l'intelligence artificielle — avec l'objectif d'amener le coefficient d'exploitation du Groupe sous les 56. Depuis 2020, cette dynamique s'est encore accélérée sous l'effet de trois forces convergentes qui redessinent le paysage des opérations bancaires.
+
+La première est la généralisation du \textit{nearshoring} et de l'\textit{offshoring} des fonctions opérationnelles. Confrontées à une pression constante sur les coûts, les BFI ont massivement délocalisé une partie de leurs activités de traitement vers des centres de services partagés situés à Lisbonne, Varsovie, Mumbai ou Montréal. Ce mouvement a fragmenté les chaînes de traitement, multiplié les fuseaux horaires et les \textit{handovers} (passations) entre équipes, et complexifié considérablement le pilotage de la charge de travail. Là où un manager supervisait autrefois une équipe co-localisée de dix opérateurs, il doit désormais coordonner des ressources réparties sur plusieurs sites, avec des niveaux de compétence, d'ancienneté et de productivité hétérogènes.
+
+La deuxième force est l'irruption de l'intelligence artificielle et de l'automatisation dans les processus opérationnels. Le déploiement de solutions de \textit{Robotic Process Automation} (RPA) a permis d'automatiser les tâches les plus répétitives — extractions de données, contrôles de cohérence, alimentation de systèmes. Plus récemment, l'émergence de l'IA générative ouvre des perspectives de transformation plus profondes~: rédaction automatisée de \textit{facility letters}, extraction intelligente de clauses contractuelles, assistance à la prise de décision sur les cas complexes. Ces technologies ne suppriment pas la charge de travail humaine~; elles en modifient la nature. Les tâches routinières se réduisent, tandis que le travail résiduel se concentre sur les opérations à forte valeur ajoutée — précisément celles qui sont les plus complexes, les plus variables et les plus difficiles à mesurer.
+
+La troisième est la perte d'attractivité du secteur et la guerre des talents. Les métiers du Back Office bancaire peinent à recruter et à fidéliser, en particulier auprès des jeunes générations qui valorisent l'équilibre vie professionnelle / vie personnelle et la qualité de vie au travail. Dans ce contexte, une charge de travail mal répartie ou non anticipée ne produit pas seulement des risques opérationnels~: elle génère de l'attrition, de la démotivation et une perte de compétences critiques. Le pilotage de la charge devient ainsi un enjeu de ressources humaines autant que d'efficacité opérationnelle.
+
+C'est dans cet environnement en mutation rapide que se positionne notre recherche. Au sein des fonctions transversales comme le Back Office, la question de la valeur produite se pose en des termes fondamentalement différents de ceux du Front Office~: là où les équipes commerciales peuvent mesurer directement les revenus qu'elles génèrent, les équipes opérationnelles ne disposent pas de cette visibilité. En revanche, elles connaissent précisément leur coût — un coût généré majoritairement par les ressources humaines qui composent ces équipes. Cette asymétrie place le pilotage de la charge de travail au cœur de la démonstration de valeur~: faute de pouvoir prouver combien elles rapportent, ces équipes doivent démontrer qu'elles optimisent ce qu'elles coûtent. C'est précisément ce que les plans stratégiques successifs exigent d'elles à travers les objectifs de \textit{cost savings} et de \textit{hard savings}. Les équipes en charge du traitement des opérations de crédit — communément désignées sous le terme de \textit{Loan Servicing} — occupent une position centrale dans cette logique~: elles assurent le traitement opérationnel de l'ensemble des événements survenant durant la vie d'un contrat de crédit, depuis le tirage initial (\textit{drawdown}) jusqu'au remboursement final, en passant par les amendements contractuels, les ajustements de taux et les opérations de restructuration. Ces équipes opèrent sous une double contrainte~: les exigences de qualité et de conformité imposent un traitement rigoureux dans le respect de délais contractuels stricts, tandis que la volumétrie et la complexité des opérations varient considérablement sous l'effet de cycles commerciaux, de saisonnalités financières et de chocs exogènes. Cette tension entre exigence de qualité constante et variabilité de la charge, dans un contexte où chaque poste représente un coût visible et soumis à des objectifs de réduction planifiés, constitue le défi managérial que ce mémoire se propose d'adresser.
+
+
+\subsection*{Contexte organisationnel}
+
+Ce travail de recherche s'inscrit dans le cadre d'une mission réalisée au sein du département \textit{Global Credit Operations} (GCO) de BNP PARIBAS. Le département GCO gère l'ensemble des opérations de crédit à destination d'États, d'institutions financières et de contreparties corporates. Dans la chaîne de traitement d'un deal, plusieurs équipes interviennent successivement~: le Front Office lors de la signature et de l'origination, le Middle Office pour les informations réglementaires et contractuelles, et les équipes Back Office --- plus précisément les équipes \textit{Loan Servicing} (LS) --- qui assurent le traitement des informations dans le progiciel Loan~IQ.
+
+L'organisation de GCO illustre les tendances sectorielles décrites ci-dessus. Certaines activités de traitement ont été délocalisées, les premières briques d'automatisation (macros VBA, RPA) ont été déployées, et l'équipe \textit{Strategic Transformation \& Data Analytics} --- à laquelle nous sommes rattachés --- porte les projets de transformation digitale et d'exploitation des données. Parmi ces projets, la création d'interfaces automatisées (\textit{Power of Attorney}, \textit{facility letters}), le développement de KPI à destination du \textit{high management}, et surtout la conception d'une mesure fiable de la charge de travail des équipes Back Office.
+
+La charge de travail est ici appréhendée comme un objet complexe, résultant de la diversité des événements opérationnels, de leur fréquence, de leur variabilité et de leurs contraintes. Elle ne peut être observée directement sans un travail préalable de formalisation et d'instrumentation --- travail d'autant plus nécessaire que l'automatisation croissante modifie en continu le périmètre du travail humain.
+
+\subsection*{Problématique et enjeux}
+
+L'enjeu opérationnel est considérable. En l'absence d'une mesure robuste de la charge de travail, le pilotage de l'activité repose sur des estimations empiriques et sur l'expérience des managers --- une approche qui atteint ses limites face à la complexité croissante des opérations, à la dispersion géographique des équipes et à la transformation des tâches par l'automatisation. Les conséquences d'un pilotage déficient sont multiples~: allocation sous-optimale des ressources humaines entre sites \textit{onshore} et \textit{nearshore}, incapacité à anticiper les pics d'activité, augmentation des risques opérationnels (délais de traitement, erreurs, reprises), dégradation des conditions de travail et accélération du \textit{turnover}.
+
+Ce constat conduit à formuler la problématique suivante~:
+
+\begin{quote}
+\textit{Comment la charge de travail des équipes Back Office peut-elle être formalisée en une mesure quantitative fiable au service de l'aide à la décision organisationnelle~?}
+\end{quote}
+
+Cette question de recherche se décline en trois sous-questions, ordonnées
+selon une progression logique allant de la mesure à la décision~:
+
+\begin{enumerate}
+    \item \textbf{Mesurer.} Comment construire un protocole de collecte des
+    temps de traitement adapté aux opérations de crédit informatisées, qui
+    tienne compte de la variabilité liée à la complexité des deals, aux
+    conditions opérationnelles et à la répartition géographique des équipes~?
+
+    \item \textbf{Modéliser.} Quels modèles statistiques et d'apprentissage
+    automatique permettent d'expliquer et de prédire la charge de travail à
+    partir des caractéristiques observables des opérations~?
+
+    \item \textbf{Décider.} Comment traduire cette mesure prédictive en outil
+    d'aide à la décision pour l'allocation des ressources entre sites et
+    l'anticipation des pics d'activité~?
+\end{enumerate}
+
+
+\subsection*{Démarche méthodologique}
+
+Pour répondre à cette problématique, nous adoptons une démarche de \textit{design science} (Hevner \textit{et al.}, 2004), dont l'objectif est la construction et l'évaluation d'un artefact --- ici, un modèle de mesure et de prédiction de la charge de travail --- dans un contexte organisationnel réel. Cette démarche se déploie en quatre phases~:
+
+\textbf{Phase 1 --- Compréhension du processus.} Nous procédons à une analyse approfondie de l'organisation des opérations de crédit et du rôle des équipes Loan Servicing, en identifiant la typologie des événements opérationnels et les facteurs de complexité qui les caractérisent.
+
+\textbf{Phase 2 --- Revue de littérature.} Nous recensons les approches existantes de mesure et de modélisation de la charge de travail, en mobilisant quatre champs disciplinaires~: le génie industriel (études de temps, MTM), l'ergonomie cognitive (NASA-TLX), la science des données (régression, apprentissage automatique, Process Mining) et la Recherche Opérationnelle (théorie des files d'attente, optimisation).
+
+\textbf{Phase 3 --- Formalisation et construction de la mesure.} Nous définissons un protocole de collecte des temps de traitement (\textit{clocking}), concevons la base de données des mesures et établissons les conditions de mesurabilité des opérations.
+
+\textbf{Phase 4 --- Analyse et exploitation.} Nous identifions les facteurs explicatifs de la charge de travail par des méthodes statistiques et d'apprentissage automatique, construisons un modèle prédictif et en dérivons des recommandations pour le pilotage opérationnel~: allocation des ressources, anticipation des pics et prévision de la charge.
+
+\subsection*{Annonce du plan}
+
+Ce mémoire s'organise en cinq chapitres. Le \textbf{chapitre~1} présente le contexte organisationnel des opérations de crédit et caractérise l'objet d'étude --- la charge de travail des équipes Loan Servicing dans un environnement marqué par le nearshoring et l'automatisation. Le \textbf{chapitre~2} propose un état de l'art des méthodes de mesure et de modélisation de la charge de travail, et identifie le \textit{gap} que ce mémoire vise à combler. Le \textbf{chapitre~3} détaille la méthodologie de formalisation et de construction de la mesure, du protocole de collecte à la structuration de la base de données. Le \textbf{chapitre~4} expose l'analyse des données collectées, la construction du modèle prédictif et les apports pour le pilotage opérationnel. Enfin, le \textbf{chapitre~5} discute les limites de la démarche, les conditions de généralisation des résultats et les perspectives d'évolution --- notamment l'intégration de l'IA générative comme levier de transformation de la charge de travail.
+
+\shorthandon{;:!?}

@@ -1,56 +1,495 @@
 \section{Contexte}
 \label{context}
 
-\subsection{Sous-contexte}
+\subsection{Contexte organisationnel}
+\label{subsec:organisation}
 
-\textbf{Bold} or \textit{Italic} or \textsc{small capitals}
+\subsubsection{Organisation du département GCO (Global Credit Operations)}
+\label{subsec:gco-organisation}
 
-This is a reference\footnote{Here is in passing how to make a footnote} to the \iref{context} section thanks to \codeinline{label} and \codeinline{iref} commande
-
-\hfill
-
-Use \codeinline{enumerate} in order to create a numbered list
-
-\begin{enumerate}
-    \item A
-    \item B
-\end{enumerate}
-
-We can also use points lists
+Le département \textbf{Global Credit Operations} (GCO) de BNP Paribas structure ses activités autour de pôles complémentaires, chacun jouant un rôle clé dans la chaîne de traitement des opérations de crédit syndiqué.
+Le \textit{crédit syndiqué} est un crédit accordé à une entreprise par un groupe de banques agissant conjointement, permettant de répartir le risque de financement tout en mobilisant des montants élevés \cite{finance-club}.
 
 \begin{itemize}
-    \item A
-    \item B
+    \item \textbf{Équipes transversales} : elles jouent un rôle de \textit{surplomb}, en veillant à la cohérence et à la performance de l'ensemble de la chaîne opérationnelle. Elles pilotent les initiatives de transformation stratégique (automatisation des processus, intégration d'outils d'intelligence artificielle, déploiement de KPI de suivi), garantissent la conformité réglementaire, et produisent des analyses destinées au top management. Leur rôle est d'assurer la gouvernance et la standardisation des pratiques au niveau global.
+
+    \item \textbf{Front Office (Origination \& Syndication)} : il constitue le point d'entrée commercial et relationnel avec les clients. Le Front Office identifie les besoins de financement, conçoit la structure du crédit, négocie les conditions avec l'emprunteur et organise la syndication, c'est-à-dire la répartition du financement entre les différentes banques participantes. Il est à la fois force de proposition stratégique et interface principale avec le marché.
+
+    \item \textbf{Middle Office (Credit Transaction Management)} : il agit comme \textit{pivot de contrôle et de sécurisation}. Ses missions consistent à vérifier la bonne mise en place des conditions négociées (clauses contractuelles, covenants, pricing), à s'assurer de la qualité des données saisies dans les systèmes et à gérer les exceptions opérationnelles. Le Middle Office se situe entre la relation commerciale (FO) et l'exécution opérationnelle (BO), garantissant l'intégrité et la conformité des transactions.
+
+    \item \textbf{Back Office (Loan Servicing Team)} : il représente le \textit{cœur opérationnel} du dispositif. Responsable de l'exécution quotidienne, il prend en charge le cycle de vie complet des crédits : décaissements (drawdowns), appels de fonds, paiements d'intérêts et de commissions, remboursements, gestion des échéances, ainsi que la clôture finale du prêt. Il assure également la maintenance des systèmes de gestion (tels que Loan IQ) et la production de reportings réglementaires et financiers.
 \end{itemize}
 
-A small link to my \href{https://github.com/av1m}{Github}
-
-I can quote Dennis Ritchie\cite{c-programming}, or Olivier Cailloux\cite{cailloux}
-
-Also, we can create figures or paintings
 
 \begin{figure}[H]
     \centering
-	\includegraphics[scale=1,width=0.5\textwidth]{images/dauphine.png}
-	\caption{Logo from Paris Dauphine PSL University}
-	\footnotesize A little note
-	\label{dauphine-logo}
+    \begin{tikzpicture}[
+        node distance=2cm,
+        rect/.style={draw, rectangle, align=center, minimum width=6cm, minimum height=1cm, rounded corners, fill=blue!10, font=\small},
+        transv/.style={draw, rectangle, align=center, minimum width=6cm, minimum height=1cm, rounded corners, fill=green!20, font=\small, thick}
+    ]
+
+    % Acteurs
+    \node[rect] (fo) {Front Office \\ \footnotesize{Origination \& Syndication}};
+    \node[rect, below=of fo] (mo) {Middle Office \\ \footnotesize{Contrôles techniques, suivi covenants}};
+    \node[rect, below=of mo] (bo) {Back Office \\ \footnotesize{Exécution, paiements, reporting}};
+
+    % Flèches verticales
+    \draw[->, thick] (fo.south) -- (mo.north)
+        node[above, sloped] {\footnotesize Term sheet \& dossier de syndication};
+    \draw[->, thick] (mo.south) -- (bo.north)
+        node[above, sloped] {\footnotesize Instructions validées \& paramétrage systèmes};
+    % Supervision transversale sur la droite
+    \node[transv, right=3.5cm of mo] (transv) {Équipes transversales \\ \footnotesize{Pilotage stratégique, automatisation, reporting}};
+    \draw[->, dashed, thick] (transv.west) -- (fo.east);
+    \draw[->, dashed, thick] (transv.west) -- (mo.east);
+    \draw[->, dashed, thick] (transv.west) -- (bo.east);
+
+    \end{tikzpicture}
+    \caption{Chaîne de valeur du crédit syndiqué : organisation verticale et supervision transversale}
+    \label{fig:chaine-valeur-credit-vertical}
 \end{figure}
 
 
-\begin{table}[h]
+\subsubsection{Organisation de l'équipe Strategic Transformation \& Data Analytics}
+\label{subsec:organisationequipe}
+
+\begin{figure}[ht]
     \centering
-    \begin{tabular}{|l|c|r|}
-      \hline
-      \textbf{Left} & \textbf{Right} \\
-      \hline
-      Line 1 left & line 1 right \\
-      Line 2 left & line 2 right \\
-      \hline
+    \begin{tikzpicture}[
+        node distance=0.8cm,
+        rect/.style={draw, rectangle, align=center, minimum width=3.2cm, rounded corners, font=\footnotesize},
+        subrect/.style={rect, minimum width=2.8cm, font=\scriptsize},
+        flag/.style={circle, minimum size=0.7cm, font=\tiny, text=white}
+    ]
+    \node[rect, fill=green!10] (main) {Strategic Transformation \\ \& Data Analytics};
+    \node[rect, fill=blue!20, below left=1.5cm and 0cm of main]  (st) {Strategic Transformation};
+    \node[subrect, fill=blue!10, below=of st] (po) {Product Owner};
+    \node[subrect, fill=blue!10, below=of po] (cp) {Chefferie de projet};
+    \node[rect, fill=orange!20, below right=1.5cm and 0cm of main] (da) {Data Analytics};
+    \node[subrect, fill=orange!10, below=of da] (dq) {Data Quality};
+    \node[subrect, fill=orange!10, below=of dq] (dan){Data Analysis};
+    \node[flag, fill=blue!80!red!50, left=0.3cm of st] (fr){\textbf{FR}};
+    \node[flag, fill=green!70!black, right=0.3cm of da] (pt){\textbf{PT}};
+    \draw[->, thick] (main.south) -- ++(0,-0.5) -| (st.north);
+    \draw[->, thick] (main.south) -- ++(0,-0.5) -| (da.north);
+    \draw[->, dashed] (st.south) -- (po);
+    \draw[->, dashed] (po) -- (cp);
+    \draw[->, dashed] (da.south) -- (dq);
+    \draw[->, dashed] (dq) -- (dan);
+    \end{tikzpicture}
+    \caption{Structure géographique de l'équipe (FR = France, PT = Portugal)}
+    \label{fig:org-geo-structure}
+\end{figure}
+
+\paragraph{L'équipe Strategic Transformation}est composée de chefs de projet et de product owners chargés de piloter la modernisation des opérations de crédit (automatisation, rationalisation des flux).
+
+\paragraph{L'équipe Data Analytics} est référente sur la donnée : qualité, nettoyage, analyses statistiques ainsi que création de KPI en destination du high management.
+
+\subsubsection{Organisation générale de la banque}
+\label{subsec:banque-structure}
+
+Le secteur bancaire se divise en trois grandes catégories d'établissements :
+\begin{itemize}
+    \item \textbf{Banque de détail} : services courants et prêts pour particuliers et PME.
+    \item \textbf{Banque privée} : gestion de patrimoine pour une clientèle fortunée.
+    \item \textbf{Banque de financement et d'investissement (CIB)} : financement structuré, marchés de capitaux, couverture des risques.
+\end{itemize}
+
+Ce mémoire se concentre sur la \textbf{CIB}, et plus précisément le \textit{crédit syndiqué}, dont le cycle de vie opérationnel est schématisé ci‑dessous :
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{3cm}|}
+    \hline
+    \textbf{Étape}        & \textbf{Front Office}                  & \textbf{Middle Office}               & \textbf{Back Office} \\
+    \hline
+    Origination           & Analyse du besoin, structuration      & --                                   & --                   \\
+    \hline
+    Structuration         & Négociation, syndication              & Évaluation des risques               & --                   \\
+    \hline
+    Documentation         & Coordination juridique                & Vérification des clauses             & Préparation contrats \\
+    \hline
+    Mise en place         & Information client                    & Contrôle final des risques           & Versements, confirmations \\
+    \hline
+    Vie du deal           & Suivi relationnel                     & Monitoring des covenants             & Reporting, échéances \\
+    \hline
     \end{tabular}
-    \caption{A simple example of a table}
-    \label{tab:duree}
-    \footnotesize Another little note
+    \caption{Cycle de vie opérationnel d'un crédit syndiqué}
+    \label{tab:cycle-vie-credit-syndique}
 \end{table}
 
 
+% ============================================================================
+\subsection{Typologie des événements opérationnels}
+\label{subsec:typologie-evenements}
+% ============================================================================
+
+Le cycle de vie d'un crédit syndiqué génère un ensemble d'événements opérationnels dont le traitement incombe aux équipes Loan Servicing. Chaque événement correspond à une unité de travail discrète, déclenchée par une instruction du Front Office ou du Middle Office, et exécutée dans le progiciel Loan~IQ selon des procédures standardisées. La diversité de ces événements --- par leur nature, leur fréquence et leur complexité --- constitue le premier déterminant structurel de la charge de travail.
+
+On distingue cinq grandes familles d'événements, ordonnées selon la chronologie du cycle de vie du crédit.
+
+% ---------------------------------------------------------------------------
+% FIGURE : Cycle de vie des événements opérationnels
+% ---------------------------------------------------------------------------
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=0.6cm and 1.2cm,
+    >=Stealth,
+    every node/.style={font=\small},
+    phase/.style={
+        rectangle, rounded corners=6pt,
+        minimum width=3.2cm, minimum height=1.6cm,
+        text width=2.8cm, align=center,
+        draw=#1, line width=1.2pt, fill=#1!8,
+        font=\small\bfseries
+    },
+    sublabel/.style={
+        font=\scriptsize, text=gray, text width=3cm, align=center
+    },
+    arrow/.style={
+        ->, line width=1pt, color=gray!70
+    },
+    rework/.style={
+        ->, line width=1pt, color=orange, dashed
+    }
+]
+
+% --- Nœuds principaux ---
+\node[phase=blue]   (setup)    {Mise en place \normalfont\scriptsize\textit{Deal Setup}};
+\node[phase=green, right=of setup]  (drawdown) {Décaissement Remboursement};
+\node[phase=teal, right=of drawdown] (servicing){Vie courante \normalfont\scriptsize\textit{Servicing}};
+\node[phase=orange, right=of servicing](amend)    {Modifications contractuelles};
+\node[phase=orange, right=of amend]  (closure)  {Clôture \normalfont\scriptsize\textit{Deal Closure}};
+
+% --- Sous-labels ---
+\node[sublabel, below=0.25cm of setup]    {Création facilité, paramétrage LIQ};
+\node[sublabel, below=0.25cm of drawdown] {Tirages, repayments,remb. anticipés};
+\node[sublabel, below=0.25cm of servicing]{Intérêts, commissions, rollovers, fixings};
+\node[sublabel, below=0.25cm of amend]    {Amendements,waivers, restructur.};
+\node[sublabel, below=0.25cm of closure]  {Solde positions,archivage};
+
+% --- Flèches principales ---
+\draw[arrow] (setup)    -- (drawdown);
+\draw[arrow] (drawdown) -- (servicing);
+\draw[arrow] (servicing)-- (amend);
+\draw[arrow] (amend)    -- (closure);
+
+% --- Boucle de vie courante ---
+\draw[arrow, bend left=35] (servicing.north) to
+    node[above, font=\scriptsize, text=gray]{cycle récurrent} (drawdown.north);
+
+% --- Boucle rework ---
+\draw[rework, bend right=30] (amend.south) to
+    node[below, font=\scriptsize, text=orange]{retour servicing} (servicing.south);
+
+\end{tikzpicture}
+\caption{Cycle de vie des événements opérationnels en Loan Servicing. Les flèches pleines représentent le flux nominal ; les flèches en pointillés indiquent les boucles de retour.}
+\label{fig:cycle-evenements}
+\end{figure}
+
+\paragraph{Événements de mise en place (\textit{setup}).}
+Ils interviennent lors de l'entrée d'un nouveau deal dans le système. Le \textit{deal setup} comprend la création de la facilité dans Loan~IQ, le paramétrage des conditions contractuelles (devise, taux de référence, spreads, calendrier de remboursement, frais) et la vérification de cohérence avec la documentation juridique. Cette étape est à la fois volumineuse en saisie et exigeante en attention, car toute erreur de paramétrage se propage à l'ensemble des opérations ultérieures.
+
+\paragraph{Événements de décaissement et de remboursement.}
+Les tirages (\textit{drawdowns}) et les remboursements (\textit{repayments}) constituent le flux le plus récurrent du Loan Servicing. Un tirage correspond à la mise à disposition effective des fonds au profit de l'emprunteur~; un remboursement, au retour partiel ou total du principal selon l'échéancier contractuel ou par anticipation. La complexité de ces opérations varie considérablement~: un tirage en devise unique sur une facilité bilatérale est une opération routinière, là où un tirage sur une tranche syndiquée multidevise implique la coordination de plusieurs participants, le calcul de quotes-parts et la gestion de fuseaux horaires différents.
+
+\paragraph{Événements de vie courante (\textit{servicing}).}
+Ils regroupent l'ensemble des opérations récurrentes liées à la gestion d'un crédit actif~: paiements d'intérêts (\textit{interest payments}), appels et paiements de commissions (\textit{commitment fees, agency fees}), \textit{rollovers} (renouvellement d'une période d'intérêt), fixings de taux et ajustements de spread. Ces événements, bien que souvent unitairement simples, représentent le volume le plus important en nombre d'occurrences quotidiennes. Leur charge est essentiellement liée à leur fréquence et à leur concentration calendaire --- les fins de mois et fins de trimestre (\textit{quarter-ends}) produisent des pics de volume considérables.
+
+\paragraph{Événements de modification contractuelle.}
+Les amendements (\textit{amendments}), les \textit{waivers} (renonciations temporaires à une clause) et les restructurations modifient les termes initiaux du contrat de crédit. Ces opérations sont les plus complexes du portefeuille~: elles nécessitent l'interprétation de clauses juridiques, la mise à jour simultanée de multiples paramètres dans le système et, fréquemment, des itérations avec le Middle Office et le département juridique. Le temps de traitement d'un amendement peut être dix à vingt fois supérieur à celui d'un tirage standard, ce qui rend sa contribution à la charge globale disproportionnée par rapport à sa fréquence.
+
+\paragraph{Événements de clôture.}
+Le remboursement final (\textit{final repayment}) et la clôture du deal (\textit{deal closure}) mettent fin au cycle de vie opérationnel. Ces événements impliquent le solde de l'ensemble des positions, la vérification de l'absence d'encours résiduel, la production de confirmations finales et l'archivage dans le système. Bien que ponctuels, ils requièrent un contrôle exhaustif qui les rend chronophages.
+
+% ---------------------------------------------------------------------------
+% TABLE : Synthèse des familles d'événements
+% ---------------------------------------------------------------------------
+\begin{table}[htbp]
+\centering
+\caption{Synthèse des familles d'événements opérationnels en Loan Servicing}
+\label{tab:typologie-evenements}
+\renewcommand{\arraystretch}{1.35}
+\small
+\begin{tabular}{@{} l p{3.4cm} c c c @{}}
+\toprule
+\textbf{Famille} & \textbf{Événements types} & \textbf{Fréquence} & \textbf{Complexité} & \textbf{Automatisable} \\
+\midrule
+Mise en place     & Deal setup, paramétrage facilité           & Faible   & Élevée   & Partiel \\
+Décaissement /    & Drawdowns, repayments,                     & Élevée   & Variable & Partiel \\
+Remboursement     & remb. anticipés                            &          &          &         \\
+Vie courante      & Intérêts, commissions, rollovers, fixings  & Très élevée & Faible à modérée & Oui \\
+Modifications     & Amendements, waivers, restructurations     & Faible   & Très élevée & Non   \\
+Clôture           & Final repayment, deal closure              & Ponctuelle & Modérée & Partiel \\
+\addlinespace
+\rowcolor{gray!10}
+Transversaux       & Reprises, corrections, reporting ad hoc    & Variable & Variable & Non    
+\end{tabular}
+\end{table}
+
+\medskip
+
+À ces cinq familles s'ajoutent des \textbf{événements transversaux} qui ne relèvent pas d'une étape spécifique du cycle de vie mais constituent une source significative de charge~: les reprises et corrections (\textit{rework}) consécutives à des erreurs de saisie ou à des données amont incomplètes, les demandes \textit{ad hoc} de reporting, et les réconciliations de données entre systèmes. Ces événements sont particulièrement difficiles à anticiper et à standardiser, car ils résultent de dysfonctionnements plutôt que d'un processus nominal.
+
+% ---------------------------------------------------------------------------
+% FIGURE : Impact de l'automatisation sur le périmètre des événements
+% ---------------------------------------------------------------------------
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    every node/.style={font=\small},
+    bar/.style={
+        rectangle, rounded corners=2pt, minimum height=0.55cm,
+        anchor=west, font=\scriptsize\bfseries, text=white
+    }
+]
+
+% --- Titre des colonnes ---
+\node[font=\small\bfseries, anchor=west] at (0, 4.2) {Famille d'événements};
+\node[font=\small\bfseries, anchor=west] at (5.5, 4.2) {Répartition de la charge};
+
+% --- Légende ---
+\node[bar, fill=green, minimum width=0.5cm] at (5.5, -1.2) {};
+\node[font=\scriptsize, anchor=west] at (6.1, -1.2) {Manuel};
+\node[bar, fill=teal, minimum width=0.5cm] at (8, -1.2) {};
+\node[font=\scriptsize, anchor=west] at (8.6, -1.2) {Partiellement automatisé};
+\node[bar, fill=gray!60, minimum width=0.5cm] at (11.5, -1.2) {};
+\node[font=\scriptsize, anchor=west] at (12.1, -1.2) {Automatisé (RPA)};
+
+% --- Lignes ---
+\foreach \y/\label/\manual/\partial/\auto in {
+    3.2/{Mise en place}/40/45/15,
+    2.2/{Décaissement / Remb.}/25/40/35,
+    1.2/{Vie courante}/15/25/60,
+    0.2/{Modifications contract.}/80/15/5,
+    -0.6/{Clôture}/50/35/15%
+} {
+    % Label
+    \node[anchor=east, font=\small] at (4.8, \y) {\label};
+
+    % Barres empilées (largeur totale = 8cm pour 100%)
+    \pgfmathsetmacro{\wmanual}{\manual * 0.08}
+    \pgfmathsetmacro{\wpartial}{\partial * 0.08}
+    \pgfmathsetmacro{\wauto}{\auto * 0.08}
+    \pgfmathsetmacro{\startpartial}{5.5 + \wmanual}
+    \pgfmathsetmacro{\startauto}{\startpartial + \wpartial}
+
+    % Manuel
+    \node[bar, fill=green, minimum width=\wmanual cm] at (5.5, \y)
+        {\manual\,\%};
+    % Partiel
+    \node[bar, fill=teal, minimum width=\wpartial cm] at (\startpartial, \y)
+        {\partial\,\%};
+    % Auto
+    \node[bar, fill=gray!60, minimum width=\wauto cm] at (\startauto, \y)
+        {\auto\,\%};
+}
+
+\end{tikzpicture}
+\caption{Répartition estimée de la charge entre traitement manuel, partiellement automatisé et entièrement automatisé (RPA), par famille d'événements. Les modifications contractuelles restent quasi exclusivement manuelles.}
+\label{fig:automatisation-evenements}
+\end{figure}
+
+L'automatisation modifie le périmètre de cette typologie. Les solutions de RPA déployées au sein de GCO ont permis d'automatiser partiellement certaines opérations à faible valeur ajoutée --- extraction de données, pré-remplissage de champs dans Loan~IQ, génération de confirmations standardisées. Ces tâches, qui figuraient autrefois dans la charge des opérateurs, sortent progressivement du périmètre du travail humain. En contrepartie, le travail résiduel se concentre sur les événements complexes, les cas d'exception et les contrôles qualitatifs --- précisément les opérations dont le temps de traitement est le plus variable et le plus difficile à modéliser. Toute mesure de la charge doit donc intégrer cette distinction entre événements automatisés, partiellement automatisés et manuels, sous peine de surestimer ou sous-estimer la charge réelle supportée par les équipes.
+
+
+% ============================================================================
+\subsection{Définition du concept de charge de travail}
+\label{subsec:definition-charge}
+% ============================================================================
+
+La charge de travail est un concept en apparence intuitif --- chaque manager sait reconnaître une équipe «~débordée~» --- mais dont la formalisation se heurte à une difficulté fondamentale~: elle n'est pas directement observable. Contrairement au volume d'événements traités, qui est un fait enregistré dans les systèmes d'information, ou au nombre d'heures travaillées, qui relève de la gestion administrative, la charge de travail est un \textit{construit} --- une grandeur latente qui doit être inférée à partir d'indicateurs observables.
+
+Dans le cadre de ce mémoire, nous définissons la charge de travail comme suit~:
+
+\begin{quote}
+\textit{La charge de travail est la quantité totale d'effort --- temporel et cognitif --- requise pour traiter l'ensemble des événements opérationnels assignés à une équipe ou à un opérateur sur une période donnée, dans le respect des standards de qualité et des délais contractuels.}
+\end{quote}
+
+Cette définition appelle plusieurs précisions, articulées autour de quatre propriétés constitutives.
+
+% ---------------------------------------------------------------------------
+% FIGURE : Les quatre dimensions de la charge de travail
+% ---------------------------------------------------------------------------
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    every node/.style={font=\small},
+    dim/.style={
+        rectangle, rounded corners=8pt,
+        minimum width=3.6cm, minimum height=2.4cm,
+        text width=3.2cm, align=center,
+        draw=#1, line width=1.4pt, fill=#1!6,
+    },
+    dimtitle/.style={
+        font=\small\bfseries, color=#1
+    },
+    dimdesc/.style={
+        font=\scriptsize, color=gray, text width=3cm, align=center
+    },
+    connector/.style={
+        -, line width=1.2pt, color=gray!40
+    },
+    center/.style={
+        circle, minimum size=2.4cm,
+        draw=green, line width=2pt, fill=green!10,
+        font=\small\bfseries, align=center, text=dark
+    }
+]
+
+% --- Centre ---
+\node[center] (core) {Charge de\\travail\\$W$};
+
+% --- Quatre dimensions ---
+\node[dim=blue, above left=1.8cm and 1.6cm of core] (temp) {};
+\node[dimtitle=blue] at ([yshift=0.3cm]temp.center) {Temporelle};
+\node[dimdesc] at ([yshift=-0.4cm]temp.center) {Temps de traitement\\effectif par événement\\$T_{\text{eff}}$};
+
+\node[dim=teal, above right=1.8cm and 1.6cm of core] (cogn) {};
+\node[dimtitle=teal] at ([yshift=0.3cm]cogn.center) {Cognitive};
+\node[dimdesc] at ([yshift=-0.4cm]cogn.center) {Exigence mentale,\\complexité perçue\\NASA-TLX};
+
+\node[dim=sand, below left=1.8cm and 1.6cm of core] (ctx) {};
+\node[dimtitle=sand] at ([yshift=0.3cm]ctx.center) {Contextuelle};
+\node[dimdesc] at ([yshift=-0.4cm]ctx.center) {Ressources dispo.,\\ratio $\rho = \lambda / (c\mu)$\\effectifs, compétences};
+
+\node[dim=orange, below right=1.8cm and 1.6cm of core] (dyn) {};
+\node[dimtitle=orange] at ([yshift=0.3cm]dyn.center) {Dynamique};
+\node[dimdesc] at ([yshift=-0.4cm]dyn.center) {Saisonnalité,\\quarter-ends, chocs\\exogènes};
+
+% --- Connecteurs ---
+\draw[connector] (core) -- (temp);
+\draw[connector] (core) -- (cogn);
+\draw[connector] (core) -- (ctx);
+\draw[connector] (core) -- (dyn);
+
+% --- Indicateurs aux extrémités ---
+\node[font=\tiny, color=blue, anchor=south] at (temp.north) {\textsc{mesurable}};
+\node[font=\tiny, color=teal, anchor=south] at (cogn.north) {\textsc{perceptuelle}};
+\node[font=\tiny, color=sand, anchor=north] at (ctx.south) {\textsc{structurelle}};
+\node[font=\tiny, color=orange, anchor=north] at (dyn.south) {\textsc{temporelle}};
+
+\end{tikzpicture}
+\caption{Les quatre dimensions constitutives de la charge de travail en opérations de crédit. Le cercle central représente le construit latent $W$ que ce mémoire vise à formaliser.}
+\label{fig:dimensions-charge}
+\end{figure}
+
+
+\paragraph{Dimension temporelle.}
+La charge se mesure d'abord en temps de traitement. Chaque événement opérationnel consomme une durée de travail qui dépend de sa nature (tirage, amendement, clôture), de ses caractéristiques intrinsèques (devise, syndication, clauses spécifiques) et des conditions opérationnelles (jour de la semaine, proximité d'un \textit{quarter-end}, disponibilité des systèmes). Le temps de traitement constitue la variable de réponse centrale de notre modèle. Mais le temps brut ne suffit pas~: un opérateur peut consacrer trente minutes à un tirage standard parce qu'il est interrompu par des réunions, ou traiter un amendement complexe en quarante-cinq minutes parce qu'il maîtrise parfaitement la procédure. Il faut donc distinguer le \textit{temps effectif de traitement} --- le temps réellement consacré à l'exécution de l'opération --- du \textit{temps écoulé}, qui inclut les interruptions et les temps d'attente~:
+
+\begin{equation}
+T_{\text{eff}} = T_{\text{écoulé}} - T_{\text{interruptions}} - T_{\text{attente}}
+\label{eq:temps-effectif}
+\end{equation}
+
+
+\paragraph{Dimension cognitive.}
+Deux opérations de durée comparable peuvent imposer des niveaux d'exigence mentale radicalement différents. Un \textit{rollover} sur une facilité bilatérale en euros est une opération quasi-mécanique~; un amendement sur un crédit syndiqué à vingt participants, avec modification simultanée du calendrier de remboursement, du spread et des covenants financiers, mobilise la mémoire de travail, le jugement et l'attention soutenue de l'opérateur. Cette dimension, que Wickens~(2008) qualifie de charge cognitive, ne peut être captée par le seul chronométrage. Elle se manifeste par un taux d'erreur plus élevé, une fatigue accrue et, à moyen terme, par l'attrition des équipes soumises de manière chronique à des opérations à forte intensité cognitive.
+
+On peut formaliser un \textit{temps standard pondéré} $T_s^*$ intégrant un coefficient de complexité cognitive $\kappa_i$ pour chaque type d'événement~$i$~:
+
+\begin{equation}
+T_{s,i}^{*} = T_{s,i} \times \kappa_i, \qquad \kappa_i \geq 1
+\label{eq:temps-pondere}
+\end{equation}
+
+\noindent où $T_{s,i}$ est le temps standard chronométré et $\kappa_i$ un facteur dérivé des évaluations NASA-TLX ou de la complexité objective du deal (nombre de participants, multidevise, clauses spéciales).
+
+
+\paragraph{Dimension contextuelle.}
+La charge dépend non seulement du flux d'événements, mais aussi des ressources disponibles pour l'absorber. Une journée de cinquante tirages est gérable pour une équipe de dix opérateurs expérimentés~; elle devient critique si trois opérateurs sont en formation et deux en congé. La charge n'est donc pas une propriété intrinsèque du flux de travail~: elle résulte du rapport entre les sollicitations et les capacités de traitement --- un ratio que la théorie des files d'attente formalise par l'intensité de trafic~:
+
+\begin{equation}
+\rho = \frac{\lambda}{c \cdot \mu}
+\label{eq:intensite-trafic}
+\end{equation}
+
+\noindent où $\lambda$ est le taux d'arrivée des événements, $c$ le nombre d'opérateurs disponibles et $\mu$ le taux de service moyen. Un ratio $\rho > 1$ indique une surcharge structurelle~; un ratio $\rho$ approchant 1 signale un système fonctionnant à la limite de sa capacité, vulnérable au moindre aléa.
+
+% ---------------------------------------------------------------------------
+% FIGURE : Relation charge / capacité
+% ---------------------------------------------------------------------------
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.92]
+    % --- Axes ---
+    \draw[->, line width=0.8pt] (0,0) -- (11.5,0)
+        node[right, font=\small] {Temps};
+    \draw[->, line width=0.8pt] (0,0) -- (0,6.5)
+        node[above, font=\small, align=center] {Volume\\d'événements};
+
+    % --- Capacité nominale ---
+    \draw[dashed, line width=1pt, color=orange] (0,4) -- (11,4)
+        node[right, font=\scriptsize, color=orange] {Capacité $c \cdot \mu$};
+
+    % --- Seuil critique ---
+    \draw[dotted, line width=0.8pt, color=red!60] (0,5.2) -- (11,5.2)
+        node[right, font=\scriptsize, color=red!60] {Seuil critique};
+
+    % --- Courbe de charge (flux d'arrivée lambda) ---
+    \draw[line width=1.8pt, color=green, smooth, tension=0.6]
+        plot coordinates {
+            (0.5, 2.2) (1.5, 2.8) (2.5, 2.5) (3.2, 3.0)
+            (4.0, 3.8) (4.5, 4.8) (5.0, 5.5) (5.5, 5.2)
+            (6.0, 4.5) (6.5, 3.2) (7.5, 2.8) (8.0, 3.0)
+            (8.8, 3.6) (9.5, 4.6) (10.0, 5.0) (10.5, 4.2)
+        };
+
+    % --- Labels des pics ---
+    \node[font=\scriptsize, color=dark, align=center]
+        at (5.0, 6.1) {Quarter-end\\Q1};
+    \draw[->, thin, color=gray] (5.0, 5.85) -- (5.0, 5.6);
+
+    \node[font=\scriptsize, color=dark, align=center]
+        at (9.8, 5.7) {Quarter-end\\Q2};
+    \draw[->, thin, color=gray] (9.8, 5.45) -- (9.8, 5.05);
+
+    % --- Zone de surcharge ---
+    \fill[red!8] (4.2, 4) -- (4.5, 4.8) -- (5.0, 5.5) -- (5.5, 5.2) --
+                  (5.8, 4.3) -- (5.8, 4) -- cycle;
+    \fill[red!8] (9.2, 4) -- (9.5, 4.6) -- (10.0, 5.0) -- (10.3, 4.3) --
+                  (10.3, 4) -- cycle;
+
+    % --- Légende ---
+    \draw[line width=1.8pt, color=green] (1, -0.8) -- (2, -0.8);
+    \node[font=\scriptsize, anchor=west] at (2.1, -0.8)
+        {Flux d'arrivée $\lambda(t)$};
+    \draw[dashed, line width=1pt, color=orange] (5.5, -0.8) -- (6.5, -0.8);
+    \node[font=\scriptsize, anchor=west] at (6.6, -0.8)
+        {Capacité nominale};
+    \fill[red!15] (9, -1.05) rectangle (9.5, -0.55);
+    \node[font=\scriptsize, anchor=west] at (9.6, -0.8)
+        {Zone de surcharge ($\rho > 1$)};
+
+    % --- Étiquettes d'axes ---
+    \node[font=\scriptsize, color=gray] at (1.5, -0.3) {Jan};
+    \node[font=\scriptsize, color=gray] at (3.5, -0.3) {Fév};
+    \node[font=\scriptsize, color=gray] at (5.0, -0.3) {Mars};
+    \node[font=\scriptsize, color=gray] at (6.5, -0.3) {Avr};
+    \node[font=\scriptsize, color=gray] at (8.0, -0.3) {Mai};
+    \node[font=\scriptsize, color=gray] at (9.8, -0.3) {Juin};
+
+\end{tikzpicture}
+\caption{Illustration de la relation entre flux d'arrivée des événements $\lambda(t)$ et capacité de traitement $c \cdot \mu$. Les zones ombrées correspondent aux périodes de surcharge ($\rho > 1$), typiquement associées aux \textit{quarter-ends}.}
+\label{fig:charge-capacite}
+\end{figure}
+
+
+\paragraph{Dimension dynamique.}
+La charge fluctue sous l'effet de cycles calendaires (fins de mois, \textit{quarter-ends}, closings annuels), de chocs exogènes (annonces de taux directeurs, restructurations sectorielles) et de la transformation continue des processus par l'automatisation. Une mesure ponctuelle de la charge n'a de valeur que si elle s'inscrit dans un dispositif de suivi longitudinal permettant d'en capturer les tendances et la saisonnalité.
+
+\medskip
+
+Ces quatre propriétés --- temporelle, cognitive, contextuelle et dynamique --- justifient l'impossibilité de réduire la charge de travail à un indicateur unique et statique. On peut néanmoins exprimer la charge agrégée $W$ d'une équipe sur une période $[t_0, t_1]$ sous la forme~:
+
+\begin{equation}
+W = \sum_{i=1}^{N} T_{s,i}^{*} = \sum_{i=1}^{N} T_{s,i} \times \kappa_i
+\label{eq:charge-agregee}
+\end{equation}
+
+\noindent où $N$ est le nombre d'événements traités sur la période et $T_{s,i}^{*}$ le temps standard pondéré de l'événement~$i$ tel que défini en équation~(\ref{eq:temps-pondere}). Cette formulation constitue le point de départ du cadre de mesure que les chapitres suivants développeront.
+
+Elles fondent la démarche de ce mémoire, qui vise à construire une mesure composite articulant données de chronométrage, caractéristiques objectives des événements et facteurs contextuels, dans un cadre prédictif capable de rendre compte de la variabilité observée.

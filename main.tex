@@ -1,25 +1,24 @@
 \documentclass[12pt]{article}
-\include{packages}
-
-\date{January 1, 1970}
-\title{\textbf{Title}}
+\input{packages}
+\date{Septembre, 2026}
+\title{\textbf{Modélisation du temps de travail des équipes Back Office de BNP Paribas}}
 \author{
-    Firstname NAME \\
+    David ROUFÉ \\
     \\
-    Company: Company
+    Entreprise: BNP PARIBAS
     \vspace{2mm} \\
-    Teacher tutor: NAME Firstname \\
-    Master Learning : NAME Firstname \\
+    Tutrice d'alternance : NEGRE Elsa \\
+    Tuteur en entreprise : RAHMANI Abdelaziz \\
 }
 
 \begin{document}
 
 \begin{center}
-	\includegraphics[height=1cm]{dauphine.png}
+	\includegraphics[height=1cm]{images/dauphine.png}
 	\vspace{2mm}
 	\\
 	\large{
-		University thesis presented at Paris Dauphine University for obtaining the Master's diploma ...
+		Thèse universitaire présentée à l'Université Paris Dauphine dans le cadre de l'obtention du diplôme de \textbf{Master 2 MIAGE} \\
 	}
 \end{center}
 
@@ -31,14 +30,8 @@
 % Transition to Roman numerals
 \pagenumbering{roman}
 
-% Abstract
-\input{sections/abstract}
 
-% Quote
-\newpage
-\setlength\epigraphwidth{9cm}
-\setlength\epigraphrule{0pt}
-\epigraph{"That's one small step for man, on giant leap for mankind"}{--- Neil Alden Armstrong}
+
 
 % Font
 \titleformat*{\section}{\LARGE\bfseries}
@@ -53,27 +46,22 @@
 % Thanks
 \phantomsection
 \addcontentsline{toc}{section}{Thanks}
-\include{sections/thanks}
-\newpage
+\input{sections/thanks}
 
-% Acronyms
-\phantomsection
-\addcontentsline{toc}{section}{Acronyms}
-\include{sections/acronyms}
 \newpage
 
 % Switch to Arabic numerals
 \pagenumbering{arabic}
 
+\input{sections/introduction}
+
 % -------- Sections --------
-\include{sections/contexte}
-% ADD A NEW FILE IN sections/ %
-% AND
-% PUT NEXT SECTIONS HERE %
-\include{sections/conclusion}
+\input{sections/contexte}
+\input{sections/state-of-art}
+\input{sections/conclusion}
 
 % Bibliography
 \addcontentsline{toc}{section}{Bibliography}
-\include{sections/bibliography}
+\input{sections/bibliography}
 
 \end{document}
