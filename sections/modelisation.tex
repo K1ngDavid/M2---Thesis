@@ -1,0 +1,192 @@
+\section{Analyse et exploitation de la charge de travail pour l'aide à la décision}
+\label{exploitation}
+\shorthandoff{;:!?}
+
+La mesure construite au chapitre~4 --- une base d'événements valorisés en temps standard,
+qualifiés par leurs caractéristiques et raccordés à la volumétrie réelle --- n'a de valeur
+que par ce qu'elle permet de décider. Ce chapitre l'exploite selon les deux finalités du
+mémoire. Il reconstruit d'abord le coût \emph{rétrospectif} d'un deal traité
+(§\ref{sec:cout-retro}), identifie ensuite les facteurs qui déterminent la charge
+(§\ref{sec:facteurs}), puis en dérive un modèle \emph{prédictif} du coût d'un deal futur
+(§\ref{sec:modele-predictif}). Il montre enfin comment cette double mesure alimente le
+pilotage opérationnel (§\ref{sec:pilotage}), avant d'en discuter les limites et les
+prolongements (§\ref{sec:limites}).
+
+% =============================================================================
+\subsection{Reconstruire le coût rétrospectif d'un deal}
+\label{sec:cout-retro}
+% =============================================================================
+
+La première exploitation est directe~: appliquer l'équation du TDABC à la base de mesures.
+Pour un deal donné, le coût opérationnel est la somme, sur tous ses événements, du temps
+standard valorisé au coût horaire chargé du site qui le traite~:
+
+\begin{equation}
+C_{\text{deal}} = \sum_{i=1}^{N} T_{s,i} \times w_{s(i)}
+= \underbrace{\sum_{i=1}^{N} T_{\text{EP},i} \times w_{s(i)}}_{\text{Event Processing}}
++ \underbrace{T_{\text{AC}} \times w_{s}}_{\text{Aftercare}}
+\label{eq:cout-retro}
+\end{equation}
+
+\noindent où $N$ est le volume d'événements du deal, $T_{s,i}$ le temps standard de
+l'événement $i$, et $w_{s(i)}$ le coût horaire chargé du site $s$ le traitant. Les deux
+composantes du chapitre~4 y apparaissent séparément~: le coût d'\textit{Event Processing},
+somme des bookings valorisés, et le coût d'\textit{Aftercare}, fonction du volume de
+sollicitations aval du deal.
+
+\paragraph{L'agrégation, du booking au coût.}
+Concrètement, chaque type d'événement porte un temps moyen issu du clocking (de l'ordre de
+vingt minutes pour le booking, avec des écarts selon le type~: un drawdown plus long qu'un
+paiement d'intérêt), et chaque deal porte un compte d'événements par type issu de Loan~IQ.
+Leur produit, sommé et valorisé, donne le coût. La force de cette reconstruction est
+qu'elle rend visible ce qui était opaque~: on peut désormais dire non seulement qu'un deal
+«~coûte cher~», mais \emph{pourquoi} --- combien de minutes viennent du booking, combien de
+l'aftercare, quelle part est imputable au volume et quelle part à la complexité.
+
+\paragraph{Un résultat structurant~: la dispersion extrême des coûts.}
+Appliquée au portefeuille, cette reconstruction révèle une dispersion considérable du coût
+par deal. Un deal simple --- rôle de participant, peu de prêteurs, monodevise, faible
+volume --- se traite pour l'équivalent de quelques milliers d'euros et une fraction
+d'équivalent temps plein. Un deal complexe --- rôle d'agent, plusieurs centaines de
+prêteurs, multidevise, volume d'événements élevé --- peut atteindre plusieurs centaines de
+milliers d'euros et mobiliser plusieurs équivalents temps plein sur l'année. Cet écart,
+d'un à plusieurs dizaines, est le résultat le plus important de la mesure rétrospective~:
+il établit que le coût opérationnel n'est pas une constante par deal, mais une grandeur
+hautement variable, et que cette variabilité est \emph{explicable} par les caractéristiques
+du deal --- ce que la section suivante démontre.
+
+\paragraph{Ce que la mesure débloque.}
+En rendant ce coût comparable au gain connu du Front Office, la reconstruction rétrospective
+répond au constat fondateur du projet~: contrairement au Front Office, dont l'activité se
+mesure en revenus (P\&L), le Back Office ne se mesurait qu'en coût global, jamais par deal.
+Le coût par deal ouvre ainsi trois usages immédiats, développés en §\ref{sec:pilotage}~:
+chiffrer l'impact des initiatives de réduction des coûts au management (objectifs GTS),
+comparer le coût de traitement entre Paris et Lisbonne pour évaluer le \textit{cost
+avoidance} du nearshoring, et identifier les deals à coût anormalement élevé.
+
+% =============================================================================
+\subsection{Identifier les facteurs explicatifs de la charge}
+\label{sec:facteurs}
+% =============================================================================
+
+Reconstruire le coût ne suffit pas~: pour le \emph{prédire} et l'\emph{expliquer} au
+management, il faut savoir quels paramètres le déterminent, et avec quel poids. C'est
+l'objet du sous-objectif de la mission~: «~\textit{understand the impact of each parameter
+of the LS workload}~». La séparation des deux composantes (chapitre~4) impose ici de
+distinguer deux ensembles de facteurs, de nature différente.
+
+\paragraph{Les facteurs de l'Event Processing~: qualitatifs et catégoriels.}
+Le temps de booking dépend de variables essentiellement \emph{qualitatives}, dont le
+nombre de modalités est fini~:
+\begin{itemize}
+    \item le \textbf{type d'événement} (drawdown, fee, repricing, transfer, adjustment,
+    accrual, paper clip\dots), le facteur le plus discriminant~;
+    \item le \textbf{rôle} de la banque (agent, participant, bilatéral)~;
+    \item le \textbf{produit} et la \textbf{ligne de métier}~;
+    \item l'\textbf{équipe} et la \textbf{séniorité} de l'opérateur, qui capturent l'effet
+    site et l'effet expérience.
+\end{itemize}
+Ces facteurs agissent de façon \emph{non additive}~: l'effet du rôle d'agent n'est pas le
+même selon le type d'événement, et se combine avec lui. C'est cette structure d'interactions
+qui oriente, en §\ref{sec:modele-predictif}, le choix de modèles à base d'arbres.
+
+\paragraph{Les facteurs de l'Aftercare~: quantitatifs et proportionnels.}
+Le temps d'aftercare, lui, dépend de variables \emph{quantitatives} qui mesurent le volume
+de gestion aval engendré par le deal~:
+\begin{itemize}
+    \item le \textbf{nombre de prêteurs} (\textit{lenders})~;
+    \item le \textbf{nombre d'événements} du deal~;
+    \item le \textbf{nombre de courriels} de gestion (\textit{mails in Hobart})~;
+    \item le \textbf{nombre de facilités}.
+\end{itemize}
+Leur relation à la charge est approximativement \emph{proportionnelle}~: plus un deal
+compte de prêteurs, plus il génère de documents, de confirmations et de réconciliations à
+traiter. Cette proportionnalité est une propriété précieuse~: elle rend la relation
+modélisable par une régression aux coefficients directement interprétables --- «~chaque
+prêteur supplémentaire ajoute $X$ minutes d'aftercare~» --- langage immédiatement
+actionnable pour le management.
+
+Cette dichotomie --- facteurs qualitatifs en interaction pour l'Event Processing, facteurs
+quantitatifs proportionnels pour l'Aftercare --- n'est pas un constat secondaire~: elle
+commande deux stratégies de modélisation distinctes, ce qui distingue notre approche d'un
+modèle unique appliqué indistinctement à toute la charge.
+
+% =============================================================================
+\subsection{Construire un modèle prédictif du coût}
+\label{sec:modele-predictif}
+% =============================================================================
+
+La seconde finalité --- prédire le coût d'un deal \emph{avant} son traitement --- consiste
+à apprendre, sur l'historique des deals, la fonction qui relie leurs caractéristiques à
+leur charge. Fidèle à la dualité établie, nous construisons \textbf{deux modèles distincts},
+chacun adapté à la nature de sa composante, puis les recombinons en un coût total prédit.
+
+\subsubsection{Modéliser l'Event Processing~: arbres et ensembles}
+\label{sec:modele-ep}
+
+Les facteurs de l'Event Processing étant qualitatifs et en interaction, une régression
+linéaire échouerait --- son hypothèse d'additivité (chapitre~3) ne tient pas. Nous retenons
+donc des \textbf{méthodes à base d'arbres}, qui capturent nativement les interactions. Un
+arbre de décision partitionne récursivement les événements selon les questions qui
+minimisent la variance du temps intra-groupe (par exemple «~type = drawdown~?~» puis
+«~rôle = agent~?~»), produisant des règles lisibles. Mais un arbre unique étant instable,
+nous recourons à deux stratégies d'agrégation~:
+
+\begin{itemize}
+    \item le \textbf{Random Forest}, qui moyenne des centaines d'arbres entraînés sur des
+    échantillons aléatoires, $\hat{f}(x) = \frac{1}{B}\sum_{b=1}^{B} T_b(x)$~; robuste,
+    peu sensible au réglage, il fournit une mesure d'importance des variables qui
+    hiérarchise les facteurs de charge~;
+    \item le \textbf{gradient boosting} (XGBoost), qui construit les arbres séquentiellement,
+    chacun corrigeant les erreurs du précédent~; généralement plus précis sur données
+    tabulaires, au prix d'un réglage plus fin.
+\end{itemize}
+
+\noindent Le compromis est classique~: Random Forest pour la robustesse et la lecture des
+importances, gradient boosting pour la performance maximale. Dans les deux cas,
+l'interprétabilité perdue par l'agrégation est restaurée \emph{a posteriori} par les
+valeurs SHAP (chapitre~3), qui décomposent chaque prédiction en contributions additives ---
+permettant de présenter au management, pour un deal donné, la part de coût imputable à
+chaque facteur.
+
+\subsubsection{Modéliser l'Aftercare~: la régression, pour l'interprétabilité}
+\label{sec:modele-ac}
+
+Pour l'Aftercare, le choix s'inverse. La relation étant proportionnelle et les variables
+quantitatives, une \textbf{régression} est non seulement suffisante mais préférable~: elle
+est plus lisible qu'un ensemble d'arbres, et sa lisibilité est ici un objectif, non un
+compromis. Le modèle de base s'écrit~:
+
+\begin{equation}
+T_{\text{AC}} = \beta_0 + \beta_1 \, n_{\text{lenders}} + \beta_2 \, n_{\text{events}}
++ \beta_3 \, n_{\text{mails}} + \beta_4 \, n_{\text{facilities}} + \varepsilon
+\label{eq:reg-aftercare}
+\end{equation}
+
+\noindent où chaque coefficient $\beta_k$ se lit directement comme le temps d'aftercare
+ajouté par une unité supplémentaire du facteur correspondant. Là où la relation présente
+une courbure --- par exemple un effet d'échelle au-delà d'un certain nombre de prêteurs ---
+une \textbf{régression polynomiale} l'absorbe sans sacrifier l'interprétabilité. Ce choix
+illustre un principe de notre démarche~: on n'emploie un modèle complexe que là où la
+nature du phénomène l'exige (Event Processing), et on préserve la simplicité là où elle
+suffit et sert la communication (Aftercare).
+
+\subsubsection{Recomposer le coût prédit}
+\label{sec:cout-predit-recompo}
+
+Les deux modèles se recombinent en un coût total prédit pour un deal caractérisé par son
+vecteur d'attributs $x$~:
+
+\begin{equation}
+\hat{C}_{\text{deal}} = \Big[ \hat{f}_{\text{EP}}(x) \times N \;+\; \hat{T}_{\text{AC}}(x) \Big] \times w_{s}
+\label{eq:cout-predit-total}
+\end{equation}
+
+\noindent où $\hat{f}_{\text{EP}}$ est le modèle à base d'arbres de l'Event Processing,
+$\hat{T}_{\text{AC}}$ la régression de l'Aftercare, $N$ le volume d'événements attendu et
+$w_s$ le coût horaire du site. Cette équation est le produit central du mémoire du côté
+prédictif~: elle permet, dès la signature d'un deal --- lorsqu'on connaît son rôle, sa
+devise, son nombre de prêteurs et de facilités, sans avoir traité le moindre événement ---
+d'estimer ce qu'il coûtera aux opérations. La performance de ces modèles s'évalue par les
+métriques usuelles de régression (erreur absolue moyenne, RMSE, $R^2$), en distinguant
+l'erreur sur chaque composante pour diagnostiquer laquelle limite la précision globale.

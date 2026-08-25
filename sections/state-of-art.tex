@@ -1,502 +1,454 @@
 \section{État de l'art}
-\label{État de l'art}
+\label{etat-de-lart}
 \shorthandoff{;:!?}
+
+Ce chapitre poursuit un objectif unique, subordonné à la finalité du mémoire~:
+identifier, parmi les approches existantes, celles qui permettent d'\textbf{établir une
+mesure fiable de la charge de travail des équipes Loan Servicing et d'en déduire le
+coût d'un deal --- rétrospectivement, pour un deal traité, et de façon prédictive, pour
+un deal futur}. La charge de travail n'est pas étudiée pour elle-même~: elle est la
+grandeur intermédiaire qui, mesurée puis valorisée, donne accès au coût, puis à la
+rentabilité. Cet objectif recoupe celui assigné à la mission~: «~estimer avec précision
+le coût associé à un nouveau deal~» et obtenir «~un coût par événement et par deal pour
+chaque équipe LS~».
+
+Plutôt que de juxtaposer les disciplines, nous les ordonnons le long d'un fil unique ---
+de la mesure du temps au coût --- et n'évaluons chaque méthode que par sa contribution à
+ce fil, selon trois questions~: mesure-t-elle le temps par événement~? résiste-t-elle à
+un back office nearshore, automatisé et hétérogène~? conduit-elle à un coût imputable au
+deal~? Le périmètre se resserre ainsi sur deux finalités articulées par un socle
+commun --- le temps unitaire par événement~: \textbf{mesurer} le coût d'un deal traité
+(§\ref{sec:abc}--\ref{sec:mesure-temps}), et le \textbf{prédire} pour un deal futur
+(§\ref{sec:prediction}).
+
 % =============================================================================
-% Packages requis dans le préambule :
-% \usepackage[utf8]{inputenc}
-% \usepackage[T1]{fontenc}
-% \usepackage[french]{babel}
-% \usepackage{amsmath, amssymb}
-% \usepackage{tikz}
-% \usepackage{pgfplots}
-% \pgfplotsset{compat=1.18}
-% \usepackage{booktabs}
-% \usepackage{float}
-% \usepackage{hyperref}
-% \usepackage{csquotes}
-% \usepackage{tabularx}
-% \usepackage{caption}
-% \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, patterns}
+\subsection{Du coût des activités au coût par événement~: ABC et TDABC}
+\label{sec:abc}
 % =============================================================================
 
-Ce chapitre recense les travaux fondateurs et contemporains relatifs à la mesure, la formalisation et la modélisation de la charge de travail dans les organisations de services, avec un ancrage particulier dans le secteur des opérations bancaires. L'objectif est double~: établir le socle théorique sur lequel repose notre démarche de quantification, et identifier les lacunes que ce mémoire entend combler --- à savoir l'absence d'un cadre intégré combinant mesure temporelle, prise en compte de la complexité cognitive et modélisation prédictive, spécifiquement appliqué aux équipes Back Office en opérations de crédit.
+\subsubsection{Le principe de l'Activity-Based Costing}
 
-\subsection{Les méthodes classiques de mesure du travail}
+Toute méthode de coût doit répondre à une question~: comment répartir des charges
+\emph{indirectes} --- salaires d'un back office, systèmes, encadrement --- sur les
+objets qui les consomment~? La comptabilité traditionnelle répond par des clés
+grossières~: on répartit au prorata d'un volume ou d'heures de main-d'œuvre. Le défaut
+est connu~: un deal simple à fort volume et un deal complexe à faible volume reçoivent
+une part de coût sans rapport avec les ressources qu'ils exigent réellement.
+L'\textit{Activity-Based Costing} (ABC), formalisé par Kaplan et Cooper à la fin des
+années 1980, corrige ce biais en interposant les \textbf{activités}~: on trace d'abord
+le coût des ressources vers les activités qu'elles servent (\textit{resource drivers}),
+puis le coût des activités vers les objets qui les déclenchent (\textit{activity
+drivers}) \cite{kaplan1988}. La littérature distingue à ce titre deux natures
+d'inducteurs~: les \textit{transaction drivers}, qui comptent le nombre de fois qu'une
+activité survient, et les \textit{duration drivers}, qui mesurent le temps qu'elle
+consomme --- ces derniers étant plus précis lorsque les occurrences d'une même activité
+n'ont pas toutes la même durée. En banque, l'ABC a montré qu'il révèle des clients ou
+produits dont le service consomme un back office disproportionné par rapport aux revenus
+qu'ils génèrent --- exactement notre problème de rentabilité par deal.
 
-\subsubsection{L'étude des temps et le management scientifique}
+\paragraph{Pertinence et limite pour notre contexte.}
+Le principe de l'ABC est directement pertinent~: notre «~objet~» est le deal, nos
+«~activités~» sont les événements Loan Servicing, et nous cherchons un
+\textit{duration driver} --- le temps par événement. Mais l'ABC classique a une faiblesse
+qui le disqualifie en l'état~: il estime le temps par activité au moyen d'\textbf{enquêtes
+déclaratives}, où chaque opérateur indique le pourcentage de son temps consacré à chaque
+tâche. Ces enquêtes sont coûteuses à mener, subjectives, et surtout se périment dès que
+les processus changent --- ce qui, sous déploiement continu de RPA, est notre quotidien.
+De plus, l'ABC suppose implicitement que la capacité est utilisée à 100~\%, et noie donc
+le coût de la capacité inutilisée dans des taux gonflés. Ces deux défauts --- coût de
+maintenance et cécité à la capacité oisive --- sont précisément ceux que la variante
+suivante corrige.
 
-La question de la mesure objective du travail trouve son origine dans les travaux de Frederick Winslow Taylor, dont l'ouvrage fondateur \textit{The Principles of Scientific Management} (1911) pose le postulat selon lequel toute activité productive peut être décomposée en éléments discrets, chronométrables et optimisables. Le protocole tayloriste repose sur un enchaînement méthodique~: définition de la méthode standard, décomposition de la tâche en éléments de travail, chronométrage par observation directe, évaluation de l'allure de l'opérateur par rapport à une performance de référence, et enfin application de majorations (fatigue, besoins personnels, aléas machines) pour calculer un \textit{temps standard} \cite{groover2007}.
+\subsubsection{Le Time-Driven ABC~: deux paramètres, une équation}
 
-Le temps standard $T_s$ se formalise selon l'équation suivante~:
+Kaplan et Anderson introduisent en 2004 le \textit{Time-Driven Activity-Based Costing}
+(TDABC), qui réduit toute la mécanique de l'ABC à \textbf{deux paramètres} par groupe de
+ressources \cite{kaplan2004}. Le premier est le \textbf{taux de coût de capacité}
+(\textit{capacity cost rate})~: le coût total du groupe (salaires, encadrement,
+systèmes, locaux) divisé par sa \emph{capacité pratique} --- non pas le temps
+théoriquement disponible, mais celui réellement travaillé, estimé à environ 80--85~\% du
+théorique une fois retranchés pauses, formations et aléas. On obtient un coût par minute.
+Le second est un ensemble d'\textbf{équations de temps} (\textit{time equations}) qui
+estiment la durée d'une transaction à partir de ses caractéristiques~: un temps de base,
+augmenté d'incréments pour chaque facteur qui l'allonge. La forme canonique est~:
 
 \begin{equation}
-T_s = T_n \times (1 + A)
-\label{eq:temps_standard}
+t = \beta_0 + \sum_{k} \beta_k \, x_k
+\label{eq:time-equation}
 \end{equation}
 
-où $T_n$ représente le temps normal (temps observé ajusté par le facteur d'allure) et $A$ le coefficient de majorations exprimé en pourcentage. Le temps normal est lui-même dérivé du temps observé $T_o$ et du facteur d'allure $F_a$~:
+\noindent où $\beta_0$ est le temps de base, $x_k$ les caractéristiques de la transaction
+(par exemple~: contrôle manuel requis, expédition à l'export) et $\beta_k$ le temps
+additionnel qu'elles imposent. Le coût de l'objet est alors la somme, sur tous ses
+événements, du temps consommé multiplié par le taux de coût de capacité~:
 
 \begin{equation}
-T_n = T_o \times F_a
-\label{eq:temps_normal}
+C = \sum_{i=1}^{N} t_i \times c_u
+\label{eq:tdabc}
 \end{equation}
 
-Si cette approche a été initialement conçue pour le travail manufacturier, son applicabilité aux activités de services a été démontrée dès les années 2000. Ben-Gal \textit{et al.} (2010) confirment que les études de temps conservent leur validité dans les organisations de services, à condition d'adapter la granularité de décomposition aux spécificités des tâches cognitives et informatisées \cite{bengal2010}. Dans le contexte des opérations bancaires, chaque événement de la vie d'un crédit --- qu'il s'agisse d'un tirage (\textit{drawdown}), d'un remboursement (\textit{repayment}) ou d'un amendement contractuel --- constitue une unité de travail susceptible d'être chronométrée et standardisée.
+Cette équation est, à la notation près, \textbf{celle que notre analyse terrain a
+établie} --- $C = (T_{\text{LIQ}} + T_{\text{AC}}) \times N \times w_s$ (chapitre~1). Le
+TDABC est donc le socle de notre finalité rétrospective. Il présente deux vertus
+supplémentaires décisives. D'une part, il rend \emph{visible la capacité inutilisée}~:
+comme on a valorisé la capacité \emph{fournie}, la différence entre minutes disponibles
+et minutes réellement consommées apparaît comme une ligne propre --- information cruciale
+pour dimensionner les équipes FR/PT. D'autre part, l'équation~\ref{eq:tdabc} est
+\emph{nativement prédictive}~: connaître les temps unitaires permet de simuler le coût
+d'un volume ou d'un mix futurs, ce qui fait le pont vers notre seconde finalité.
 
-Toutefois, l'approche tayloriste a fait l'objet de critiques substantielles. Nyland (1996) souligne que les études de temps reposent sur l'interprétation individuelle de l'analyste quant à ce que fait réellement le travailleur, introduisant une subjectivité que Taylor lui-même n'a jamais pleinement résolue \cite{nyland1996}. Par ailleurs, la vision instrumentale du comportement humain --- réduisant le travailleur à un exécutant dont il faut maximiser la productivité --- a conduit au développement d'approches complémentaires intégrant les facteurs humains.
+\paragraph{La limite critique --- et c'est notre gap.}
+La littérature postérieure, moins promotionnelle que les textes fondateurs, pointe une
+faiblesse unique mais décisive~: \emph{la précision du TDABC dépend entièrement de la
+qualité des estimations de temps}, et la méthode s'applique mal au \textit{knowledge
+work} non routinier, où le temps d'une tâche est un mauvais proxy de la ressource
+consommée. Le cas le plus proche du nôtre est documenté en santé~: Koster \textit{et al.}
+(2023) montrent que l'hétérogénéité des patients rend les temps par activité non
+ponctuels mais variables, au point de devoir remplacer les estimations uniques par une
+logique floue capturant un intervalle du meilleur au pire cas \cite{koster2023}. La
+transposition est immédiate~: nos deals sont à nos équipes ce que les patients
+multimorbides sont aux soignants --- une population hétérogène pour laquelle un temps
+unitaire figé ne suffit pas. C'est exactement ce que la mission nomme «~\textit{wide
+possibilities of post operation process which make the workload difficult to
+predict}~». Estimer ce temps unitaire fiable, en environnement hétérogène et automatisé,
+est le verrou que ce mémoire doit lever --- et qui justifie d'examiner les méthodes de
+mesure du temps.
+
+% =============================================================================
+\subsection{Mesurer le temps par événement}
+\label{sec:mesure-temps}
+% =============================================================================
+
+\subsubsection{L'étude des temps (Taylor)~: chronométrer et normaliser}
+
+La méthode fondatrice de mesure du travail est l'\textit{étude des temps}, formalisée par
+Taylor (1911) \cite{taylor1911, groover2007}. Son principe~: décomposer une tâche en
+éléments observables, chronométrer chacun sur plusieurs cycles pour obtenir un
+\emph{temps observé} $T_o$, puis le corriger en deux étapes. On applique d'abord un
+\textbf{facteur d'allure} $F_a$ --- jugement porté par l'analyste sur le rythme de
+l'opérateur par rapport à une cadence «~normale~» (un opérateur rapide se voit affecter
+$F_a > 1$) --- pour obtenir un \emph{temps normal} $T_n = T_o \times F_a$. On ajoute
+ensuite des \textbf{majorations} $A$ pour les aléas incompressibles (fatigue, pauses,
+interruptions), d'où le \emph{temps standard}~:
+
+\begin{equation}
+T_s = T_o \times F_a \times (1 + A)
+\label{eq:temps-standard}
+\end{equation}
+
+Ben-Gal \textit{et al.} (2010) ont établi que ce principe reste valide dans les
+services, à condition d'adapter la granularité de décomposition aux tâches informatisées
+\cite{bengal2010}.
+
+\paragraph{Pertinence et limites pour notre contexte.}
+Le principe est le bon~: il produit exactement le $t_i$ qu'exige le TDABC, et l'idée de
+décomposer un traitement en événements chronométrables fonde notre \textit{clocking}.
+Mais le \emph{protocole} tayloriste échoue sur trois points précis dans un back office
+nearshore. \emph{Premièrement}, le facteur d'allure $F_a$ repose sur l'observation
+directe d'un analyste~: dans des équipes réparties entre Paris et Lisbonne, cette
+observation est rarement praticable, et l'auto-déclaration réintroduit un biais de
+désirabilité sociale. \emph{Deuxièmement}, l'étude des temps suppose une «~méthode
+standard~» stabilisée~; or l'automatisation redéfinit la façon d'exécuter un même
+événement d'un trimestre à l'autre, rendant tout temps standard rapidement obsolète.
+\emph{Troisièmement}, elle suppose des tâches nettement délimitées, alors que le travail
+réel est entrelacé --- plusieurs deals menés de front, interrompus par des requêtes
+\textit{ad hoc} --- ce qui brouille la mesure du temps effectif. Conclusion~: on garde le
+principe (chronométrer par événement), on abandonne le protocole (observation +
+jugement d'allure) au profit d'une mesure ancrée dans les traces système.
 
 \begin{figure}[H]
 \centering
-\shorthandoff{;:!?}
 \begin{tikzpicture}[
-    node distance=1.8cm,
-    startstop/.style={rectangle, rounded corners, minimum width=3.5cm, minimum height=1cm, text centered, draw=black, fill=gray!10, font=\small},
+    node distance=1.3cm,
+    stepbox/.style={rectangle, rounded corners, minimum width=6.4cm, minimum height=0.8cm, text centered, draw=black, fill=gray!10, font=\small},
     arrow/.style={-{Stealth[length=3mm]}, thick}
 ]
-\node (step1) [startstop] {1. Définition de la méthode standard};
-\node (step2) [startstop, below of=step1] {2. Décomposition en éléments de travail};
-\node (step3) [startstop, below of=step2] {3. Chronométrage($T_o$ observé)};
-\node (step4) [startstop, below of=step3] {4. Évaluation d'allure($F_a \rightarrow T_n$)};
-\node (step5) [startstop, below of=step4] {5. Application desmajorations ($T_s$)};
-
-\draw [arrow] (step1) -- (step2);
-\draw [arrow] (step2) -- (step3);
-\draw [arrow] (step3) -- (step4);
-\draw [arrow] (step4) -- (step5);
+\node (s1) [stepbox] {1. Décomposition de la tâche en événements};
+\node (s2) [stepbox, below=of s1] {2. Chronométrage sur plusieurs cycles ($T_o$)};
+\node (s3) [stepbox, below=of s2] {3. Facteur d'allure ($F_a \rightarrow T_n$)};
+\node (s4) [stepbox, below=of s3] {4. Majorations aléas ($T_s$)};
+\draw [arrow] (s1) -- (s2);
+\draw [arrow] (s2) -- (s3);
+\draw [arrow] (s3) -- (s4);
 \end{tikzpicture}
-\caption{Protocole de l'étude des temps selon Taylor (1911), adapté de Groover (2007).}
+\caption{Protocole de l'étude des temps (Taylor, 1911). Les étapes 2 et 3 --- observation directe et jugement d'allure --- sont celles qui résistent le moins à un back office distribué.}
 \label{fig:protocole_taylor}
 \end{figure}
-\shorthandon{;:!?}
-
-\paragraph{Limites dans le contexte des opérations de crédit.}
-L'application du chronométrage tayloriste aux équipes Loan Servicing de GCO
-se heurte à trois difficultés structurelles que la littérature ne traite pas
-explicitement. Premièrement, le travail des opérateurs est intrinsèquement
-fragmenté~: un même opérateur peut gérer simultanément plusieurs deals à des
-stades différents, être interrompu par des requêtes ad hoc du Middle Office
-ou par des dysfonctionnements systèmes, ce qui rend la délimitation du
-\emph{temps effectif} de traitement ($T_\text{eff}$) bien plus ambiguë que
-dans un environnement manufacturier. Deuxièmement, la notion de
-\og{}méthode standard\fg{} suppose que le processus soit stabilisé~; or, dans
-un contexte de déploiement continu de solutions RPA et de refonte des
-workflows Loan~IQ, la méthode d'exécution d'un même événement évolue d'un
-trimestre à l'autre. Toute mesure chronométrique risque donc d'être
-rapidement obsolète si elle n'est pas intégrée dans un dispositif de mise à
-jour continue. Troisièmement, le facteur d'allure ($F_a$), qui repose sur
-le jugement d'un analyste observant l'opérateur, est difficilement
-praticable dans une organisation nearshore répartie entre Paris et Lisbonne~:
-l'observation directe est rarement possible, et l'auto-déclaration introduit
-des biais de désirabilité sociale. Ces limites ne remettent pas en cause le
-principe du chronométrage~--- qui reste le fondement de toute mesure
-temporelle~--- mais imposent de repenser son protocole d'implémentation pour
-l'adapter à un environnement de services informatisés, distribué et en
-transformation permanente.
-
-\subsubsection{L'étude des mouvements et les systèmes de temps prédéterminés}
-
-En complément des travaux de Taylor, Frank et Lillian Gilbreth développent une approche centrée non plus sur la durée, mais sur la nature des gestes effectués. Leur décomposition en \enquote{therbligs} --- unités élémentaires de mouvement --- introduit un principe fondamental~: le temps requis pour accomplir une tâche est fonction directe de la méthode employée \cite{gilbreth1917}. Cette contribution constitue le fondement conceptuel du \textit{Methods-Time Measurement} (MTM).
-
-Le MTM, formalisé par Maynard, Schwab et Stegemerten (1948), représente l'aboutissement de cette logique. Il s'agit d'un système de temps prédéterminés (\textit{Predetermined Motion Time System} --- PMTS) qui attribue des valeurs temporelles normalisées à chaque mouvement élémentaire, permettant d'estimer le temps standard d'une opération \textit{a priori}, sans recourir au chronométrage \cite{maynard1948}. L'Association MTM décrit cette approche comme un \enquote{langage de processus} utilisé comme standard mondial pour la conception du travail humain.
-
-La transposition du MTM aux environnements de services informatisés soulève cependant des difficultés méthodologiques. La notion de \enquote{mouvement élémentaire} doit être redéfinie pour intégrer des actions numériques~: ouverture d'une transaction dans un progiciel, navigation entre écrans, saisie de données, vérification de conformité. Si le principe demeure valide --- décomposer pour standardiser ---, les tables de temps MTM classiques ne sont pas directement applicables. Il s'agit alors de construire des référentiels de temps spécifiques au contexte opérationnel étudié, ce que notre démarche de \enquote{clocking} vise précisément à accomplir.
-
-\begin{table}[H]
-\centering
-\caption{Comparaison des méthodes classiques de mesure du travail}
-\label{tab:comparaison_methodes}
-\shorthandoff{;:!?}
-\begin{tabular}{p{3cm} p{3.5cm} p{3.5cm} p{3.5cm}}
-\hline
-\textbf{Critère} & \textbf{Étude des temps (Taylor)} & \textbf{Étude des mouvements (Gilbreth)} & \textbf{MTM (Maynard)} \\
-\hline
-Principe & Chronométrage direct des tâches & Analyse cinématique des gestes & Temps prédéterminés par mouvement \\[6pt]
-Données requises & Observations terrain & Enregistrements vidéo & Décomposition méthodologique \\[6pt]
-Type de mesure & \textit{A posteriori} & \textit{A posteriori} & \textit{A priori} \\[6pt]
-Subjectivité & Élevée (facteur d'allure) & Modérée & Faible \\[6pt]
-Applicabilité services & Démontrée (Ben-Gal, 2010) & Limitée (gestes physiques) & À adapter (actions numériques) \\[6pt]
-Limite principale & Dépendance à l'observateur & Coût de mise en œuvre & Tables non transposables \\
-\hline
-\end{tabular}
-\shorthandon{;:!?}
-\end{table}
 
 
-\paragraph{Limites dans le contexte des opérations de crédit.}
-La transposition du MTM aux opérations de crédit rencontre un obstacle
-fondamental~: les \og{}mouvements élémentaires\fg{} du travail informatisé
-ne sont pas des gestes physiques standardisables, mais des séquences
-d'actions cognitives et numériques~--- navigation entre écrans Loan~IQ,
-interprétation de clauses contractuelles, arbitrage entre instructions
-contradictoires du Front Office. Le temps de ces actions dépend moins de la
-mécanique gestuelle que du contenu informationnel du deal~: un tirage
-bilatéral en euros et un tirage syndiqué multidevise à vingt participants
-mobilisent les mêmes écrans mais des niveaux de réflexion radicalement
-différents. Aucune table de temps prédéterminés ne peut capturer cette
-variabilité. Le principe de décomposition reste pertinent, mais le
-référentiel de temps doit être reconstruit empiriquement à partir de données
-opérationnelles réelles, et non dérivé d'un catalogue générique de
-mouvements.
+\subsubsection{Le MTM~: des temps prédéterminés, mais pour des gestes}
 
-\subsection{La charge de travail~: un construit multidimensionnel}
+Frank et Lillian Gilbreth déplacent l'attention de la durée vers le \emph{mouvement}~:
+ils décomposent tout geste en unités élémentaires (les \textit{therbligs} --- saisir,
+positionner, relâcher). De là naît le \textit{Methods-Time Measurement} (MTM), formalisé
+par Maynard \textit{et al.} (1948) \cite{gilbreth1917, maynard1948}~: un système de temps
+\emph{prédéterminés} qui attribue \textit{a priori} une valeur temporelle normalisée à
+chaque mouvement élémentaire, si bien qu'on peut estimer la durée d'une opération
+\emph{avant} de l'exécuter, par simple addition, sans chronométrer.
 
-\subsubsection{Dimensions objectives et subjectives de la charge}
+\paragraph{Pertinence et limites pour notre contexte.}
+L'attrait est réel~: le MTM promettrait d'estimer $t_i$ sans campagne de mesure. Mais il
+présuppose que le travail se réduit à des gestes physiques catalogables --- vrai à
+l'atelier, faux au back office. Les «~mouvements~» d'un opérateur Loan Servicing sont des
+séquences \emph{cognitives et numériques}~: naviguer entre écrans Loan~IQ, interpréter
+une clause, arbitrer entre instructions contradictoires. Leur durée ne dépend pas d'une
+mécanique gestuelle mais du \emph{contenu informationnel} du deal~: un tirage bilatéral
+en euros et un tirage syndiqué multidevise à vingt participants sollicitent les mêmes
+écrans pour des durées radicalement différentes. Aucune table MTM générique ne capture
+cette variabilité. Le MTM confirme donc, par son échec, que notre référentiel de temps
+doit être \emph{reconstruit empiriquement} à partir de données réelles, non dérivé d'un
+catalogue.
 
-La charge de travail ne se réduit pas à une mesure temporelle. La littérature en ergonomie et en psychologie du travail distingue trois catégories de mesures~: les mesures de performance (output réalisé, taux d'erreur, temps de cycle), les mesures physiologiques (fréquence cardiaque, activité électrodermale) et les mesures subjectives (évaluation déclarative par l'opérateur). Wickens (2008) formalise cette distinction en montrant que la charge objective --- le volume et la complexité des sollicitations imposées à l'opérateur --- ne coïncide pas nécessairement avec la charge subjective --- l'effort perçu pour y répondre \cite{wickens2008}.
+\subsubsection{Le Process Mining~: lire le temps dans les traces système}
 
-Cette distinction est fondamentale dans le contexte des opérations de crédit. Deux événements peuvent requérir un temps de traitement comparable dans Loan~IQ tout en générant des niveaux de charge cognitive radicalement différents~: un tirage standard sur une facilité bilatérale en euros constitue une opération routinière, tandis qu'un amendement sur un crédit syndiqué multidevise implique une mobilisation attentionnelle bien supérieure. Toute mesure de la charge qui ignorerait cette dimension qualitative serait incomplète.
+Le \textit{Process Mining}, formalisé par van der Aalst (2016), résout le problème par un
+tout autre angle~: au lieu d'observer l'opérateur, il exploite les \textbf{logs
+d'événements} déjà enregistrés par les systèmes d'information \cite{vanderaalst2016}.
+Chaque ligne de log fournit au minimum un triplet $(\text{case\_id}, \text{activité},
+\text{timestamp})$~: l'identifiant du cas (ici, le deal), l'activité réalisée, et
+l'horodatage. En recomposant ces triplets, le Process Mining \emph{découvre} le
+processus réellement suivi (et non le processus théorique), mesure les durées entre
+activités, et met au jour ce que les cartographies déclaratives masquent~: boucles de
+reprise, approbations redondantes, temps d'attente entre étapes. Jans \textit{et al.}
+(2013) en démontrent la valeur dans une organisation financière pour l'analyse
+multifacette des processus et la détection d'anomalies \cite{jans2013}.
 
-\begin{figure}[H]
-\centering
-\shorthandoff{;:!?}
-\begin{tikzpicture}[
-    category/.style={rectangle, rounded corners, minimum width=3.2cm, minimum height=1.2cm, text centered, draw=black, fill=gray!8, font=\small},
-    subcategory/.style={rectangle, rounded corners, minimum width=2.6cm, minimum height=0.8cm, text centered, draw=black!60, fill=white, font=\footnotesize},
-    arrow/.style={-{Stealth[length=2.5mm]}, thick, black!60}
-]
-\node (charge) [rectangle, rounded corners, minimum width=4cm, minimum height=1.2cm, text centered, draw=black, fill=black!8, font=\small\bfseries] {Charge de travail};
+\paragraph{Pertinence et limites pour notre contexte.}
+C'est le candidat le plus solide pour alimenter le $t_i$ du TDABC, car il lève les deux
+premières failles du chronométrage tayloriste~: il ne requiert ni observateur ni jugement
+d'allure (il lit des horodatages objectifs), et il se met à jour automatiquement à mesure
+que les processus évoluent --- répondant directement au problème de l'obsolescence sous
+automatisation. Mais il souffre d'une limite qui recoupe précisément la nôtre~:
+l'horodatage mesure un \textbf{temps écoulé} entre deux transactions, non un
+\textbf{temps effectif} de travail. Entre le \textit{timestamp} d'ouverture et celui de
+clôture d'un événement dans Loan~IQ, l'opérateur a pu être interrompu, traiter un autre
+deal, ou attendre une validation. Le Process Mining fournit donc une \emph{borne
+supérieure bruitée} du temps unitaire. D'où l'articulation que retient notre
+méthodologie, et qui constitue une réponse directe au gap~: le Process Mining pour la
+\emph{couverture exhaustive} de tous les événements, calibré par un \textit{clocking}
+manuel ciblé qui mesure, sur un échantillon, le rapport entre temps effectif et temps
+écoulé.
+% =============================================================================
+\subsection{Prédire le coût d'un deal futur~: méthodes de modélisation}
+\label{sec:prediction}
+% =============================================================================
 
-\node (perf) [category, below left=1.5cm and 2.5cm of charge] {Mesures deperformance};
-\node (physio) [category, below=1.5cm of charge] {Mesuresphysiologiques};
-\node (subj) [category, below right=1.5cm and 2.5cm of charge] {Mesuressubjectives};
-
-\node (s1) [subcategory, below=0.7cm of perf] {Output, taux d'erreur,temps de cycle};
-\node (s2) [subcategory, below=0.7cm of physio] {Fréquence cardiaque,activité électrodermale};
-\node (s3) [subcategory, below=0.7cm of subj] {NASA-TLX,échelles de Likert};
-
-\draw [arrow] (charge) -- (perf);
-\draw [arrow] (charge) -- (physio);
-\draw [arrow] (charge) -- (subj);
-\draw [arrow] (perf) -- (s1);
-\draw [arrow] (physio) -- (s2);
-\draw [arrow] (subj) -- (s3);
-
-\node [font=\scriptsize\itshape, above right=0.1cm and -0.2cm of perf] {Objective};
-\node [font=\scriptsize\itshape, above right=0.1cm and -0.2cm of physio] {Physiologique};
-\node [font=\scriptsize\itshape, above right=0.1cm and -0.2cm of subj] {Subjective};
-\end{tikzpicture}
-\caption{Taxonomie des mesures de la charge de travail, adaptée de Wickens (2008).}
-\label{fig:taxonomie_charge}
-\end{figure}
-\shorthandon{;:!?}
-
-
-\subsubsection{Le NASA Task Load Index (NASA-TLX)}
-
-Développé par Sandra Hart au NASA Ames Research Center dans les années 1980, le NASA Task Load Index (NASA-TLX) s'est imposé comme l'instrument de référence mondiale pour l'évaluation subjective de la charge de travail. Il repose sur une procédure d'évaluation multidimensionnelle qui dérive un score global à partir de la moyenne pondérée de six sous-échelles~: exigence mentale, exigence physique, exigence temporelle, performance perçue, effort et frustration \cite{hart1988}.
-
-Le score global pondéré $W$ du NASA-TLX se calcule selon~:
+Mesurer le coût d'un deal traité résout la première finalité. La seconde --- estimer le
+coût d'un deal \emph{avant} son traitement, à partir de ses seules caractéristiques
+connues à la signature --- prolonge naturellement le TDABC, dont l'équation de temps
+(\ref{eq:time-equation}) est déjà une fonction que l'on peut \emph{apprendre} sur
+l'historique. Là où le TDABC calcule un coût \textit{a posteriori} en observant le
+volume et l'\textit{aftercare} réellement consommés, un modèle prédictif estime~:
 
 \begin{equation}
-W = \frac{\sum_{i=1}^{6} w_i \cdot s_i}{\sum_{i=1}^{6} w_i}
-\label{eq:nasatlx}
+\hat{C}_{\text{deal}} = f\!\left(x_1, \dots, x_p\right)
+\label{eq:cout-predit}
 \end{equation}
 
-où $s_i$ est le score brut (0--100) de la sous-échelle $i$ et $w_i$ son poids déterminé par comparaison par paires. L'instrument a été validé dans une grande diversité d'environnements~: cockpits d'aéronefs, postes de commandement, contrôle de processus industriels, et plus récemment dans les environnements de travail tertiaires.
+\noindent où $f$ est appris sur les deals passés et où les $x_j$ sont les
+caractéristiques disponibles dès la signature~: nombre de prêteurs, devise, nombre de
+facilités, rôle (agent, participant, bilatéral), produit. Cette section examine les
+familles de modèles candidates pour $f$, de la plus interprétable à la plus performante,
+en pesant pour chacune le compromis \emph{précision / interprétabilité} --- compromis
+central, car un modèle destiné à arbitrer la rentabilité d'un deal devant le Front Office
+doit être non seulement juste, mais explicable.
 
-Sa force réside dans sa capacité à capturer des dimensions que le chronométrage ne saisit pas~: la pression temporelle liée aux \textit{deadlines} de settlement, la charge cognitive induite par la vérification de données complexes, ou la frustration générée par des systèmes d'information inadaptés.
+\subsubsection{La régression linéaire multiple~: le modèle de référence}
 
-Dans le cadre de notre recherche, le NASA-TLX constitue un outil complémentaire à la mesure temporelle. Il permettrait de pondérer les temps standards par un coefficient de complexité perçue, transformant une mesure purement chronométrique en un indicateur composite intégrant la dimension cognitive du travail. Néanmoins, comme toute mesure déclarative, il est sujet aux biais de désirabilité sociale et à la variabilité interindividuelle, ce qui impose de le croiser systématiquement avec des données objectives.
-
-\begin{table}[H]
-\centering
-\caption{Les six sous-échelles du NASA-TLX et leur pertinence pour le Back Office bancaire}
-\label{tab:nasatlx}
-\begin{tabularx}{\textwidth}{l X X}
-\toprule
-\textbf{Sous-échelle} & \textbf{Définition} & \textbf{Application Back Office} \\
-\midrule
-Exigence mentale & Activité mentale requise (réflexion, décision, calcul) & Vérification de clauses, deals complexes \\
-\addlinespace
-Exigence physique & Activité physique requise & Faible (travail informatisé) \\
-\addlinespace
-Exigence temporelle & Pression liée au rythme imposé & Deadlines de settlement, quarter-ends \\
-\addlinespace
-Performance & Auto-évaluation du niveau de réussite & Taux d'erreur perçu, satisfaction \\
-\addlinespace
-Effort & Intensité de travail pour atteindre le niveau de performance & Effort de concentration soutenu \\
-\addlinespace
-Frustration & Stress, découragement, irritation & Systèmes lents, erreurs données amont \\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-
-\paragraph{Limites dans le contexte des opérations de crédit.}
-Le déploiement du NASA-TLX dans un Back Office bancaire nearshore soulève
-des contraintes pratiques rarement discutées dans la littérature. D'une part,
-les équipes Loan Servicing de GCO sont réparties entre la France et le
-Portugal, avec des profils d'ancienneté, de formation et de culture
-professionnelle hétérogènes~: la \og{}charge perçue\fg{} d'un amendement
-complexe ne sera pas évaluée de la même manière par un opérateur senior
-parisien et par un analyste junior lisboète récemment formé. Le biais
-interculturel et le biais d'expérience risquent de compromettre la
-comparabilité des scores. D'autre part, le NASA-TLX a été conçu pour
-évaluer des tâches discrètes et bornées dans le temps (une mission de vol,
-une session de contrôle)~; or, le travail de Loan Servicing est un flux
-continu d'événements entrelacés, ce qui rend difficile l'association d'un
-score de charge à un événement isolé.
-
-Ces limites orientent le positionnement méthodologique de ce mémoire~: plutôt
-que de déployer le NASA-TLX comme instrument principal de mesure, nous le
-concevons comme un outil de calibration ponctuel, susceptible de valider ou
-de pondérer les temps standards chronométrés par un coefficient de complexité
-cognitive ($\kappa_i$), sans en faire le socle du dispositif de mesure.
-
-
-\subsection{L'adaptation des indicateurs industriels aux services~: le cas de l'OEE}
-
-\subsubsection{Principes et structure de l'OEE}
-
-L'\textit{Overall Equipment Effectiveness} (OEE), issu du modèle TPM (\textit{Total Productive Maintenance}) formalisé par Nakajima (1988), décompose la performance productive en trois facteurs multiplicatifs \cite{nakajima1988}~:
+Le modèle le plus simple postule que le coût (ou le temps) est une combinaison linéaire
+des caractéristiques~:
 
 \begin{equation}
-\text{OEE} = \underbrace{\frac{T_{\text{fonct.}}}{T_{\text{planifié}}}}_{\text{Disponibilité}} \times \underbrace{\frac{Q_{\text{réelle}}}{Q_{\text{théorique}}}}_{\text{Performance}} \times \underbrace{\frac{Q_{\text{conforme}}}{Q_{\text{totale}}}}_{\text{Qualité}}
-\label{eq:oee}
-\end{equation}
-
-Un OEE de 100\,\% signifie que l'équipement ne produit que des pièces conformes, à sa cadence nominale, sans aucun temps d'arrêt. Cet indicateur est aujourd'hui considéré comme le standard de mesure de la productivité manufacturière.
-
-L'intérêt de l'OEE pour notre problématique réside dans sa structure analytique~: en décomposant la performance en trois dimensions orthogonales, il permet d'identifier précisément l'origine des pertes de productivité. Appliqué à un poste de travail Back Office, le cadre se transpose de la manière suivante~:
-
-\begin{itemize}
-    \item \textbf{Disponibilité}~: ratio entre le temps effectivement consacré au traitement des événements et le temps planifié de travail, déduction faite des réunions, formations, pauses et interruptions non productives.
-    \item \textbf{Performance}~: cadence réelle de traitement comparée à une cadence théorique dérivée des temps standards.
-    \item \textbf{Qualité}~: proportion d'événements traités sans reprise ni correction ultérieure (\textit{first-time-right}).
-\end{itemize}
-
-\subsubsection{Limites de transposition et adaptations nécessaires}
-
-La littérature récente souligne les limites de l'OEE dans les environnements à forte variabilité. Dans les processus multiproduits ou semi-artisanaux, la définition d'une cadence idéale unique est souvent irréaliste. Cette observation est directement pertinente pour les opérations de crédit, où chaque deal présente des caractéristiques contractuelles propres (devise, syndication, clauses spécifiques) qui rendent la notion de cadence nominale problématique.
-
-Deux adaptations sont proposées par la littérature pour surmonter cette difficulté. La première consiste à définir des standards par famille d'opérations homogènes plutôt qu'un standard global --- approche que nous retenons dans notre méthodologie en distinguant des catégories d'événements (tirages simples, tirages complexes, amendements, remboursements anticipés, etc.). La seconde, plus radicale, propose de se concentrer sur les seules dimensions de disponibilité et de performance, en utilisant des ratios de productivité relatifs plutôt qu'absolus.
-
-\subsection{Approches de modélisation prédictive}
-
-\subsubsection{Modèles statistiques classiques}
-
-La modélisation de la charge de travail par des approches statistiques vise à établir une relation fonctionnelle entre des variables explicatives observables et une variable de réponse. La régression linéaire multiple constitue le modèle de base~:
-
-\begin{equation}
-Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \cdots + \beta_p X_p + \varepsilon
+Y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \varepsilon
 \label{eq:regression}
 \end{equation}
 
-où $Y$ est le temps de traitement, $X_j$ les variables explicatives (type d'événement, caractéristiques du deal, contexte temporel), $\beta_j$ les coefficients de régression et $\varepsilon$ le terme d'erreur. Les coefficients $\beta_j$ indiquent directement la contribution marginale de chaque facteur à la charge totale, ce qui rend le modèle particulièrement adapté aux fins de communication managériale.
+\noindent où $Y$ est la variable à prédire, les $\beta_j$ des coefficients estimés par
+moindres carrés, et $\varepsilon$ un terme d'erreur. Sa force est l'\textbf{interprétabilité
+par conception}~: chaque coefficient $\beta_j$ se lit directement comme la contribution
+marginale d'un facteur --- «~un prêteur supplémentaire ajoute $\beta$ minutes de
+traitement~». C'est un argument de poids pour la communication managériale, et cela
+répond directement au sous-objectif de la mission~: «~\textit{understand the impact of
+each parameter of the LS workload}~».
 
-La régression logistique, quant à elle, modélise la probabilité de dépassement d'un seuil critique de charge~:
+\paragraph{Hypothèses et pourquoi elles se brisent ici.}
+Cette lisibilité repose sur des hypothèses que notre contexte viole. La régression
+suppose la \textbf{linéarité} (l'effet d'un facteur est constant, quel que soit son
+niveau) et surtout l'\textbf{additivité} (l'effet total est la somme des effets
+individuels). Or nos données terrain montrent des \textbf{interactions}~: un deal
+\emph{à la fois} syndiqué, multidevise \emph{et} à clauses spéciales génère une charge
+supérieure à la somme des trois effets pris isolément --- la complexité se
+\emph{multiplie}, elle ne s'additionne pas. La régression sous-estimerait donc
+systématiquement les deals les plus complexes, précisément ceux dont le coût importe le
+plus. On peut ajouter manuellement des termes d'interaction ($x_1 \times x_2$), mais leur
+nombre explose et leur choix devient arbitraire. La régression reste donc un
+\emph{étalon} de référence et un outil de communication, mais insuffisante comme modèle
+final.
+
+\subsubsection{Les arbres de décision (CART)~: capturer les interactions}
+
+L'arbre de décision de type CART (\textit{Classification and Regression Trees}) adopte
+une logique inverse~: au lieu de poser une équation globale, il \textbf{partitionne
+récursivement} l'espace des caractéristiques. À chaque nœud, l'algorithme cherche la
+question binaire (par exemple «~nombre de prêteurs $> 50$~?~») qui sépare le mieux les
+données, puis recommence sur chaque sous-groupe, jusqu'à des feuilles où la prédiction
+est la moyenne des cas qu'y tombent. Pour une cible continue comme le temps, le
+«~meilleur~» découpage est celui qui \textbf{minimise la variance} intra-groupe --- on
+cherche le seuil qui rend les deux sous-groupes les plus homogènes possible. La
+réduction de variance obtenue par un découpage s'écrit~:
 
 \begin{equation}
-P(Y = 1 \mid \mathbf{X}) = \frac{1}{1 + e^{-(\beta_0 + \boldsymbol{\beta}^T \mathbf{X})}}
-\label{eq:logistique}
+\Delta = \mathrm{Var}(S) - \frac{|S_L|}{|S|}\,\mathrm{Var}(S_L) - \frac{|S_R|}{|S|}\,\mathrm{Var}(S_R)
+\label{eq:variance-reduction}
 \end{equation}
 
-Shaik \textit{et al.} (2025) démontrent l'efficacité de cette approche dans un contexte RH, obtenant une \textit{accuracy} de 83,7\,\% pour la prédiction du \textit{turnover}, un phénomène structurellement lié à la surcharge chronique \cite{shaik2025}.
+\noindent où $S$ est le groupe parent, $S_L$ et $S_R$ les deux sous-groupes issus du
+découpage, et $|\cdot|$ leur effectif. L'algorithme retient, à chaque nœud, le découpage
+qui maximise $\Delta$.
 
-Néanmoins, ces modèles linéaires reposent sur des hypothèses de linéarité et d'indépendance des résidus qui peuvent s'avérer restrictives. Dans les opérations bancaires, les interactions entre facteurs de complexité (un deal syndiqué \textit{et} multidevise \textit{et} avec des clauses spéciales génère une charge supérieure à la somme des effets individuels) limitent le pouvoir explicatif des modèles additifs.
+\paragraph{Pertinence et limites.}
+L'arbre a deux vertus majeures pour nous. Il capture \textbf{nativement les
+interactions}~: en enchaînant «~si rôle = agent \emph{puis} si multidevise = oui~», il
+modélise exactement l'effet multiplicatif que la régression manque, sans qu'on ait à le
+spécifier. Et il est \textbf{lisible}~: un chemin de la racine à une feuille se lit comme
+une règle métier explicite. Mais un arbre unique souffre de deux défauts. Il est
+\textbf{instable} (une variation minime des données change toute sa structure ---
+\emph{high variance}), et il ne sait pas \textbf{extrapoler}~: entraîné sur des deals de
+2 à 1000 prêteurs, il plafonnera sa prédiction pour un deal à 1500 prêteurs à la valeur
+de sa feuille la plus haute. Seul, il sur-apprend et généralise mal~: il faut l'agréger.
 
-\subsubsection{Méthodes d'apprentissage automatique}
+\subsubsection{Random Forest et gradient boosting~: agréger pour fiabiliser}
 
-Les arbres de décision constituent une alternative non paramétrique qui capture naturellement les effets d'interaction et les non-linéarités. Leur principe --- partitionner récursivement l'espace des \textit{features} selon les seuils maximisant la réduction d'impureté de Gini --- produit des règles interprétables directement actionnables.
-
-Le \textit{Random Forest}, agrégation de $B$ arbres entraînés sur des sous-échantillons aléatoires, résout le problème d'instabilité des arbres individuels. La prédiction finale est obtenue par vote majoritaire (classification) ou moyenne (régression)~:
+Deux stratégies d'agrégation d'arbres dominent la pratique sur données tabulaires comme
+les nôtres. Le \textbf{Random Forest} entraîne des centaines d'arbres \emph{en parallèle},
+chacun sur un échantillon aléatoire des données et des variables, puis \emph{moyenne}
+leurs prédictions~:
 
 \begin{equation}
-\hat{f}(\mathbf{x}) = \frac{1}{B} \sum_{b=1}^{B} T_b(\mathbf{x})
-\label{eq:randomforest}
+\hat{f}(x) = \frac{1}{B}\sum_{b=1}^{B} T_b(x)
+\label{eq:random-forest}
 \end{equation}
 
-où $T_b$ est la prédiction du $b$-ième arbre. L'importance de chaque variable $j$ est quantifiée par la réduction cumulée d'impureté de Gini~:
+\noindent où $T_b$ est le $b$-ième arbre. En moyennant des arbres décorrélés, la forêt
+annule leur instabilité individuelle~: elle est robuste, demande peu de réglage, et
+fournit une mesure d'\emph{importance des variables} (via la réduction de variance
+cumulée qu'apporte chaque variable) --- utile pour hiérarchiser les inducteurs de charge.
+Le \textbf{gradient boosting} (dont XGBoost est l'implémentation de référence) procède au
+contraire \emph{séquentiellement}~: chaque nouvel arbre corrige les erreurs résiduelles
+des précédents. Cette correction ciblée le rend généralement plus précis que la forêt sur
+données tabulaires structurées, au prix d'un réglage plus délicat (un boosting mal réglé
+sur-apprend). Le compromis pratique est clair~: Random Forest pour la robustesse et la
+simplicité de mise en œuvre~; gradient boosting pour la performance maximale quand on
+peut investir dans le réglage.
+
+\paragraph{Le prix à payer~: l'interprétabilité, et comment la restaurer.}
+Ces ensembles gomment la lisibilité de l'arbre unique~: on ne peut plus lire une règle,
+seulement constater une performance. C'est un vrai problème dans un contexte bancaire, où
+une estimation de coût opposée au Front Office doit être justifiable. La littérature sur
+l'\textit{interpretable machine learning} répond par des méthodes d'explication
+\emph{post-hoc}, appliquées après l'entraînement, indépendamment du modèle. La plus
+établie est celle des \textbf{valeurs de Shapley} (SHAP), issue de la théorie des jeux
+coopératifs \cite{lundberg2017}. L'idée~: traiter chaque caractéristique comme un
+«~joueur~» contribuant à la prédiction, et lui allouer équitablement sa part de l'écart
+entre la prédiction et la moyenne. La valeur SHAP $\phi_j$ d'une variable $j$ est sa
+contribution marginale moyenne, calculée sur tous les ordres d'entrée possibles des
+variables~:
 
 \begin{equation}
-\text{Importance}(j) = \sum_{b=1}^{B} \sum_{t \in T_b} \Delta G(j, t)
-\label{eq:gini_importance}
-\end{equation}
-
-\begin{table}[H]
-\centering
-\caption{Performance comparée des modèles prédictifs sur données RH, d'après Shaik \textit{et al.} (2025)}
-\label{tab:performance_modeles}
-\begin{tabular}{lccccc}
-\toprule
-\textbf{Modèle} & \textbf{Accuracy} & \textbf{Précision} & \textbf{Rappel} & \textbf{F1-Score} & \textbf{AUC} \\
-\midrule
-Régression logistique & 83,7\,\% & 78,2\,\% & 72,5\,\% & 75,2\,\% & 0,81 \\
-Random Forest & 88,6\,\% & 84,7\,\% & 80,4\,\% & 82,5\,\% & 0,89 \\
-SVM (noyau RBF) & 85,1\,\% & 80,3\,\% & 76,0\,\% & 78,1\,\% & 0,84 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Les \textit{Support Vector Machines} (SVM), avec un noyau à base radiale (RBF), offrent une troisième voie en cherchant l'hyperplan optimal de séparation dans un espace de dimension supérieure. Le noyau RBF est défini par~:
-
-\begin{equation}
-K(\mathbf{x}_i, \mathbf{x}_j) = \exp\left(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2\right)
-\label{eq:rbf}
-\end{equation}
-
-La littérature recommande une approche duale~: scorer avec un modèle complexe et expliquer les prédictions avec des méthodes d'interprétabilité \textit{post-hoc}, notamment les valeurs SHAP (\textit{SHapley Additive exPlanations}), qui décomposent chaque prédiction en contributions individuelles des \textit{features} \cite{lundberg2017}~:
-
-\begin{equation}
-\phi_j = \sum_{S \subseteq N \setminus \{j\}} \frac{|S|!\,(|N|-|S|-1)!}{|N|!} \left[ f(S \cup \{j\}) - f(S) \right]
+\phi_j = \sum_{S \subseteq N \setminus \{j\}} \frac{|S|!\,(|N|-|S|-1)!}{|N|!}\left[f(S \cup \{j\}) - f(S)\right]
 \label{eq:shap}
 \end{equation}
 
-\subsection{Process Mining et excellence opérationnelle en milieu bancaire}
+\noindent où $N$ est l'ensemble des variables et $S$ un sous-ensemble n'incluant pas $j$.
+Une propriété fondamentale rend SHAP idéal pour notre usage~: les valeurs SHAP sont
+\textbf{additives} et somment exactement à l'écart entre la prédiction du deal et le coût
+moyen. On peut donc présenter au Front Office une décomposition intelligible~: «~ce deal
+coûte 180~K€, soit 90~K€ au-dessus de la moyenne~; +50~K€ viennent du nombre de prêteurs,
++30~K€ du rôle d'agent, +10~K€ du multidevise~». On obtient ainsi le meilleur des deux
+mondes~: la \emph{précision} d'un modèle non linéaire et une \emph{explication} par deal
+aussi lisible qu'une régression.
 
-\subsubsection{Le Process Mining comme outil de diagnostic de la charge}
+\paragraph{Le pilotage temporel, en appui.}
+Enfin, la part de coût liée au \emph{volume} et à sa saisonnalité (pics de
+\textit{quarter-end}) relève de l'analyse de séries temporelles. Les modèles classiques
+(ARIMA, SARIMAX) y ajoutent des variables exogènes (pipeline commercial, calendrier
+réglementaire), mais la littérature récente souligne leurs limites --- linéarité imposée,
+horizons fixes --- et leur préfère désormais des ensembles d'arbres et des approches sous
+contrainte pour des demandes hétérogènes à horizon variable \cite{park2026}. Ces
+approches restent en appui de nos deux finalités~: elles prédisent le \emph{volume} $N$,
+non le temps unitaire, qui demeure stable.
 
-Le \textit{Process Mining}, formalisé par Van der Aalst (2016), constitue une approche \textit{data-driven} qui reconstruit les flux opérationnels réels à partir des logs d'événements des systèmes d'information \cite{vanderaalst2016}. Contrairement aux méthodes traditionnelles d'amélioration des processus --- qui reposent sur des ateliers, des entretiens et des cartographies déclaratives ---, le \textit{Process Mining} analyse des milliers, voire des millions, de transactions réelles pour révéler comment le travail circule effectivement entre les systèmes et les acteurs.
-
-Dans le secteur financier, cette approche a démontré sa capacité à identifier des inefficiences invisibles aux méthodes conventionnelles~: reprises cachées, approbations redondantes, boucles de processus et temps d'attente disproportionnés entre étapes. Jans \textit{et al.} (2013) documentent l'analyse multifacette des processus métier en organisation financière, confirmant la valeur ajoutée du \textit{Process Mining} pour la détection d'anomalies processuelles \cite{jans2013}.
-
-Pour notre problématique, le \textit{Process Mining} offre un double apport. D'une part, il permet de cartographier objectivement le parcours réel d'un deal dans Loan~IQ --- de l'origination au settlement --- et d'identifier les étapes génératrices de charge disproportionnée. D'autre part, en structurant les données en triplets $(\text{case\_id}, \text{activité}, \text{timestamp})$, il fournit la matière première nécessaire à l'alimentation des modèles prédictifs décrits dans la section précédente.
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[
-    node distance=2.2cm,
-    event/.style={rectangle, rounded corners, minimum width=2.2cm, minimum height=0.9cm, text centered, draw=black, fill=gray!8, font=\footnotesize},
-    decision/.style={diamond, minimum width=1.8cm, minimum height=1cm, text centered, draw=black, fill=gray!8, font=\footnotesize, inner sep=1pt},
-    arrow/.style={-{Stealth[length=2.5mm]}, thick},
-    label/.style={font=\scriptsize, midway}
-]
-\node (orig) [event] {Origination(Front Office)};
-\node (setup) [event, right of=orig] {Deal Setup(Middle Office)};
-\node (valid) [decision, right of=setup, xshift=0.5cm] {ValidationOK?};
-\node (process) [event, right of=valid, xshift=0.8cm] {Processing(Loan IQ)};
-\node (check) [decision, right of=process, xshift=0.5cm] {ContrôleOK?};
-\node (settle) [event, right of=check, xshift=0.5cm] {Settlement};
-
-\draw [arrow] (orig) -- (setup);
-\draw [arrow] (setup) -- (valid);
-\draw [arrow] (valid) -- node[above, label] {Oui} (process);
-\draw [arrow] (valid.south) -- ++(0,-0.8) -| node[below, label, pos=0.25] {Non (reprise)} (setup.south);
-\draw [arrow] (process) -- (check);
-\draw [arrow] (check) -- node[above, label] {Oui} (settle);
-\draw [arrow] (check.south) -- ++(0,-0.8) -| node[below, label, pos=0.25] {Non (correction)} (process.south);
-\end{tikzpicture}
-\caption{Flux simplifié du traitement d'un deal en opérations de crédit, tel que reconstruit par \textit{Process Mining}. Les boucles de reprise constituent des sources cachées de charge additionnelle.}
-\label{fig:process_mining}
-\end{figure}
-
-\subsubsection{Le Lean Management appliqué aux opérations de BFI}
-
-Le Lean Management, initialement développé dans l'industrie automobile par Toyota, a fait l'objet d'une adoption massive dans les opérations bancaires à partir du début des années 2000. Angelichev (2024), consultant chez Capco, dresse un bilan actualisé de cette adoption en Banque de Financement et d'Investissement (BFI) et conclut que \enquote{le Lean Management est toujours autant d'actualité qu'il y a 20 ans}, ses champs d'application s'étant élargis bien au-delà du \textit{cost-cutting} originel \cite{angelichev2024}.
-
-Quatre apports du Lean sont particulièrement pertinents pour notre recherche. Premièrement, le \textit{Value Stream Mapping} fournit un cadre de cartographie des flux de valeur qui complète utilement le \textit{Process Mining} par une lecture orientée \enquote{gaspillages} (\textit{muda}). Deuxièmement, la standardisation des processus --- principe fondamental du Lean --- est un prérequis à toute mesure fiable de la charge~: on ne peut chronométrer une opération que si sa méthode d'exécution est stabilisée. Troisièmement, le cadrage des besoins d'automatisation (RPA, macros VBA) est indissociable de la mesure de la charge, puisqu'il vise à réduire les tâches à faible valeur ajoutée qui gonflent artificiellement les temps de traitement. Quatrièmement, l'intégration du pilotage par KPI dans les rituels managériaux (réunions quotidiennes, tableaux visuels) constitue le véhicule opérationnel par lequel la mesure de charge se transforme en outil de pilotage.
-
-Operae Partners documente par ailleurs la transformation Lean du Back Office de BNL (filiale italienne de BNP Paribas) comme cas de référence sectoriel, démontrant que les gains d'efficacité obtenus dans un environnement d'opérations de crédit sont substantiels et durables lorsque la démarche est déployée de manière structurée.
-
-\subsection{Planification des effectifs et aide à la décision}
-
-\subsubsection{Modèles de Recherche Opérationnelle}
-
-La finalité ultime de la mesure de la charge de travail est de servir l'aide à la décision en matière d'allocation des ressources. La Recherche Opérationnelle offre un arsenal de modèles mathématiques conçus à cet effet \cite{dtic2004}.
-
-La théorie des files d'attente est particulièrement adaptée à notre contexte. Elle modélise le Back Office comme un système de serveurs (les opérateurs) traitant des requêtes (les événements opérationnels) dont le taux d'arrivée $\lambda$ suit une loi de Poisson et le temps de service $\mu$ une loi exponentielle. Le modèle d'Erlang C donne la probabilité qu'un événement doive attendre~:
-
-\begin{equation}
-P_w = \frac{\frac{(c\rho)^c}{c!} \cdot \frac{1}{1-\rho}}{\sum_{k=0}^{c-1} \frac{(c\rho)^k}{k!} + \frac{(c\rho)^c}{c!} \cdot \frac{1}{1-\rho}}
-\label{eq:erlang}
-\end{equation}
-
-où $c$ est le nombre d'opérateurs et $\rho = \lambda / (c \mu)$ l'intensité de trafic. Ce modèle permet de répondre à la question~: \enquote{combien d'opérateurs faut-il pour absorber un flux prévu de $X$ événements par jour avec un temps de traitement moyen de $Y$ minutes et un délai maximal acceptable de $Z$ heures~?}
-
-La programmation linéaire optimise l'affectation des ressources sous contraintes multiples~: polyvalence des opérateurs, horaires de travail, montée en compétence progressive des nouveaux arrivants.
-
-\subsubsection{Approches prédictives et anticipation des pics}
-
-Au-delà du dimensionnement statique, l'anticipation dynamique des pics de charge constitue un enjeu opérationnel majeur. Les opérations de crédit sont soumises à une saisonnalité prononcée~: les fins de trimestre (\textit{quarter-ends}) et les fins d'exercice fiscal génèrent des concentrations d'événements --- \textit{closings}, remboursements massifs, ajustements de taux --- qui peuvent tripler la charge quotidienne.
-
-L'analyse de séries temporelles (modèles ARIMA, Prophet de Meta) permet de capturer ces composantes cycliques et d'en extraire des prévisions à horizon de deux à quatre semaines, délai compatible avec un redéploiement interne des ressources. L'enrichissement de ces modèles par des variables exogènes --- nombre de deals en pipeline commercial, annonces de taux directeurs, calendrier réglementaire --- ajoute un pouvoir prédictif sur les chocs non récurrents. Madanchian \textit{et al.} (2024) confirment que la combinaison de \textit{features} temporelles et contextuelles améliore significativement la capacité prédictive des modèles de \textit{workforce planning} \cite{madanchian2024}.
-
-\subsection{Synthèse critique et positionnement de la recherche}
-
-\subsubsection{Cartographie du champ et identification du \textit{gap}}
-
-L'examen de la littérature fait apparaître que la mesure de la charge de travail en Back Office bancaire se situe à la confluence de quatre champs disciplinaires distincts, chacun apportant une perspective complémentaire mais aucun ne fournissant à lui seul un cadre complet (figure~\ref{fig:cadre_integrateur}).
-
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[
-    field/.style={rectangle, rounded corners, minimum width=3.8cm, minimum height=1.6cm, text centered, draw=black, fill=gray!8, font=\small},
-    center/.style={circle, minimum width=2.8cm, text centered, draw=black, fill=black!8, font=\small\bfseries, text width=2.4cm, align=center},
-    arrow/.style={-{Stealth[length=3mm]}, thick, black!50},
-    contrib/.style={font=\scriptsize\itshape, text width=3.5cm, align=center}
-]
-\node (gap) [center] {Cadre intégré\\(gap identifié)};
-
-\node (gi) [field, above left=2cm and 2cm of gap] {Génie industriel};
-\node (ergo) [field, above right=2cm and 2cm of gap] {Ergonomiecognitive};
-\node (ds) [field, below left=2cm and 2cm of gap] {Science desdonnées};
-\node (ro) [field, below right=2cm and 2cm of gap] {RechercheOpérationnelle};
-
-\draw [arrow] (gi) -- (gap);
-\draw [arrow] (ergo) -- (gap);
-\draw [arrow] (ds) -- (gap);
-\draw [arrow] (ro) -- (gap);
-
-\node [contrib, below=0.1cm of gi] {Protocoles de\\chronométrage, $T_s$};
-\node [contrib, below=0.1cm of ergo] {NASA-TLX,\\charge cognitive};
-\node [contrib, above=0.1cm of ds] {Régression, RF,\\Process Mining};
-\node [contrib, above=0.1cm of ro] {Erlang C, PL,\\simulation};
-\end{tikzpicture}
-\caption{Cartographie des quatre champs disciplinaires contribuant à la mesure de la charge de travail en Back Office bancaire. Le cercle central représente le cadre intégré que ce mémoire vise à construire.}
-\label{fig:cadre_integrateur}
-\end{figure}
-
-Le \textbf{génie industriel} (Taylor, Gilbreth, MTM) fournit les protocoles de chronométrage et la logique de décomposition en temps standards, mais ne prend pas en compte la dimension cognitive du travail de service. L'\textbf{ergonomie cognitive} (NASA-TLX, modèles de ressources attentionnelles de Wickens) intègre la complexité perçue et les facteurs humains, mais ne produit pas de mesures directement exploitables pour le dimensionnement des effectifs. La \textbf{science des données} (régression, Random Forest, Process Mining) permet la modélisation prédictive et l'extraction de \textit{patterns}, mais requiert en amont une formalisation rigoureuse des données d'entrée --- formalisation que la littérature ne documente pas spécifiquement pour les opérations de crédit. La \textbf{Recherche Opérationnelle} (files d'attente, simulation, optimisation) transforme la mesure en outil décisionnel, mais suppose que cette mesure existe déjà de manière fiable et structurée.
-
-Le \textit{gap} identifié est le suivant~: il n'existe pas, dans la littérature académique ou professionnelle consultée, de cadre intégré qui combine (1)~un protocole de mesure temporelle adapté aux opérations de crédit informatisées, (2)~une prise en compte structurée des facteurs de complexité, (3)~une modélisation prédictive alimentée par des données opérationnelles réelles, et (4)~une traduction en recommandations d'allocation des ressources.
-
-\subsubsection{Contribution attendue}
-
-Notre recherche se positionne comme une contribution appliquée à l'intersection de ces quatre champs. Elle vise à démontrer qu'il est possible de formaliser la charge de travail des équipes Loan Servicing en une mesure quantitative composite --- intégrant le temps de traitement chronométré, les facteurs de complexité objectifs (caractéristiques du deal) et la variabilité contextuelle (jour, période, opérateur) --- et de l'exploiter via un modèle prédictif pour alimenter l'aide à la décision stratégique en matière d'allocation des ressources et d'anticipation des pics d'activité.
-
-La démarche s'inscrit dans une logique de \textit{design science} \cite{hevner2004}~: elle produit un artefact --- le modèle de mesure et son exploitation analytique --- dont la validité est évaluée par sa capacité à résoudre un problème organisationnel concret, dans un contexte opérationnel réel.
+\paragraph{Une mise en garde de niveau.}
+Deux erreurs guettent l'usage de ces modèles, et structurent notre méthodologie.
+D'abord, le modèle prédit le coût \emph{total} d'un deal (fonction du volume et des
+caractéristiques), \emph{non} le temps de \textit{booking} unitaire, qui reste stable
+autour de vingt minutes~: confondre les deux niveaux serait une faute d'analyse. Ensuite,
+et surtout, la qualité de toute prédiction est \textbf{bornée par celle de la mesure}~:
+un modèle appris sur des temps unitaires mal estimés prédira un coût faux, quelle que
+soit sa sophistication. La seconde finalité est donc entièrement tributaire de la
+première --- ce qui justifie l'ordre de ce chapitre et le poids que nous mettons sur la
+mesure du temps.
 
 % =============================================================================
-% BIBLIOGRAPHIE
+\subsection{Les solutions professionnelles~: ce que le marché résout, ce qu'il laisse ouvert}
+\label{sec:solutions-marche}
 % =============================================================================
 
-\begin{thebibliography}{99}
+La question n'a pas échappé aux éditeurs, et deux familles de solutions éclairent par
+contraste notre contribution. Les plateformes de \textbf{Back-Office Workforce
+Management} (Verint, et les suites décrites par les intégrateurs du secteur) capturent le
+temps de production réel des opérateurs à travers leurs applications pour équilibrer les
+charges, suivre les SLA et dimensionner les effectifs \cite{verint}. Elles adressent le
+\emph{pilotage} de la charge, avec des gains documentés~; mais elles raisonnent en
+\emph{capacité et débit}, non en \emph{coût par objet}~: elles disent si une équipe est
+surchargée, jamais ce que coûte un deal donné. À l'inverse, les \textbf{suites de
+costing} (CostPerform et le TDABC outillé) calculent un coût par activité et par objet,
+mais supposent l'intrant temps déjà résolu --- elles industrialisent l'équation, pas la
+mesure du $t_i$.
 
-\bibitem{taylor1911} Taylor, F.W. (1911). \textit{The Principles of Scientific Management}. New York~: Harper \& Brothers.
+Un courant professionnel récent, sur les projets d'IA en services financiers, formule la
+critique la plus utile à notre positionnement~: la majorité des projets d'automatisation
+échouent faute d'avoir mesuré, \emph{au niveau activité}, le travail réel avant
+d'automatiser --- la donnée applicative («~six heures dans le système~») étant
+inexploitable pour décider, seule la donnée d'activité («~tant de minutes sur telle
+exception~») l'étant \cite{summittrails}. Ce constat conforte notre séquençage~: la
+mesure fine du temps précède et conditionne toute optimisation. Aucune des deux familles
+d'outils ne construit le pont qui nous occupe --- du temps unitaire mesuré jusqu'au coût,
+mesuré puis prédit, d'un deal de crédit syndiqué hétérogène.
 
-\bibitem{gilbreth1917} Gilbreth, F.B. \& Gilbreth, L.M. (1917). \textit{Applied Motion Study}. New York~: Sturgis \& Walton.
+% =============================================================================
+\subsection{Synthèse~: un gap resserré sur l'intrant temps du TDABC}
+\label{sec:gap}
+% =============================================================================
 
-\bibitem{maynard1948} Maynard, H.B., Stegemerten, G.J. \& Schwab, J.L. (1948). \textit{Methods-Time Measurement}. New York~: McGraw-Hill.
+L'examen de la littérature ne débouche pas sur le constat commode qu'«~aucun auteur n'a
+tout combiné~». Il désigne un manque unique et localisé. Le \textbf{TDABC fournit
+l'équation juste} (équation~\ref{eq:tdabc}) pour reconstruire \emph{et} prédire un coût
+par deal, et notre terrain la confirme. Mais il \textbf{suppose résolu son intrant le plus
+difficile}, le temps unitaire $t_i$, que la littérature critique désigne unanimement
+comme son talon d'Achille --- d'autant plus en environnement hétérogène, où Koster
+\textit{et al.} (2023) ont dû recourir à la logique floue pour absorber la variabilité des
+cas \cite{koster2023}. Or cet intrant se heurte, en opérations de crédit, à trois
+obstacles cumulatifs établis au fil du chapitre~: \emph{(i)} les méthodes classiques
+(Taylor, MTM) reposent sur une observation ou des tables inadaptées à un back office
+nearshore et automatisé~; \emph{(ii)} le Process Mining lève cet obstacle mais ne livre
+qu'un temps écoulé bruité, non effectif~; \emph{(iii)} la variabilité du coût ne vient
+pas du temps de \textit{booking}, stable, mais du volume et de l'\textit{aftercare}, que
+les caractéristiques du deal font varier de façon non additive.
 
-\bibitem{nakajima1988} Nakajima, S. (1988). \textit{Introduction to TPM: Total Productive Maintenance}. Cambridge~: Productivity Press.
+Le \textit{gap} se formule donc en une phrase~: \textbf{il n'existe pas de protocole
+établi permettant d'estimer, pour des opérations de crédit syndiqué hétérogènes et
+partiellement automatisées, le temps unitaire fiable qu'exige le TDABC --- en combinant
+la couverture des logs (Process Mining) et leur calibration par clocking --- puis d'en
+déduire le coût d'un deal, mesuré rétrospectivement et prédit pour un deal futur au moyen
+d'un modèle non linéaire rendu interprétable.} Ce chaînon manquant gouverne les deux
+finalités à la fois~: sans lui, ni la mesure ni la prédiction ne sont fiables. C'est lui,
+et lui seul, que notre contribution construit.
 
-\bibitem{hart1988} Hart, S.G. \& Staveland, L.E. (1988). Development of NASA-TLX: Results of empirical and theoretical research. \textit{Advances in Psychology}, 52, 139--183.
+Notre recherche relève ainsi du \textit{design science} \cite{hevner2004}~: elle produit
+un artefact --- un protocole de mesure du temps unitaire et sa conversion en coût par
+deal, rétrospectif puis prédictif --- dont la validité s'évalue par sa capacité à résoudre
+un problème organisationnel réel~: rendre enfin comparable, deal par deal, le coût back
+office et le gain front office.
 
-\bibitem{nyland1996} Nyland, C. (1996). Taylorism, John R. Commons, and the Hoxie Report. \textit{Journal of Economic Issues}, 30(4), 985--1016.
-
-\bibitem{zandin2001} Zandin, K.B. (2001). \textit{Maynard's Industrial Engineering Handbook}. 5e éd. New York~: McGraw-Hill.
-
-\bibitem{dtic2004} DTIC (2004). A Review of Operations Research Applications in Workforce Planning. \textit{Defense Technical Information Center}, Report ADA432084.
-
-\bibitem{hevner2004} Hevner, A.R., March, S.T., Park, J. \& Ram, S. (2004). Design science in information systems research. \textit{MIS Quarterly}, 28(1), 75--105.
-
-\bibitem{groover2007} Groover, M.P. (2007). \textit{Work Systems and the Methods, Measurement, and Management of Work}. Upper Saddle River~: Pearson Prentice Hall.
-
-\bibitem{wickens2008} Wickens, C.D. (2008). Multiple resources and mental workload. \textit{Human Factors}, 50(3), 449--455.
-
-\bibitem{bengal2010} Ben-Gal, I., Herer, Y. \& Raz, T. (2010). Applying time and motion study principles in service organizations. \textit{Industrial Engineering \& Management}.
-
-\bibitem{jans2013} Jans, M., Alles, M. \& Vasarhelyi, M. (2013). Process mining for the multi-faceted analysis of business processes in a financial services organization. \textit{Expert Systems with Applications}, 40(8), 3085--3093.
-
-\bibitem{vanderaalst2016} Van der Aalst, W.M.P. (2016). \textit{Process Mining: Data Science in Action}. Berlin~: Springer.
-
-\bibitem{lundberg2017} Lundberg, S.M. \& Lee, S.I. (2017). A unified approach to interpreting model predictions. \textit{Advances in Neural Information Processing Systems}, 30.
-
-\bibitem{angelichev2024} Angelichev, G. (2024). Le Lean Management dans les services Opérations des BFI~: idées reçues, besoins et solutions. \textit{Capco Intelligence}.
-
-\bibitem{madanchian2024} Madanchian, M. \textit{et al.} (2024). Predictive factors of employee turnover intention: A systematic literature review. \textit{Sustainability}, 16(4).
-
-\bibitem{shaik2025} Shaik, D.K. \textit{et al.} (2025). Predictive modeling for HR decision-making: A study of employee turnover. \textit{Journal of Marketing \& Social Research}, 2(4), 92--98.
-
-\end{thebibliography}
 \shorthandon{;:!?}
