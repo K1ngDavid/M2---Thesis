@@ -54,7 +54,7 @@ Le \textit{crédit syndiqué} est un crédit accordé à une entreprise par un g
 \subsubsection{Organisation de l'équipe Strategic Transformation \& Data Analytics}
 \label{subsec:organisationequipe}
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[
         node distance=0.8cm,
@@ -92,9 +92,8 @@ Le \textit{crédit syndiqué} est un crédit accordé à une entreprise par un g
     \label{fig:org-hier-structure}
 \end{figure}
 
-\paragraph{L'équipe Strategic Transformation}est composée de chefs de projet chargés de piloter la modernisation des opérations de crédit (automatisation, pilotage du changement stratégique).
+L'équipe Strategic Transformation \& Data Analytics est scindée en deux sous-équipes complémentaires, réparties sur deux sites : Strategic Transformation (France), qui pilote la modernisation des opérations de crédit, et Data Analytics (Portugal), référente sur la donnée.
 
-\paragraph{L'équipe Data Analytics} est référente sur la donnée : qualité, nettoyage, analyses statistiques ainsi que création de KPI en destination du high management.
 
 \subsubsection{Organisation générale de la banque}
 \label{subsec:banque-structure}
@@ -108,26 +107,25 @@ Le secteur bancaire se divise en trois grandes catégories d'établissements :
 
 Ce mémoire se concentre sur la \textbf{CIB}, et plus précisément le \textit{crédit syndiqué}, dont le cycle de vie opérationnel est schématisé ci‑dessous :
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{3cm}|}
-    \hline
-    \textbf{Étape}        & \textbf{Front Office}                  & \textbf{Middle Office}               & \textbf{Back Office} \\
-    \hline
-    Origination           & Analyse du besoin, structuration      & --                                   & --                   \\
-    \hline
-    Structuration         & Négociation, syndication              & Évaluation des risques               & --                   \\
-    \hline
-    Documentation         & Coordination juridique                & Vérification des clauses             & Préparation contrats \\
-    \hline
-    Mise en place         & Information client                    & Contrôle final des risques           & Versements, confirmations \\
-    \hline
-    Vie du deal           & Suivi relationnel                     & Monitoring des covenants             & Reporting, échéances \\
-    \hline
-    \end{tabular}
-    \caption{Cycle de vie opérationnel d'un crédit syndiqué}
-    \label{tab:cycle-vie-credit-syndique}
-\end{table}
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[>=Stealth,node distance=4mm,
+  stage/.style={draw,rounded corners,fill=blue!10,minimum width=20mm,minimum height=9mm,align=center,font=\scriptsize\bfseries},
+  note/.style={draw=black!30,rounded corners,fill=black!3,text width=20mm,align=center,font=\tiny}]
+  \node[stage](s1){Origination};
+  \node[stage,right=of s1](s2){Structuration};
+  \node[stage,right=of s2](s3){Documentation};
+  \node[stage,right=of s3](s4){Mise en place};
+  \node[stage,right=of s4](s5){Vie du deal};
+  \foreach \a/\b in {s1/s2,s2/s3,s3/s4,s4/s5}{\draw[->](\a)--(\b);}
+  \node[note,below=of s1]{FO : analyse du besoin, structuration};
+  \node[note,below=of s2]{FO : négociation, syndication\\ MO : évaluation des risques};
+  \node[note,below=of s3]{FO : coordination juridique\\ MO : vérification des clauses\\ BO : préparation contrats};
+  \node[note,below=of s4]{FO : information client\\ MO : contrôle final des risques\\ BO : versements, confirmations};
+  \node[note,below=of s5]{FO : suivi relationnel\\ MO : monitoring covenants\\ BO : reporting, échéances};
+\end{tikzpicture}
+\caption{Cycle de vie opérationnel d'un crédit syndiqué : cinq étapes et rôles respectifs du Front, Middle et Back Office.}
+\label{fig:cyclevie}\end{figure}
+
 
 
 % ============================================================================
@@ -545,3 +543,5 @@ coût obtenu par valorisation --- fonde la démarche de ce mémoire~: construire
 mesure fiable de la charge unitaire par événement, articulant données de
 chronométrage, caractéristiques objectives des événements et facteurs contextuels,
 puis la recomposer en coût opérationnel au service du pilotage de la rentabilité.
+
+L'observation de terrain débouche sur une conclusion simple, qui commande tout le reste : l'événement opérationnel est le grain le plus fin de la hiérarchie d'un deal — un deal se décompose en facilités, une facilité en événements, et l'événement ne se subdivise plus en unités de travail homogènes. Dès lors, savoir mesurer le temps unitaire d'un événement suffit à recomposer le coût d'un deal par simple agrégation : le coût du deal est la somme des temps de ses événements, valorisée au coût horaire. C’est parce qu’on mesure à ce niveau, et à lui seul, que le coût du deal devient reconstructible.

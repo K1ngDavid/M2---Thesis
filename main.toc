@@ -1,74 +1,75 @@
 \babel@toc {french}{}\relax 
-\contentsline {section}{Thanks}{v}{section*.1}%
-\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
-\contentsline {section}{\numberline {2}Contexte}{6}{section.2}%
-\contentsline {subsection}{\numberline {2.1}Contexte organisationnel}{6}{subsection.2.1}%
-\contentsline {subsubsection}{\numberline {2.1.1}Organisation du département GCO (Global Credit Operations)}{6}{subsubsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.2}Organisation de l'équipe Strategic Transformation \& Data Analytics}{7}{subsubsection.2.1.2}%
-\contentsline {paragraph}{L'équipe Strategic Transformation}{7}{figure.2}%
-\contentsline {paragraph}{L'équipe Data Analytics}{7}{figure.2}%
-\contentsline {subsubsection}{\numberline {2.1.3}Organisation générale de la banque}{8}{subsubsection.2.1.3}%
-\contentsline {subsection}{\numberline {2.2}Typologie des événements opérationnels}{9}{subsection.2.2}%
-\contentsline {paragraph}{Événements de mise en place (\textit {setup}).}{9}{figure.3}%
-\contentsline {paragraph}{Événements de décaissement et de remboursement.}{9}{figure.3}%
-\contentsline {paragraph}{Événements de vie courante (\textit {servicing}).}{10}{figure.3}%
-\contentsline {paragraph}{Événements de modification contractuelle.}{10}{figure.3}%
-\contentsline {paragraph}{Événements de clôture.}{11}{figure.3}%
-\contentsline {paragraph}{Les deux composantes de la charge : booking LIQ et aftercare.}{12}{table.2}%
-\contentsline {subsection}{\numberline {2.3}Définition du concept de charge de travail}{13}{subsection.2.3}%
-\contentsline {paragraph}{La charge unitaire.}{14}{subsection.2.3}%
-\contentsline {paragraph}{La charge totale.}{15}{equation.2}%
-\contentsline {paragraph}{De la charge au coût.}{17}{figure.5}%
-\contentsline {section}{\numberline {3}État de l'art}{17}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Du coût des activités au coût par événement~: ABC et TDABC}{18}{subsection.3.1}%
-\contentsline {subsubsection}{\numberline {3.1.1}Le principe de l'Activity-Based Costing}{18}{subsubsection.3.1.1}%
-\contentsline {paragraph}{Pertinence et limite pour notre contexte.}{19}{subsubsection.3.1.1}%
-\contentsline {subsubsection}{\numberline {3.1.2}Le Time-Driven ABC~: deux paramètres, une équation}{19}{subsubsection.3.1.2}%
+\contentsline {section}{Remerciements}{v}{section*.1}%
+\contentsline {section}{Introduction}{1}{section*.2}%
+\contentsline {section}{\numberline {1}Contexte}{6}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Contexte organisationnel}{6}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Organisation du département GCO (Global Credit Operations)}{6}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Organisation de l'équipe Strategic Transformation \& Data Analytics}{8}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}Organisation générale de la banque}{8}{subsubsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.2}Typologie des événements opérationnels}{9}{subsection.1.2}%
+\contentsline {paragraph}{Événements de mise en place (\textit {setup}).}{10}{figure.4}%
+\contentsline {paragraph}{Événements de décaissement et de remboursement.}{10}{figure.4}%
+\contentsline {paragraph}{Événements de vie courante (\textit {servicing}).}{10}{figure.4}%
+\contentsline {paragraph}{Événements de modification contractuelle.}{10}{figure.4}%
+\contentsline {paragraph}{Événements de clôture.}{11}{figure.4}%
+\contentsline {paragraph}{Les deux composantes de la charge : booking LIQ et aftercare.}{12}{table.1}%
+\contentsline {subsection}{\numberline {1.3}Définition du concept de charge de travail}{13}{subsection.1.3}%
+\contentsline {paragraph}{La charge unitaire.}{14}{subsection.1.3}%
+\contentsline {paragraph}{La charge totale.}{14}{equation.2}%
+\contentsline {paragraph}{De la charge au coût.}{17}{figure.6}%
+\contentsline {section}{\numberline {2}État de l'art}{18}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Du coût des activités au coût par événement~: ABC et TDABC}{18}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Le principe de l'Activity-Based Costing}{18}{subsubsection.2.1.1}%
+\contentsline {paragraph}{Pertinence et limite pour notre contexte.}{19}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Le Time-Driven ABC~: deux paramètres, une équation}{19}{subsubsection.2.1.2}%
 \contentsline {paragraph}{La limite critique --- et c'est notre gap.}{20}{equation.6}%
-\contentsline {subsection}{\numberline {3.2}Mesurer le temps par événement}{20}{subsection.3.2}%
-\contentsline {subsubsection}{\numberline {3.2.1}L'étude des temps (Taylor)~: chronométrer et normaliser}{20}{subsubsection.3.2.1}%
+\contentsline {subsection}{\numberline {2.2}Mesurer le temps par événement}{21}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}L'étude des temps (Taylor)~: chronométrer et normaliser}{21}{subsubsection.2.2.1}%
 \contentsline {paragraph}{Pertinence et limites pour notre contexte.}{21}{equation.7}%
-\contentsline {subsubsection}{\numberline {3.2.2}Le MTM~: des temps prédéterminés, mais pour des gestes}{22}{subsubsection.3.2.2}%
-\contentsline {paragraph}{Pertinence et limites pour notre contexte.}{22}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}Le Process Mining~: lire le temps dans les traces système}{23}{subsubsection.3.2.3}%
-\contentsline {paragraph}{Pertinence et limites pour notre contexte.}{23}{subsubsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.3}Prédire le coût d'un deal futur~: méthodes de modélisation}{24}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}La régression linéaire multiple~: le modèle de référence}{24}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Le MTM~: des temps prédéterminés, mais pour des gestes}{22}{subsubsection.2.2.2}%
+\contentsline {paragraph}{Pertinence et limites pour notre contexte.}{22}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Le Process Mining~: lire le temps dans les traces système}{22}{subsubsection.2.2.3}%
+\contentsline {paragraph}{Pertinence et limites pour notre contexte.}{23}{subsubsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.3}Prédire le coût d'un deal futur~: méthodes de modélisation}{24}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}La régression linéaire multiple~: le modèle de référence}{24}{subsubsection.2.3.1}%
 \contentsline {paragraph}{Hypothèses et pourquoi elles se brisent ici.}{24}{equation.9}%
-\contentsline {subsubsection}{\numberline {3.3.2}Les arbres de décision (CART)~: capturer les interactions}{25}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.2}Les arbres de décision (CART)~: capturer les interactions}{25}{subsubsection.2.3.2}%
 \contentsline {paragraph}{Pertinence et limites.}{25}{equation.10}%
-\contentsline {subsubsection}{\numberline {3.3.3}Random Forest et gradient boosting~: agréger pour fiabiliser}{26}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.3}Random Forest et gradient boosting~: agréger pour fiabiliser}{26}{subsubsection.2.3.3}%
 \contentsline {paragraph}{Le prix à payer~: l'interprétabilité, et comment la restaurer.}{26}{equation.11}%
 \contentsline {paragraph}{Le pilotage temporel, en appui.}{27}{equation.12}%
 \contentsline {paragraph}{Une mise en garde de niveau.}{27}{equation.12}%
-\contentsline {subsection}{\numberline {3.4}Les solutions professionnelles~: ce que le marché résout, ce qu'il laisse ouvert}{27}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Synthèse~: un gap resserré sur l'intrant temps du TDABC}{28}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Formalisation et construction d'une mesure empirique de la charge de travail}{29}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Premier arbitrage~: l'événement comme unité, contre l'équipe et le deal}{30}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Deuxième arbitrage~: deux objets, non un~--- Event Processing et Aftercare}{31}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Troisième arbitrage~: écarter la séniorité comme correction de vitesse}{32}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Quatrième arbitrage~: mesurer un travail dont la mesure menace ceux qui l'exécutent}{33}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Cinquième arbitrage~: raccorder le temps standard à la volumétrie réelle}{34}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}Synthèse~: une mesure empirique robuste et industrialisable}{34}{subsection.4.6}%
-\contentsline {section}{\numberline {5}Modélisation prédictive du coût opérationnel}{35}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Reconstruire le coût rétrospectif d'un deal}{35}{subsection.5.1}%
+\contentsline {subsection}{\numberline {2.4}Les solutions professionnelles~: ce que le marché résout, ce qu'il laisse ouvert}{27}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Synthèse~: un gap resserré sur l'intrant temps du TDABC}{28}{subsection.2.5}%
+\contentsline {section}{\numberline {3}Formalisation et construction d'une mesure empirique de la charge de travail}{29}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Premier arbitrage~: l'événement comme unité, contre l'équipe et le deal}{30}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Deuxième arbitrage~: deux objets, non un~--- Event Processing et Aftercare}{31}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Troisième arbitrage~: écarter la séniorité comme correction de vitesse}{32}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Quatrième arbitrage~: mesurer un travail dont la mesure menace ceux qui l'exécutent}{33}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Cinquième arbitrage~: raccorder le temps standard à la volumétrie réelle}{34}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Synthèse~: une mesure empirique robuste et industrialisable}{34}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Modélisation prédictive du coût opérationnel}{35}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Reconstruire le coût rétrospectif d'un deal}{35}{subsection.4.1}%
 \contentsline {paragraph}{Un résultat structurant~: la dispersion extrême des coûts.}{36}{equation.14}%
-\contentsline {paragraph}{Ce que la mesure débloque.}{37}{figure.8}%
-\contentsline {subsection}{\numberline {5.2}Identifier les facteurs explicatifs de la charge}{37}{subsection.5.2}%
-\contentsline {paragraph}{Les facteurs de l'Event Processing~: qualitatifs et catégoriels.}{37}{subsection.5.2}%
-\contentsline {paragraph}{Les facteurs de l'Aftercare~: quantitatifs et proportionnels.}{37}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Construire un modèle prédictif du coût}{38}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}Modéliser le volume d'événements~: Random Forest et XGBoost}{38}{subsubsection.5.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.2}Modéliser l'Aftercare~: régression pour l'interprétabilité}{39}{subsubsection.5.3.2}%
-\contentsline {subsubsection}{\numberline {5.3.3}Recomposer le coût prédit}{39}{subsubsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.4}Pilotage opérationnel et usages décisionnels}{40}{subsection.5.4}%
-\contentsline {paragraph}{1. Cibler les initiatives de réduction des coûts.}{40}{subsection.5.4}%
-\contentsline {paragraph}{2. Évaluer le \textit {cost avoidance} du nearshoring.}{40}{subsection.5.4}%
-\contentsline {paragraph}{3. Anticiper la charge et dimensionner les équipes.}{40}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Limites et prolongements}{40}{subsection.5.5}%
-\contentsline {paragraph}{Biais résiduels et contextualisation.}{40}{subsection.5.5}%
-\contentsline {paragraph}{Variables non observées.}{41}{subsection.5.5}%
-\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{41}{subsection.5.5}%
-\contentsline {paragraph}{Prolongements possibles.}{41}{subsection.5.5}%
-\contentsline {section}{\numberline {6}Conclusion}{41}{section.6}%
-\contentsline {section}{Bibliography}{41}{section.6}%
+\contentsline {paragraph}{Ce que la mesure débloque.}{37}{figure.9}%
+\contentsline {subsection}{\numberline {4.2}Identifier les facteurs explicatifs de la charge}{37}{subsection.4.2}%
+\contentsline {paragraph}{Les facteurs de l'Event Processing~: qualitatifs et catégoriels.}{37}{subsection.4.2}%
+\contentsline {paragraph}{Les facteurs de l'Aftercare~: quantitatifs et proportionnels.}{37}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Construire un modèle prédictif du coût}{38}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Modéliser le volume d'événements~: Random Forest et XGBoost}{38}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Modéliser l'Aftercare~: régression pour l'interprétabilité}{39}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Recomposer le coût prédit}{39}{subsubsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.4}Pilotage opérationnel et usages décisionnels}{40}{subsection.4.4}%
+\contentsline {paragraph}{1. Cibler les initiatives de réduction des coûts.}{40}{subsection.4.4}%
+\contentsline {paragraph}{2. Évaluer le \textit {cost avoidance} du nearshoring.}{40}{subsection.4.4}%
+\contentsline {paragraph}{3. Anticiper la charge et dimensionner les équipes.}{40}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Limites et prolongements}{40}{subsection.4.5}%
+\contentsline {paragraph}{Biais résiduels et contextualisation.}{40}{subsection.4.5}%
+\contentsline {paragraph}{Variables non observées.}{41}{subsection.4.5}%
+\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{41}{subsection.4.5}%
+\contentsline {paragraph}{Prolongements possibles.}{41}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{41}{section.5}%
+\contentsline {paragraph}{Mesurer.}{41}{section.5}%
+\contentsline {paragraph}{Modéliser.}{42}{section.5}%
+\contentsline {paragraph}{Décider.}{42}{section.5}%
+\contentsline {section}{Bibliography}{43}{section.5}%

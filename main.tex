@@ -1,13 +1,13 @@
 \documentclass[12pt]{article}
 \input{packages}
-\date{Septembre, 2026}
-\title{\textbf{Modélisation du temps de travail des équipes Back Office de BNP Paribas}}
+\date{Septembre 2026}
+\title{\textbf{Modélisation du coût opérationnel des deals de crédit syndiqué à partir de la charge de travail des équipes Back Office}}
 \author{
     David ROUFÉ \\
     \\
     Entreprise: BNP PARIBAS
     \vspace{2mm} \\
-    Tutrice d'alternance : NEGRE Elsa \\
+    Tutrice pédagogique : NEGRE Elsa \\
     Tuteur en entreprise : RAHMANI Abdelaziz \\
 }
 
@@ -35,6 +35,15 @@
 
 % Font
 \titleformat*{\section}{\LARGE\bfseries}
+\vfill
+\noindent
+\begin{minipage}[b]{0.5\textwidth}
+  \raggedright CFA numiA
+\end{minipage}%
+\begin{minipage}[b]{0.5\textwidth}
+  \raggedleft Année universitaire 2025 -- 2026
+\end{minipage}
+\vspace{2mm}
 
 \newpage
 \tableofcontents
@@ -45,14 +54,15 @@
 
 % Thanks
 \phantomsection
-\addcontentsline{toc}{section}{Thanks}
+\addcontentsline{toc}{section}{Remerciements}
 \input{sections/thanks}
 
 \newpage
 
 % Switch to Arabic numerals
 \pagenumbering{arabic}
-
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
 \input{sections/introduction}
 
 % -------- Sections --------

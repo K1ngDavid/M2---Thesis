@@ -1,2 +1,61 @@
 \section{Conclusion}
 \label{conclusion}
+
+Ce mémoire partait d'une asymétrie~: le Front Office connaît le gain de chaque deal,
+quand le Back Office ne connaît que son coût global, jamais celui d'un contrat pris
+isolément. Faute d'instrument, le coût opérationnel d'un deal de crédit syndiqué restait
+une inconnue --- et avec lui, la rentabilité réelle du contrat. D'où la problématique~:
+\emph{comment formaliser la charge de travail des équipes Back Office en une mesure
+quantitative fiable au service de la décision~?} La réponse tient en une chaîne de
+mesure, construite le long des trois sous-questions posées en introduction.
+
+\paragraph{Mesurer.} L'unité retenue est l'événement opérationnel~: assez fin pour être
+chronométré de façon homogène, assez structurant pour que tout deal se recompose comme la
+somme de ses événements. La charge unitaire se scinde en deux objets de nature
+différente --- un \textit{Event Processing} au temps de booking remarquablement stable
+($\bar{t}\approx 20$~minutes, sur environ 500 \textit{clockings}) et un \textit{Aftercare}
+variable, qui porte l'essentiel de la complexité. Cette mesure, inspirée de l'étude des
+temps mais expurgée du facteur d'allure, a été conduite dans une démarche explicitement
+diplomatique et calée hors des pics d'activité, pour peser le moins possible sur les
+équipes observées.
+
+\paragraph{Modéliser.} La charge unitaire, valorisée au coût horaire chargé, reconstruit
+rétrospectivement le coût d'un deal selon l'équation du TDABC,
+$C=(T_{LIQ}+T_{AC})\times N \times w_s$. Pour la prédiction, une architecture à deux étages
+sépare ce qui obéit à des logiques distinctes~: un modèle à base d'arbres (Random Forest,
+XGBoost) pour le volume d'événements, dont les facteurs interagissent de façon non
+additive~; une régression paramétrique pour l'Aftercare, dont la relation aux
+caractéristiques du deal reste proportionnelle et interprétable. Les valeurs SHAP
+restituent, deal par deal, la lisibilité qu'exige un arbitrage porté devant le Front
+Office.
+
+\paragraph{Décider.} La mesure débouche sur trois leviers de pilotage~: cibler les
+initiatives de réduction des coûts sur la frange critique des deals, évaluer le
+\textit{cost avoidance} réel du nearshoring en comparant le coût d'un même portefeuille
+entre sites, et projeter la charge à venir sur le pipeline de deals signés.
+
+Le résultat empirique le plus marquant est la dispersion extrême des coûts~: d'un deal
+standard à quelques milliers d'euros à un \textit{jumbo deal} dépassant plusieurs
+centaines de milliers, l'écart atteint un rapport de l'ordre de 1 à 60, et 1~\% des deals
+concentrent près de 30~\% du volume total d'événements. Cette concentration justifie à
+elle seule l'effort de modélisation~: c'est sur une poignée de contrats que se joue
+l'essentiel de la charge Back Office.
+
+La portée de ces résultats appelle des réserves assumées. Les temps mesurés sont des
+ordres de grandeur robustes, non des chronométrages absolus~: l'effet Hawthorne a été
+contenu, non éliminé. Certains déterminants de la charge --- complexité juridique,
+qualité de la documentation amont, clauses atypiques --- échappent aux données
+disponibles et nourrissent le bruit résiduel. Enfin, un modèle appris sur l'historique
+suppose une gouvernance de ré-entraînement pour résister à la dérive des distributions.
+
+Ces limites tracent les prolongements. L'intégration des données de mails (\textit{Hobart})
+affinerait l'estimation de l'Aftercare~; des modèles hybrides capteraient conjointement
+proportionnalité et interactions~; l'extension à un horizon multi-mois servirait la
+planification capacitaire. Surtout, l'irruption de l'IA générative --- qui déplace le
+travail humain vers les cas complexes, précisément les plus coûteux --- fait de la mesure
+de la charge un préalable à toute automatisation raisonnée~: on n'optimise bien que ce
+qu'on a d'abord su mesurer.
+
+En rendant le coût d'un deal comparable au gain qu'en connaît le Front Office, ce travail
+dote le Back Office de l'instrument qui lui manquait pour parler le langage de la
+rentabilité, deal par deal.

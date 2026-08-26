@@ -156,24 +156,18 @@ réel est entrelacé --- plusieurs deals menés de front, interrompus par des re
 principe (chronométrer par événement), on abandonne le protocole (observation +
 jugement d'allure) au profit d'une mesure ancrée dans les traces système.
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}[
-    node distance=1.3cm,
-    stepbox/.style={rectangle, rounded corners, minimum width=6.4cm, minimum height=0.8cm, text centered, draw=black, fill=gray!10, font=\small},
-    arrow/.style={-{Stealth[length=3mm]}, thick}
-]
-\node (s1) [stepbox] {1. Décomposition de la tâche en événements};
-\node (s2) [stepbox, below=of s1] {2. Chronométrage sur plusieurs cycles ($T_o$)};
-\node (s3) [stepbox, below=of s2] {3. Facteur d'allure ($F_a \rightarrow T_n$)};
-\node (s4) [stepbox, below=of s3] {4. Majorations aléas ($T_s$)};
-\draw [arrow] (s1) -- (s2);
-\draw [arrow] (s2) -- (s3);
-\draw [arrow] (s3) -- (s4);
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[>=Stealth,node distance=6mm,
+  box/.style={rectangle,rounded corners,draw=black!60,fill=blue!8,text width=26mm,minimum height=16mm,align=center,font=\small}]
+  \node[box](n1){1. Décomposition de la tâche en événements};
+  \node[box,right=of n1](n2){2. Chronométrage sur plusieurs cycles ($T_o$)};
+  \node[box,right=of n2](n3){3. Facteur d'allure ($F_a\to T_n$)};
+  \node[box,right=of n3](n4){4. Majorations aléas ($T_s$)};
+  \draw[->](n1)--(n2);\draw[->](n2)--(n3);\draw[->](n3)--(n4);
 \end{tikzpicture}
-\caption{Protocole de l'étude des temps (Taylor, 1911). Les étapes 2 et 3 --- observation directe et jugement d'allure --- sont celles qui résistent le moins à un back office distribué.}
-\label{fig:protocole_taylor}
-\end{figure}
+\caption{Protocole de l'étude des temps (Taylor, 1911). Les étapes 2 et 3 — observation directe et jugement d'allure — sont celles qui résistent le moins à un back office distribué.}
+\label{fig:taylor}\end{figure}
+
 
 
 \subsubsection{Le MTM~: des temps prédéterminés, mais pour des gestes}
@@ -214,20 +208,33 @@ reprise, approbations redondantes, temps d'attente entre étapes. Jans \textit{e
 multifacette des processus et la détection d'anomalies \cite{jans2013}.
 
 \paragraph{Pertinence et limites pour notre contexte.}
-C'est le candidat le plus solide pour alimenter le $t_i$ du TDABC, car il lève les deux
-premières failles du chronométrage tayloriste~: il ne requiert ni observateur ni jugement
-d'allure (il lit des horodatages objectifs), et il se met à jour automatiquement à mesure
-que les processus évoluent --- répondant directement au problème de l'obsolescence sous
-automatisation. Mais il souffre d'une limite qui recoupe précisément la nôtre~:
-l'horodatage mesure un \textbf{temps écoulé} entre deux transactions, non un
-\textbf{temps effectif} de travail. Entre le \textit{timestamp} d'ouverture et celui de
-clôture d'un événement dans Loan~IQ, l'opérateur a pu être interrompu, traiter un autre
-deal, ou attendre une validation. Le Process Mining fournit donc une \emph{borne
-supérieure bruitée} du temps unitaire. D'où l'articulation que retient notre
-méthodologie, et qui constitue une réponse directe au gap~: le Process Mining pour la
-\emph{couverture exhaustive} de tous les événements, calibré par un \textit{clocking}
-manuel ciblé qui mesure, sur un échantillon, le rapport entre temps effectif et temps
-écoulé.
+Le Process Mining lève les deux premières failles du chronométrage tayloriste~: il
+ne requiert ni observateur ni jugement d'allure (il lit des horodatages objectifs), et
+il se met à jour automatiquement à mesure que les processus évoluent --- répondant au
+problème de l'obsolescence sous automatisation. Deux limites, toutefois, écartent son
+adoption comme méthode de mesure dans notre contexte.
+
+La première est méthodologique, et recoupe précisément la nôtre~: l'horodatage mesure
+un \textbf{temps écoulé} entre deux transactions, non un \textbf{temps effectif} de
+travail. Entre le \textit{timestamp} d'ouverture et celui de clôture d'un événement dans
+Loan~IQ, l'opérateur a pu être interrompu, traiter un autre deal ou attendre une
+validation. Le Process Mining ne fournit donc qu'une \emph{borne supérieure bruitée} du
+temps unitaire --- celui-là même que nous cherchons à isoler.
+
+La seconde est juridique et éthique. Exploiter les logs revient à traiter des données
+qui tracent indirectement l'activité individuelle des opérateurs~: horodatages, cadence,
+durée par transaction. Au regard du RGPD et du droit du travail, un tel usage suppose une
+finalité explicite et proportionnée, l'information préalable des salariés, la consultation
+du CSE et l'interdiction de tout détournement à des fins d'évaluation individuelle ---
+autant de conditions qui en alourdissent considérablement l'implémentation.
+
+Pour ces deux raisons --- une mesure qui reste un temps écoulé, et un cadre d'usage lourd
+---, nous retenons le \emph{principe} du Process Mining (lire le temps dans les traces
+système) sans l'adopter comme méthode. Notre protocole lui préfère un \textit{clocking}
+ciblé, qui capture directement le temps effectif sur un échantillon d'événements et
+s'affranchit de ces contraintes.
+
+
 % =============================================================================
 \subsection{Prédire le coût d'un deal futur~: méthodes de modélisation}
 \label{sec:prediction}
@@ -445,14 +452,18 @@ non additive~; le modèle de régression de l'\textit{Aftercare} peut incorporer
 d'interaction ($x_i \cdot x_j$) ou des traits polynomiaux pour capter ces multiplicateurs
 de complexité non additifs tout en demeurant pleinement interprétable.
 
-Le \textit{gap} se formule donc en une phrase~: \textbf{il n'existe pas de protocole
-établi permettant d'estimer, pour des opérations de crédit syndiqué hétérogènes et
-partiellement automatisées, le temps unitaire fiable qu'exige le TDABC --- en combinant
-la couverture des logs (Process Mining) et leur calibration par clocking --- puis d'en
-déduire le coût d'un deal, mesuré rétrospectivement et prédit pour un deal futur au moyen
-d'un modèle non linéaire rendu interprétable.} Ce chaînon manquant gouverne les deux
-finalités à la fois~: sans lui, ni la mesure ni la prédiction ne sont fiables. C'est lui,
-et lui seul, que notre contribution construit.
+Conclusion~: nous conservons le principe tayloriste --- décomposer le traitement en
+parties chronométrables --- mais en abandonnons le protocole subjectif. Notre
+\textit{clocking} s'en inspire directement~: nous chronométrons le temps \textbf{par
+parties} du traitement d'un événement --- la création de la notice SR/SAR sur
+\textit{Hobart}, l'exécution de l'événement dans Loan~IQ, puis la réconciliation dans
+\textit{Ambre} (cf. figure~\ref{fig:decomposition}) --- \textbf{sans appliquer de facteur
+d'allure}. Là où Taylor corrige le temps observé par un jugement d'allure porté sur le
+rythme de l'opérateur, nous nous en tenons au temps effectif mesuré~: dans un back office
+distribué entre Paris et Lisbonne, l'observation directe n'est ni praticable ni
+souhaitable, et tout jugement d'allure réintroduirait la subjectivité que la méthode
+cherche à écarter.
+
 
 Notre recherche relève ainsi du \textit{design science} \cite{hevner2004}~: elle produit
 un artefact --- un protocole de mesure du temps unitaire et sa conversion en coût par

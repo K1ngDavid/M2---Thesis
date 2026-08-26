@@ -7,11 +7,11 @@ Construire une mesure n'est pas collecter des données~: c'est trancher une sér
 La conclusion empirique structurante est volontairement simple~: l'\textit{Event Processing} n'est pas modélisé comme une durée individualisée par opérateur ou par niveau de séniorité, mais comme un temps unitaire fixe. Le temps moyen retenu est
 
 \begin{equation}
-\bar{t} \approx 20\text{ minutes}
+\bar{t} \approx 20\ \text{minutes}
 \label{eq:temps-unitaire-ep}
 \end{equation}
 
-\noindent soit environ 500 observations de clocking. Cette constante devient l'intrant standard du calcul de coût~: ce qui varie d'un deal à l'autre n'est pas d'abord la vitesse de traitement d'un événement, mais le nombre d'événements que le deal génère et la charge d'aftercare associée.
+\noindent soit environ 500 observations de clocking. Cette constante devient l'intrant standard du calcul de coût~: qui varie d'un deal à l'autre n'est pas d'abord la vitesse de traitement d'un événement, mais \textbf{le nombre d'événements que le deal génère et la charge d'aftercare associée}.
 
 \subsection{Premier arbitrage~: l'événement comme unité, contre l'équipe et le deal}
 \label{sec:arbitrage-unite}
