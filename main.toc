@@ -43,28 +43,32 @@
 \contentsline {paragraph}{Une mise en garde de niveau.}{27}{equation.12}%
 \contentsline {subsection}{\numberline {3.4}Les solutions professionnelles~: ce que le marché résout, ce qu'il laisse ouvert}{27}{subsection.3.4}%
 \contentsline {subsection}{\numberline {3.5}Synthèse~: un gap resserré sur l'intrant temps du TDABC}{28}{subsection.3.5}%
-\contentsline {section}{\numberline {4}Formalisation et construction d'une mesure de la charge de travail}{29}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Premier arbitrage~: l'événement comme unité, contre l'équipe et le deal}{29}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Deuxième arbitrage~: deux objets, non un~--- Event Processing et Aftercare}{30}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Troisième arbitrage~: remplacer le facteur d'allure par la séniorité}{31}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Quatrième arbitrage~: mesurer un travail dont la mesure menace ceux qui l'exécutent}{32}{subsection.4.4}%
-\contentsline {paragraph}{Un fondement sensible.}{32}{subsection.4.4}%
-\contentsline {paragraph}{Pourquoi cette tension est un problème de mesure, pas seulement d'éthique.}{32}{subsection.4.4}%
-\contentsline {paragraph}{Les partis retenus pour désamorcer le biais.}{33}{subsection.4.4}%
-\contentsline {paragraph}{Une limite assumée.}{33}{subsection.4.4}%
+\contentsline {section}{\numberline {4}Formalisation et construction d'une mesure empirique de la charge de travail}{29}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Premier arbitrage~: l'événement comme unité, contre l'équipe et le deal}{30}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Deuxième arbitrage~: deux objets, non un~--- Event Processing et Aftercare}{31}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Troisième arbitrage~: écarter la séniorité comme correction de vitesse}{32}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Quatrième arbitrage~: mesurer un travail dont la mesure menace ceux qui l'exécutent}{33}{subsection.4.4}%
 \contentsline {subsection}{\numberline {4.5}Cinquième arbitrage~: raccorder le temps standard à la volumétrie réelle}{34}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}Synthèse~: une mesure fiable, juste, comparable, acceptable et industrialisable}{34}{subsection.4.6}%
-\contentsline {section}{\numberline {5}Analyse et exploitation de la charge de travail pour l'aide à la décision}{35}{section.5}%
+\contentsline {subsection}{\numberline {4.6}Synthèse~: une mesure empirique robuste et industrialisable}{34}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Modélisation prédictive du coût opérationnel}{35}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Reconstruire le coût rétrospectif d'un deal}{35}{subsection.5.1}%
-\contentsline {paragraph}{L'agrégation, du booking au coût.}{36}{equation.14}%
 \contentsline {paragraph}{Un résultat structurant~: la dispersion extrême des coûts.}{36}{equation.14}%
-\contentsline {paragraph}{Ce que la mesure débloque.}{36}{equation.14}%
+\contentsline {paragraph}{Ce que la mesure débloque.}{37}{figure.8}%
 \contentsline {subsection}{\numberline {5.2}Identifier les facteurs explicatifs de la charge}{37}{subsection.5.2}%
 \contentsline {paragraph}{Les facteurs de l'Event Processing~: qualitatifs et catégoriels.}{37}{subsection.5.2}%
 \contentsline {paragraph}{Les facteurs de l'Aftercare~: quantitatifs et proportionnels.}{37}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3}Construire un modèle prédictif du coût}{38}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}Modéliser l'Event Processing~: arbres et ensembles}{38}{subsubsection.5.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.2}Modéliser l'Aftercare~: la régression, pour l'interprétabilité}{39}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.1}Modéliser le volume d'événements~: Random Forest et XGBoost}{38}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Modéliser l'Aftercare~: régression pour l'interprétabilité}{39}{subsubsection.5.3.2}%
 \contentsline {subsubsection}{\numberline {5.3.3}Recomposer le coût prédit}{39}{subsubsection.5.3.3}%
-\contentsline {section}{\numberline {6}Conclusion}{40}{section.6}%
-\contentsline {section}{Bibliography}{40}{section.6}%
+\contentsline {subsection}{\numberline {5.4}Pilotage opérationnel et usages décisionnels}{40}{subsection.5.4}%
+\contentsline {paragraph}{1. Cibler les initiatives de réduction des coûts.}{40}{subsection.5.4}%
+\contentsline {paragraph}{2. Évaluer le \textit {cost avoidance} du nearshoring.}{40}{subsection.5.4}%
+\contentsline {paragraph}{3. Anticiper la charge et dimensionner les équipes.}{40}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Limites et prolongements}{40}{subsection.5.5}%
+\contentsline {paragraph}{Biais résiduels et contextualisation.}{40}{subsection.5.5}%
+\contentsline {paragraph}{Variables non observées.}{41}{subsection.5.5}%
+\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{41}{subsection.5.5}%
+\contentsline {paragraph}{Prolongements possibles.}{41}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Conclusion}{41}{section.6}%
+\contentsline {section}{Bibliography}{41}{section.6}%

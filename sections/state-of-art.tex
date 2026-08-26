@@ -428,13 +428,22 @@ par deal, et notre terrain la confirme. Mais il \textbf{suppose résolu son intr
 difficile}, le temps unitaire $t_i$, que la littérature critique désigne unanimement
 comme son talon d'Achille --- d'autant plus en environnement hétérogène, où Koster
 \textit{et al.} (2023) ont dû recourir à la logique floue pour absorber la variabilité des
-cas \cite{koster2023}. Or cet intrant se heurte, en opérations de crédit, à trois
-obstacles cumulatifs établis au fil du chapitre~: \emph{(i)} les méthodes classiques
-(Taylor, MTM) reposent sur une observation ou des tables inadaptées à un back office
-nearshore et automatisé~; \emph{(ii)} le Process Mining lève cet obstacle mais ne livre
-qu'un temps écoulé bruité, non effectif~; \emph{(iii)} la variabilité du coût ne vient
-pas du temps de \textit{booking}, stable, mais du volume et de l'\textit{aftercare}, que
-les caractéristiques du deal font varier de façon non additive.
+cas \cite{koster2023}. Les choix retenus dans cette synthèse constituent donc la
+traduction opérationnelle de l'analyse théorique conduite dans ce chapitre~; leur
+validité empirique sera ensuite testée puis confirmée sur le terrain aux chapitres~3 et~4.
+Or cet intrant se heurte, en opérations de crédit, à trois obstacles cumulatifs établis au
+fil du chapitre~: \emph{(i)} les méthodes classiques (Taylor, MTM) reposent sur une
+observation ou des tables inadaptées à un back office nearshore et automatisé~;
+\emph{(ii)} le Process Mining lève cet obstacle mais ne livre qu'un temps écoulé bruité,
+non effectif~; \emph{(iii)} la constante d'\textit{Event Processing} ($\bar{t} \approx
+20$~min) s'applique strictement à l'exécution des actions standard de booking et de saisie
+dans Loan~IQ, tandis que toute la complexité cognitive, l'interprétation contractuelle et
+les échanges inter-équipes sont isolés dans la composante \textit{Aftercare}~; \emph{(iv)}
+la variabilité du coût ne vient donc pas du temps de \textit{booking}, stable, mais du
+volume et de l'\textit{aftercare}, que les caractéristiques du deal font varier de façon
+non additive~; le modèle de régression de l'\textit{Aftercare} peut incorporer des termes
+d'interaction ($x_i \cdot x_j$) ou des traits polynomiaux pour capter ces multiplicateurs
+de complexité non additifs tout en demeurant pleinement interprétable.
 
 Le \textit{gap} se formule donc en une phrase~: \textbf{il n'existe pas de protocole
 établi permettant d'estimer, pour des opérations de crédit syndiqué hétérogènes et

@@ -1,212 +1,114 @@
-\section{Formalisation et construction d'une mesure de la charge de travail}
+\section{Formalisation et construction d'une mesure empirique de la charge de travail}
 \label{construction-mesure}
 \shorthandoff{;:!?}
 
-Construire une mesure n'est pas collecter des données~: c'est trancher une série de
-décisions de conception, dont chacune engage la validité de tout ce qui suit. L'état de
-l'art a montré que le TDABC fournit l'équation du coût mais laisse ouvert son intrant ---
-le temps unitaire par événement. Ce chapitre ne décrit pas une campagne de mesure~; il
-justifie les cinq arbitrages qui, ensemble, produisent un intrant fiable là où les
-méthodes existantes échouent~: le choix de l'unité de mesure, la décomposition de la
-charge en deux objets de nature distincte, la neutralisation du biais d'allure par la
-séniorité, la conduite d'une collecte socialement sensible, et le raccordement de la
-mesure à la volumétrie. Chacun répond à une difficulté que ni Taylor, ni le MTM, ni le
-Process Mining ne résolvent seuls.
+Construire une mesure n'est pas collecter des données~: c'est trancher une série de décisions de conception, dont chacune engage la validité de tout ce qui suit. L'état de l'art a montré que le TDABC fournit l'équation du coût mais laisse ouvert son intrant principal~: le temps consommé par les activités opérationnelles. Ce chapitre formalise la mesure retenue pour alimenter cette équation dans le contexte du Loan Servicing. Il justifie cinq arbitrages~: retenir l'événement comme unité de charge, séparer l'\textit{Event Processing} et l'\textit{Aftercare}, traiter la séniorité comme une source de biais plutôt que comme une correction de vitesse, conduire une mesure socialement acceptable dans un contexte de nearshoring, et raccorder le temps mesuré à la volumétrie réelle des deals.
+
+La conclusion empirique structurante est volontairement simple~: l'\textit{Event Processing} n'est pas modélisé comme une durée individualisée par opérateur ou par niveau de séniorité, mais comme un temps unitaire fixe. Le temps moyen retenu est
+
+\begin{equation}
+\bar{t} \approx 20\text{ minutes}
+\label{eq:temps-unitaire-ep}
+\end{equation}
+
+\noindent soit environ 500 observations de clocking. Cette constante devient l'intrant standard du calcul de coût~: ce qui varie d'un deal à l'autre n'est pas d'abord la vitesse de traitement d'un événement, mais le nombre d'événements que le deal génère et la charge d'aftercare associée.
 
 \subsection{Premier arbitrage~: l'événement comme unité, contre l'équipe et le deal}
 \label{sec:arbitrage-unite}
 
-Le choix de l'unité de mesure détermine ce qu'on pourra reconstruire ensuite. Trois
-granularités étaient possibles, et deux sont des impasses. Mesurer la charge au niveau de
-l'\textbf{équipe} --- un total d'heures mensuel --- est la donnée que fournissent
-naturellement les systèmes RH, mais elle est inexploitable pour notre finalité~: on ne
-peut pas en redescendre au coût d'un deal, puisqu'un deal ne consomme qu'une fraction non
-identifiable de ce total. Mesurer directement au niveau du \textbf{deal} serait la cible,
-mais c'est circulaire~: le coût d'un deal est justement l'inconnue~; on ne peut pas le
-chronométrer globalement sans avoir déjà décomposé ce qui le compose.
+Le choix de l'unité de mesure détermine ce qu'on pourra reconstruire ensuite. Trois granularités étaient possibles, et deux sont des impasses. Mesurer la charge au niveau de l'\textbf{équipe} --- un total d'heures mensuel --- est la donnée que fournissent naturellement les systèmes RH, mais elle est inexploitable pour notre finalité~: on ne peut pas en redescendre au coût d'un deal, puisqu'un deal ne consomme qu'une fraction non identifiable de ce total. Mesurer directement au niveau du \textbf{deal} serait la cible, mais c'est circulaire~: le coût d'un deal est justement l'inconnue~; on ne peut pas le chronométrer globalement sans avoir déjà décomposé ce qui le compose.
 
-Le seul niveau qui rende le problème soluble est l'\textbf{événement opérationnel}. Il est
-à la fois assez fin pour être chronométrable de façon homogène, et assez structurant pour
-que tout deal se recompose comme la somme de ses événements. Ce choix n'est pas neutre~: il
-impose que la charge soit \emph{additive en événements}, hypothèse que nos données valident
-pour le booking (un événement de type donné a un temps stable) mais que nous devrons
-nuancer pour l'aftercare (§\ref{sec:arbitrage-decomposition}). C'est aussi ce qui aligne
-notre mesure sur le TDABC, dont l'unité est précisément l'activité dotée d'un
-\textit{duration driver}. Retenir l'événement, c'est donc faire le pari qu'une charge
-complexe et continue peut être reconstruite à partir de briques discrètes et mesurables ---
-pari que la suite du chapitre met à l'épreuve.
+Le seul niveau qui rende le problème soluble est l'\textbf{événement opérationnel}. Il est à la fois assez fin pour être chronométrable de façon homogène, et assez structurant pour que tout deal se recompose comme la somme de ses événements. Ce choix aligne la mesure sur le TDABC, dont l'unité est l'activité dotée d'un \textit{duration driver}. Retenir l'événement, c'est faire le pari qu'une charge complexe et continue peut être reconstruite à partir de briques discrètes et mesurables.
+
+L'enquête de clocking confirme que, pour l'\textit{Event Processing}, ce pari est acceptable. Les observations convergent autour d'un ordre de grandeur stable~: un événement de booking consomme en moyenne environ vingt minutes. Les différences fines entre types d'événements existent, mais elles sont moins structurantes, pour le calcul prédictif, que la volumétrie générée par le deal. L'unité pertinente devient donc~: «~un événement vaut environ vingt minutes~», puis le modèle cherche à prédire combien d'événements seront produits.
 
 \subsection{Deuxième arbitrage~: deux objets, non un~--- Event Processing et Aftercare}
 \label{sec:arbitrage-decomposition}
 
-La décision la plus lourde de conséquences est de refuser de traiter la charge unitaire
-comme un bloc homogène. Une lecture naïve mesurerait «~le temps de traitement d'un
-événement~» et s'arrêterait là. Nos observations imposent de le scinder en deux objets qui
-n'obéissent pas aux mêmes lois --- et donc n'appellent ni la même mesure, ni le même
-modèle.
+La décision la plus lourde de conséquences est de refuser de traiter la charge unitaire comme un bloc homogène. Une lecture naïve mesurerait «~le temps de traitement d'un événement~» et s'arrêterait là. Nos observations imposent de scinder la charge en deux objets qui n'obéissent pas aux mêmes lois~: l'\textit{Event Processing} et l'\textit{Aftercare}.
 
-Le premier, l'\textbf{Event Processing} (le \textit{booking} dans Loan~IQ), se comporte
-comme une tâche standardisable~: sa durée dépend de facteurs \emph{qualitatifs} (type
-d'événement, rôle, produit, séniorité, équipe) et se révèle remarquablement stable ---
-de l'ordre de vingt minutes, quel que soit le type. C'est le domaine du temps standard
-classique. Le second, l'\textbf{Aftercare}, obéit à une logique opposée~: sa charge ne
-dépend pas du \emph{type} d'un événement mais du \emph{volume} de sollicitations que le
-deal engendre en aval --- nombre de prêteurs, de facilités, de courriels de gestion, de
-réconciliations. Sa relation aux caractéristiques du deal est \emph{proportionnelle et
-quantitative} là où celle du booking est catégorielle.
+Le premier, l'\textbf{Event Processing} --- le booking dans Loan~IQ --- correspond à l'exécution opérationnelle d'événements identifiables. Il se prête à une standardisation forte~: sur environ 500 clockings, le temps moyen retenu est une constante empirique $\bar{t}\approx20$ minutes. Le second, l'\textbf{Aftercare}, relève d'une logique différente~: il ne dépend pas seulement de l'existence d'un événement, mais du volume de sollicitations aval que le deal engendre~: courriels, relances, confirmations, réconciliations, interactions avec les prêteurs et reprises opérationnelles. Sa relation aux caractéristiques du deal est quantitative, là où l'Event Processing est traité comme une brique standard multipliée par une volumétrie.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=1.8cm,
+    auto,
+    >=stealth',
+    stepbox/.style={draw, fill=blue!10, rectangle, rounded corners,
+                    minimum width=2.8cm, minimum height=1.3cm,
+                    align=center, font=\small},
+    epgroup/.style={draw=blue!80!black, dashed, thick, rounded corners,
+                    inner sep=0.35cm},
+    aftercarebox/.style={draw, fill=green!20, thick, rectangle, rounded corners,
+                         align=center, font=\small, text width=10cm}
+]
 
-Cette dualité est le cœur analytique de notre construction, pour une raison précise~:
-\textbf{confondre les deux objets rendrait la mesure fausse dans les deux sens}. Traiter
-l'aftercare comme un temps standard par type sous-estimerait massivement les gros deals
-syndiqués, dont l'aftercare explose avec le nombre de prêteurs~; inversement, traiter le
-booking comme une fonction du volume lui prêterait une variabilité qu'il n'a pas. La
-séparation n'est donc pas un raffinement esthétique~: c'est ce qui permet, au chapitre~5,
-de leur appliquer deux familles de modèles adaptées à leur nature respective --- des
-modèles à interactions (Random Forest, gradient boosting) pour les facteurs qualitatifs de
-l'Event Processing, une régression aux coefficients directement interprétables pour la
-relation proportionnelle de l'Aftercare, où «~chaque prêteur supplémentaire ajoute $X$
-minutes~». La structure de la mesure préfigure ainsi la structure de la modélisation.
+    % --- Étapes du booking (Event Processing) ---
+    \node[stepbox] (hobart) {\textbf{1. Hobart}\\ {\footnotesize Création SR / SAR}\\ {\footnotesize (Courriels \& pièces)}};
+    \node[stepbox, right=of hobart] (liq) {\textbf{2. Loan IQ}\\ {\footnotesize Booking système}\\ {\footnotesize (Saisie \& validation)}};
+    \node[stepbox, right=of liq] (ambre) {\textbf{3. Ambre}\\ {\footnotesize Réconciliation}\\ {\footnotesize (Contrôle final)}};
 
-\subsection{Troisième arbitrage~: remplacer le facteur d'allure par la séniorité}
+    % --- Flux séquentiel ---
+    \draw[->, thick] (hobart) -- (liq);
+    \draw[->, thick] (liq) -- (ambre);
+
+    % --- Encadrement Event Processing ---
+    \node[epgroup, fit=(hobart)(liq)(ambre),
+          label={[font=\small, align=center]above:\textbf{Event Processing}\\ Temps de booking constant ($\bar{t}\approx 20$ min)}] (ep) {};
+
+    % --- Bloc Aftercare (transversal) ---
+    \node[aftercarebox, below=1.4cm of ep] (aftercare)
+        {\textbf{Aftercare} — post-traitement unitaire variable\\
+         {\footnotesize Échanges de courriels, gestion des prêteurs, réconciliations complexes, interactions Middle Office}};
+
+    % --- Lien EP <-> Aftercare ---
+    \draw[<->, thick, dashed] (ep.south) -- (aftercare.north)
+          node[midway, right, font=\footnotesize] {Interactions};
+\end{tikzpicture}
+\caption{Décomposition du traitement d'un événement : Event Processing constant et Aftercare transversal}
+\label{fig:flux-ep-aftercare-style}
+\end{figure}
+
+
+
+Cette dualité est le cœur analytique de notre construction. Confondre les deux objets rendrait la mesure fausse dans les deux sens. Traiter l'Aftercare comme vingt minutes supplémentaires par événement sous-estimerait massivement les gros deals syndiqués, dont la charge aval explose avec le nombre de prêteurs et de facilités. Inversement, chercher à individualiser chaque minute de booking donnerait une précision apparente mais fragile, là où l'évidence empirique permet d'utiliser une constante robuste. La séparation prépare donc directement la modélisation~: prédire le \emph{volume} d'événements pour l'Event Processing, et prédire un \emph{temps} d'Aftercare par régression sur les variables quantitatives du deal.
+
+\subsection{Troisième arbitrage~: écarter la séniorité comme correction de vitesse}
 \label{sec:arbitrage-seniorite}
 
-Le principe tayloriste du temps standard reste valide~: chronométrer un temps observé, puis
-le corriger pour le ramener à une référence comparable. Mais l'état de l'art a isolé son
-point de rupture --- le \textbf{facteur d'allure} $F_a$, jugement de l'analyste sur le
-rythme de l'opérateur, subjectif par construction et impraticable entre des équipes
-réparties sur deux pays. C'est le verrou méthodologique central, et le résoudre est notre
-principale contribution instrumentale.
+Le principe tayloriste du temps standard invite à chronométrer un temps observé, puis à le corriger pour le ramener à une référence comparable. Une tentation naturelle aurait donc été de remplacer le facteur d'allure subjectif par une variable observable~: la séniorité. L'hypothèse initiale était simple~: un opérateur senior traiterait plus vite qu'un opérateur junior, et il faudrait corriger les temps observés en conséquence.
 
-La solution consiste à substituer au jugement d'allure une \textbf{variable observable et
-objective~: la séniorité de l'opérateur}. Là où Taylor pose $T_n = T_o \times F_a$ avec
-$F_a$ estimé à l'œil, nous posons~:
+Cette hypothèse a été abandonnée. La séniorité est trop fortement confondue avec la complexité des dossiers traités. Dans l'organisation observée, les seniors ne prennent pas un échantillon aléatoire de deals~: ils prennent plus souvent les dossiers atypiques, sensibles ou complexes, précisément ceux qui génèrent davantage d'événements, davantage d'exceptions et davantage d'Aftercare. Utiliser la séniorité comme facteur de correction reviendrait donc à attribuer à la vitesse individuelle ce qui relève en réalité de la structure du deal.
 
-\begin{equation}
-T_{s} = T_{o} \times \sigma
-\label{eq:facteur-seniorite}
-\end{equation}
+Le biais est le suivant~: si un senior met plus longtemps sur un dossier, ce n'est pas nécessairement parce qu'il est moins rapide, mais parce que le dossier qu'il traite est plus complexe. À l'inverse, un junior peut apparaître «~rapide~» parce qu'il traite des opérations plus standardisées. La séniorité ne mesure donc pas proprement une allure~; elle capture simultanément l'expérience, la sélection des dossiers, la criticité opérationnelle et la confiance managériale. C'est un biais de confusion.
 
-\noindent où $\sigma$ est un facteur de normalisation dérivé du niveau de séniorité. Ce
-déplacement change la nature de la mesure~: le temps standard cesse de dépendre de qui
-observe pour ne dépendre que de qui exécute, caractérisé par une donnée reproductible. Trois
-justifications le fondent. \emph{Empiriquement}, l'écart de vitesse entre un opérateur
-junior récemment formé et un senior est réel et systématique~; l'ignorer biaiserait toute
-comparaison entre équipes. \emph{Contextuellement}, cette correction est indispensable
-précisément à cause du nearshoring~: le transfert vers Lisbonne s'accompagne d'une
-juniorisation globale des équipes, si bien qu'un temps non normalisé confondrait un deal
-complexe avec un deal traité par une équipe junior. \emph{Méthodologiquement}, remplacer un
-jugement par une variable rend la mesure \emph{auditable} --- un tiers peut reproduire la
-correction, ce qui était impossible avec $F_a$.
-
-Il faut toutefois assumer la limite de ce choix~: la séniorité doit elle-même être
-quantifiée par une convention (niveaux d'expérience, ancienneté sur le poste), et cette
-convention introduit sa propre part d'arbitraire. Nous préférons cet arbitraire-là ---
-explicite, documenté, reproductible --- au jugement d'allure implicite qu'il remplace. Le
-gain net est une mesure comparable entre Paris et Lisbonne, condition \emph{sine qua non}
-de toute analyse d'allocation entre sites.
+Pour cette raison, la séniorité est \textbf{écartée comme correction de vitesse}. Elle peut rester utile descriptivement pour comprendre l'organisation du travail, mais elle ne doit pas intervenir dans la formule empirique de coût. La mesure retient au contraire un temps unitaire commun pour l'Event Processing, $\bar{t}\approx20$ minutes, et laisse la complexité s'exprimer par les variables structurelles du deal~: rôle, prêteurs, facilités, produit, volume d'e-mails et volume d'événements.
 
 \subsection{Quatrième arbitrage~: mesurer un travail dont la mesure menace ceux qui l'exécutent}
 \label{sec:arbitrage-social}
 
-Les trois arbitrages précédents étaient techniques. Celui-ci est social, et il conditionne
-la validité de tous les autres~: aucune finesse méthodologique ne rachète des temps
-collectés dans la défiance. Or notre mesure naît d'une tension qu'il serait malhonnête de
-taire.
+Les arbitrages précédents étaient techniques. Celui-ci est social, et il conditionne la validité de tous les autres~: aucune finesse méthodologique ne rachète des temps collectés dans la défiance. Le projet s'inscrit dans une démarche de \textit{cost to serve}, liée à des objectifs d'efficience, de \textit{hard savings} et de \textit{cost avoidance}. Mesurer le coût d'un deal, c'est aussi mesurer la charge des équipes qui le traitent.
 
-\paragraph{Un fondement sensible.}
-Ce projet ne mesure pas la charge par curiosité académique~: il s'inscrit dans une démarche
-de \textit{cost to serve} dont la finalité assumée est la réduction des coûts ---
-\textit{hard savings} et \textit{cost avoidance} --- alignée sur les objectifs d'efficience
-du Groupe (plan GTS). Mesurer le coût d'un deal, c'est \emph{in fine} mesurer le coût des
-équipes qui le traitent. Et ces équipes le savent. Chronométrer un opérateur Loan Servicing
-revient donc à l'observer sur le terrain même où se décide, à terme, le dimensionnement ---
-voire la localisation --- de son poste, dans un contexte de nearshoring où les transferts
-d'activité de Paris vers Lisbonne sont une réalité vécue, non une hypothèse. Le
-\textit{clocking} n'est pas un acte neutre~: c'est une mesure perçue, à juste titre, comme
-potentiellement menaçante par ceux qui la subissent.
+Cette dimension est particulièrement sensible dans un contexte de \textit{nearshoring}. Les transferts d'activité entre sites, notamment de Paris vers Lisbonne, ne sont pas une hypothèse abstraite mais une réalité organisationnelle. Le clocking peut donc être perçu comme un instrument de comparaison entre sites, voire comme une justification future de redimensionnement ou de relocalisation. Cette perception n'est pas un bruit extérieur à la mesure~: elle affecte directement ce qui est mesuré.
 
-\paragraph{Pourquoi cette tension est un problème de mesure, pas seulement d'éthique.}
-On pourrait croire que l'enjeu est purement déontologique. Il est aussi, et d'abord,
-\emph{méthodologique}. Un opérateur qui perçoit le chronométrage comme un instrument de
-justification de suppressions de postes a un intérêt rationnel à en fausser le résultat~:
-ralentir pour gonfler les temps, éviter les cas complexes pendant l'observation, ou
-simplement se crisper au point de ne plus travailler à son rythme normal. C'est exactement
-le \emph{biais de réactivité} (effet Hawthorne)~: le fait d'être observé modifie le
-comportement observé. Dans notre cas, ce biais n'est pas aléatoire mais \emph{orienté}~---
-la crainte pousse structurellement vers la surestimation des temps. Une mesure sociale mal
-conduite ne produit donc pas seulement du malaise~: elle produit des données biaisées dans
-une direction connue, ce qui invaliderait le coût reconstruit.
+Le risque principal est l'effet Hawthorne, ou biais de réactivité~: le fait d'être observé modifie le comportement observé. Dans le cas présent, le biais peut aller dans plusieurs directions. Un opérateur peut ralentir parce qu'il se sait observé, accélérer pour donner une image favorable, éviter les cas complexes pendant la période de mesure, ou commenter son travail différemment parce qu'il anticipe l'usage managérial des résultats. La donnée de clocking n'est donc jamais une donnée purement mécanique~; elle est produite dans une relation sociale.
 
-\paragraph{Les partis retenus pour désamorcer le biais.}
-Nous en tirons plusieurs choix de conduite de la collecte, qui font partie intégrante du
-protocole. \emph{Premièrement}, dissocier explicitement la mesure de l'évaluation
-individuelle~: le clocking porte sur des \emph{types d'événements}, non sur des personnes,
-et les temps sont agrégés par type, jamais restitués nominativement. La normalisation par
-la séniorité (§\ref{sec:arbitrage-seniorite}) sert aussi cet objectif~: en corrigeant
-l'écart junior/senior, elle retire à l'opérateur individuel l'enjeu d'être «~jugé lent~».
-\emph{Deuxièmement}, expliquer la finalité réelle~: présenter la mesure non comme un
-contrôle de productivité mais comme un instrument de \emph{reconnaissance} de la charge ---
-objectiver la charge d'aftercare invisible, justifier des besoins en effectifs, chiffrer la
-valeur d'une automatisation qui allège les tâches pénibles. La mesure peut servir les
-équipes autant que les menacer, et le dire honnêtement est la condition d'une collecte
-sincère. \emph{Troisièmement}, accepter que l'accès au terrain soit un processus lent et
-négocié~: obtenir des créneaux d'observation suppose la coopération de managers et
-d'opérateurs qui n'y ont pas d'intérêt immédiat, ce qui explique en partie l'étalement de
-la campagne sur quatre mois.
-
-\paragraph{Une limite assumée.}
-Nous ne prétendons pas avoir neutralisé ce biais, seulement l'avoir contenu et rendu
-explicite. C'est là un écart irréductible avec la mesure d'une machine, et il faut
-l'inscrire au bilan de validité de l'étude~: nos temps sont ceux d'opérateurs conscients
-d'être mesurés, dans un contexte qu'ils savent lié à la maîtrise des coûts. Reconnaître
-cette limite vaut mieux que la masquer derrière une fausse objectivité~; elle rappelle que
-mesurer un travail humain n'est jamais un acte purement technique, et que la fiabilité
-d'une telle mesure se joue autant dans la relation avec les équipes que dans la rigueur du
-chronomètre.
+Trois précautions en découlent. Premièrement, dissocier explicitement la mesure de l'évaluation individuelle~: l'objet mesuré est le type d'activité, non la performance nominative. Deuxièmement, expliquer la finalité de la démarche~: rendre visible une charge souvent invisible, notamment l'Aftercare, et non seulement contrôler la productivité. Troisièmement, interpréter les résultats comme des ordres de grandeur robustes plutôt que comme des chronométrages absolus au dixième de minute. Ce cadrage justifie le choix d'une constante empirique de vingt minutes~: elle est plus honnête méthodologiquement qu'une granularité artificielle qui ferait oublier les conditions sociales de production de la donnée.
 
 \subsection{Cinquième arbitrage~: raccorder le temps standard à la volumétrie réelle}
 \label{sec:arbitrage-volumetrie}
 
-Un temps standard par événement ne dit rien, seul, du coût d'un deal~: il faut le
-multiplier par le \emph{nombre} d'événements que le deal génère. La dernière décision de
-conception est donc le raccordement de la mesure (issue du clocking) à la volumétrie
-(issue des systèmes) --- deux mondes de granularité et de source différentes qu'il faut
-joindre sans introduire de biais.
+Un temps standard par événement ne dit rien, seul, du coût d'un deal~: il faut le multiplier par le nombre d'événements que le deal génère. La dernière décision de conception est donc le raccordement de la mesure issue du clocking à la volumétrie issue des systèmes.
 
-Ce raccordement repose sur une division du travail entre trois sources, chacune pour ce
-qu'elle mesure le mieux. Le \textbf{clocking} --- notre campagne d'observation --- fournit
-le temps standard par type d'événement, la seule grandeur qui exige une mesure humaine du
-temps effectif. \textbf{Loan~IQ} fournit la volumétrie et les caractéristiques
-structurelles de chaque deal, que les logs enregistrent exhaustivement. \textbf{Ambre}
-objective la part de réconciliation rattachable à l'aftercare. La jointure sur
-l'identifiant de deal et le type d'événement produit alors, pour chaque deal, l'ensemble de
-ses événements valorisés en temps standard et qualifiés par leurs attributs.
+L'architecture retenue sépare ce qui est \emph{mesuré une fois} et ce qui est \emph{prédit ou compté en continu}. Le clocking fournit la constante empirique de temps, $\bar{t}\approx20$ minutes. Les systèmes opérationnels fournissent les caractéristiques structurelles des deals et leur historique de volumétrie. La modélisation prédictive exploite ensuite ces caractéristiques pour estimer le volume futur d'événements $\hat{N}(x)$, à partir de variables comme le rôle de la banque, le nombre de prêteurs, le nombre de facilités et le produit.
 
-L'intérêt analytique de cette architecture est qu'elle sépare proprement ce qui est
-\emph{mesuré une fois} (le temps standard, coûteux à obtenir, stable dans le temps) de ce
-qui est \emph{compté en continu} (le volume, gratuit, actualisé par les systèmes). Le
-clocking n'a donc pas à être répété pour chaque deal~: mesuré une fois par type
-d'événement, il se déploie sur l'ensemble du portefeuille via la volumétrie. C'est ce qui
-rend la mesure \emph{industrialisable} --- une campagne d'observation bornée dans le temps
-suffit à valoriser des années d'historique et, par extension, à alimenter la prédiction de
-deals futurs. La base ainsi constituée --- un enregistrement par événement, relié à un
-deal, valorisé et qualifié --- est l'artefact que le chapitre~5 exploite selon ses deux
-finalités~: agrégation pour le coût rétrospectif, apprentissage pour le coût prédictif.
+L'Aftercare est raccordé différemment. Il ne se réduit pas à une multiplication par vingt minutes~: il est estimé comme un temps propre, $\hat{T}_{AC}(x)$, à partir de variables quantitatives~: nombre de prêteurs, nombre de facilités, nombre de mails et nombre d'événements. La mesure produit ainsi deux intrants distincts pour le chapitre de modélisation~: une constante de temps pour l'Event Processing, et une base de variables explicatives pour l'Aftercare.
 
-\subsection{Synthèse~: une mesure fiable, juste, comparable, acceptable et industrialisable}
+\subsection{Synthèse~: une mesure empirique robuste et industrialisable}
 \label{sec:synthese-mesure}
 
-Les cinq arbitrages se répondent. Le choix de l'événement rend la charge recomposable~; la
-séparation Event Processing / Aftercare la rend juste~; la normalisation par la séniorité la
-rend comparable entre sites~; la conduite attentive de la collecte la rend socialement
-acceptable et non biaisée~; le raccordement à la volumétrie la rend industrialisable.
-Aucune méthode existante ne réunissait ces propriétés~: le chronométrage tayloriste
-classique achoppait sur le biais d'allure, le MTM sur l'inadaptation de ses tables, le
-Process Mining sur le temps écoulé et l'angle mort de l'aftercare, et aucune ne
-thématisait la sensibilité sociale d'une mesure adossée à la réduction des coûts. La
-contribution de ce chapitre n'est pas d'avoir mesuré, mais d'avoir conçu un dispositif qui
-produit un temps unitaire fiable là où chaque approche isolée échouait --- l'intrant que le
-TDABC supposait donné, et sans lequel ni la mesure ni la prédiction du coût (chapitre~5) ne
-tiendraient.
+Les cinq arbitrages se répondent. Le choix de l'événement rend la charge recomposable~; la séparation Event Processing / Aftercare la rend juste~; l'abandon de la séniorité comme correction évite un biais de confusion~; la prise en compte de l'effet Hawthorne et du nearshoring rend explicites les conditions sociales de production de la donnée~; le raccordement à la volumétrie rend la mesure industrialisable.
+
+La mesure obtenue n'est donc pas une table de temps détaillée par opérateur. C'est un modèle empirique plus parcimonieux et plus robuste~: chaque événement d'Event Processing vaut environ vingt minutes, le nombre d'événements est prédit par la structure du deal, et l'Aftercare est estimé séparément. Cette construction fournit l'intrant nécessaire au modèle de coût développé au chapitre suivant.
 
 \shorthandon{;:!?}
