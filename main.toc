@@ -1,22 +1,23 @@
 \babel@toc {french}{}\relax 
 \contentsline {section}{Remerciements}{v}{section*.1}%
-\contentsline {section}{Introduction}{1}{section*.2}%
+\contentsline {section}{Préambule}{vi}{section*.2}%
+\contentsline {section}{Introduction}{1}{section*.3}%
 \contentsline {section}{\numberline {1}Contexte}{6}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Contexte organisationnel}{6}{subsection.1.1}%
-\contentsline {subsubsection}{\numberline {1.1.1}Organisation du département GCO (Global Credit Operations)}{6}{subsubsection.1.1.1}%
-\contentsline {subsubsection}{\numberline {1.1.2}Organisation de l'équipe Strategic Transformation \& Data Analytics}{8}{subsubsection.1.1.2}%
-\contentsline {subsubsection}{\numberline {1.1.3}Organisation générale de la banque}{8}{subsubsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.1}Du secteur bancaire au crédit syndiqué}{6}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Organisation du département GCO (Global Credit Operations)}{6}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}Organisation de l'équipe Strategic Transformation \& Data Analytics}{8}{subsubsection.1.1.3}%
 \contentsline {subsection}{\numberline {1.2}Typologie des événements opérationnels}{9}{subsection.1.2}%
-\contentsline {paragraph}{Événements de mise en place (\textit {setup}).}{10}{figure.4}%
+\contentsline {paragraph}{Événements de mise en place (\textit {setup}).}{9}{figure.4}%
 \contentsline {paragraph}{Événements de décaissement et de remboursement.}{10}{figure.4}%
 \contentsline {paragraph}{Événements de vie courante (\textit {servicing}).}{10}{figure.4}%
 \contentsline {paragraph}{Événements de modification contractuelle.}{10}{figure.4}%
-\contentsline {paragraph}{Événements de clôture.}{11}{figure.4}%
-\contentsline {paragraph}{Les deux composantes de la charge : booking LIQ et aftercare.}{12}{table.1}%
+\contentsline {paragraph}{Événements de clôture.}{10}{figure.4}%
+\contentsline {paragraph}{Les deux composantes de la charge : booking LIQ et aftercare.}{11}{table.1}%
 \contentsline {subsection}{\numberline {1.3}Définition du concept de charge de travail}{13}{subsection.1.3}%
-\contentsline {paragraph}{La charge unitaire.}{14}{subsection.1.3}%
+\contentsline {paragraph}{La charge unitaire.}{13}{subsection.1.3}%
 \contentsline {paragraph}{La charge totale.}{14}{equation.2}%
-\contentsline {paragraph}{De la charge au coût.}{17}{figure.6}%
+\contentsline {paragraph}{De la charge au coût.}{15}{equation.3}%
 \contentsline {section}{\numberline {2}État de l'art}{18}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Du coût des activités au coût par événement~: ABC et TDABC}{18}{subsection.2.1}%
 \contentsline {subsubsection}{\numberline {2.1.1}Le principe de l'Activity-Based Costing}{18}{subsubsection.2.1.1}%
@@ -41,35 +42,36 @@
 \contentsline {paragraph}{Une mise en garde de niveau.}{27}{equation.12}%
 \contentsline {subsection}{\numberline {2.4}Les solutions professionnelles~: ce que le marché résout, ce qu'il laisse ouvert}{27}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5}Synthèse~: un gap resserré sur l'intrant temps du TDABC}{28}{subsection.2.5}%
-\contentsline {section}{\numberline {3}Formalisation et construction d'une mesure empirique de la charge de travail}{29}{section.3}%
+\contentsline {section}{\numberline {3}Formalisation et construction d'une mesure empirique de la charge de travail}{30}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Premier arbitrage~: l'événement comme unité, contre l'équipe et le deal}{30}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Deuxième arbitrage~: deux objets, non un~--- Event Processing et Aftercare}{31}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Troisième arbitrage~: écarter la séniorité comme correction de vitesse}{32}{subsection.3.3}%
 \contentsline {subsection}{\numberline {3.4}Quatrième arbitrage~: mesurer un travail dont la mesure menace ceux qui l'exécutent}{33}{subsection.3.4}%
 \contentsline {subsection}{\numberline {3.5}Cinquième arbitrage~: raccorder le temps standard à la volumétrie réelle}{34}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Synthèse~: une mesure empirique robuste et industrialisable}{34}{subsection.3.6}%
-\contentsline {section}{\numberline {4}Modélisation prédictive du coût opérationnel}{35}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Reconstruire le coût rétrospectif d'un deal}{35}{subsection.4.1}%
-\contentsline {paragraph}{Un résultat structurant~: la dispersion extrême des coûts.}{36}{equation.14}%
-\contentsline {paragraph}{Ce que la mesure débloque.}{37}{figure.9}%
-\contentsline {subsection}{\numberline {4.2}Identifier les facteurs explicatifs de la charge}{37}{subsection.4.2}%
-\contentsline {paragraph}{Les facteurs de l'Event Processing~: qualitatifs et catégoriels.}{37}{subsection.4.2}%
-\contentsline {paragraph}{Les facteurs de l'Aftercare~: quantitatifs et proportionnels.}{37}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3}Construire un modèle prédictif du coût}{38}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Modéliser le volume d'événements~: Random Forest et XGBoost}{38}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Modéliser l'Aftercare~: régression pour l'interprétabilité}{39}{subsubsection.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.3.3}Recomposer le coût prédit}{39}{subsubsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.4}Pilotage opérationnel et usages décisionnels}{40}{subsection.4.4}%
-\contentsline {paragraph}{1. Cibler les initiatives de réduction des coûts.}{40}{subsection.4.4}%
-\contentsline {paragraph}{2. Évaluer le \textit {cost avoidance} du nearshoring.}{40}{subsection.4.4}%
-\contentsline {paragraph}{3. Anticiper la charge et dimensionner les équipes.}{40}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}Limites et prolongements}{40}{subsection.4.5}%
-\contentsline {paragraph}{Biais résiduels et contextualisation.}{40}{subsection.4.5}%
-\contentsline {paragraph}{Variables non observées.}{41}{subsection.4.5}%
-\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{41}{subsection.4.5}%
-\contentsline {paragraph}{Prolongements possibles.}{41}{subsection.4.5}%
-\contentsline {section}{\numberline {5}Conclusion}{41}{section.5}%
-\contentsline {paragraph}{Mesurer.}{41}{section.5}%
-\contentsline {paragraph}{Modéliser.}{42}{section.5}%
-\contentsline {paragraph}{Décider.}{42}{section.5}%
-\contentsline {section}{Bibliography}{43}{section.5}%
+\contentsline {subsection}{\numberline {3.6}Synthèse~: une mesure empirique robuste et industrialisable}{35}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Modélisation prédictive du coût opérationnel}{36}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Reconstruire le coût rétrospectif d'un deal}{36}{subsection.4.1}%
+\contentsline {paragraph}{Un résultat structurant~: la dispersion extrême des coûts.}{36}{figure.8}%
+\contentsline {paragraph}{Ce que la mesure débloque.}{38}{figure.9}%
+\contentsline {subsection}{\numberline {4.2}Identifier les facteurs explicatifs de la charge}{39}{subsection.4.2}%
+\contentsline {paragraph}{Les facteurs de l'Event Processing~: qualitatifs et catégoriels.}{39}{subsection.4.2}%
+\contentsline {paragraph}{Les facteurs de l'Aftercare~: quantitatifs et proportionnels.}{39}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Construire un modèle prédictif du coût}{39}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Modéliser le volume d'événements~: Random Forest et XGBoost}{40}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Modéliser l'Aftercare~: régression pour l'interprétabilité}{41}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Recomposer le coût prédit}{41}{subsubsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.4}Pilotage opérationnel et usages décisionnels}{41}{subsection.4.4}%
+\contentsline {paragraph}{1. Cibler les initiatives de réduction des coûts.}{41}{subsection.4.4}%
+\contentsline {paragraph}{2. Évaluer le \textit {cost avoidance} du nearshoring.}{42}{subsection.4.4}%
+\contentsline {paragraph}{3. Anticiper la charge et dimensionner les équipes.}{42}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Limites et prolongements}{42}{subsection.4.5}%
+\contentsline {paragraph}{Biais résiduels et contextualisation.}{42}{subsection.4.5}%
+\contentsline {paragraph}{Variables non observées.}{42}{subsection.4.5}%
+\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{42}{subsection.4.5}%
+\contentsline {paragraph}{Prolongements possibles.}{43}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Conclusion}{43}{section.5}%
+\contentsline {paragraph}{Mesurer.}{43}{section.5}%
+\contentsline {paragraph}{Modéliser.}{43}{section.5}%
+\contentsline {paragraph}{Décider.}{44}{section.5}%
+\contentsline {section}{Glossaire}{45}{section.5}%
+\contentsline {section}{Bibliography}{49}{section.5}%

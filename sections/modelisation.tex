@@ -1,5 +1,5 @@
 \section{Modélisation prédictive du coût opérationnel}
-\label{exploitation}
+\label{modelisation}
 \shorthandoff{;:!?}
 
 Ce chapitre exploite la base de mesure construite au chapitre~4 pour répondre aux deux finalités du mémoire~: reconstruire le coût rétrospectif d'un deal traité, et prédire le coût d'un deal futur avant son traitement. Fidèle à la dualité établie (Event Processing et Aftercare), il construit deux modèles distincts, chacun adapté à la nature de sa composante, puis les recombine en un coût total prédit.
@@ -18,6 +18,90 @@ C_{\text{deal}} = \sum_{i=1}^{N} T_{s,i} \times w_{s}
 
 \noindent où $N$ est le volume d'événements du deal, $\bar{t}\approx 20$ minutes est le temps unitaire empirique d'Event Processing, $T_{\text{AC}}$ le temps d'Aftercare, et $w_{s}$ le coût horaire chargé du site traitant (ici estimé à 60 €/h en moyenne).
 La force de cette reconstruction est qu'elle rend visible ce qui était opaque~: on peut désormais dire non seulement qu'un deal «~coûte cher~», mais \emph{pourquoi} --- combien de minutes viennent de l'Event Processing, combien de l'Aftercare, quelle part est imputable au volume et quelle part à la structure.
+
+% Préambule requis : \usetikzlibrary{positioning, arrows.meta, calc}  + \usepackage{booktabs}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  >=Stealth, font=\small,
+  panel/.style={rectangle, rounded corners=7pt, draw=#1!55, fill=#1!5,
+                line width=1pt, inner sep=9pt},
+  res/.style={rectangle, rounded corners=6pt, draw=#1!70!black, fill=#1!14,
+              line width=1pt, align=center, font=\footnotesize\bfseries,
+              minimum width=30mm, minimum height=11mm},
+  kpi/.style={rectangle, rounded corners=6pt, draw=#1!70!black, fill=#1!12,
+              line width=1pt, align=center, font=\scriptsize,
+              minimum width=22mm, minimum height=14mm},
+  op/.style={font=\normalsize\bfseries, text=gray!70},
+  flow/.style={->, line width=1pt, color=gray!55},
+]
+
+% ============ PANNEAU EVENT PROCESSING ============
+\node[panel=blue] (ep) {%
+  \begin{tabular}{@{}l r r r@{}}
+    \multicolumn{4}{@{}l}{\textcolor{blue!55!black}{\bfseries Event Processing}\;\footnotesize\textcolor{gray}{— booking Loan~IQ (mesuré)}}\\[3pt]
+    \toprule
+    \textbf{Événement} & \textbf{N} & \textbf{$\bar t$} & \textbf{min}\\
+    \midrule
+    Repricings     & 2\,855 & 22 & 62\,810\\
+    Transfers      & 1\,928 & 20 & 38\,560\\
+    Drawdowns      & 1\,399 & 25 & 34\,975\\
+    Fees           &   871  & 18 & 15\,678\\
+    Paper clip     &   621  & 19 & 11\,799\\
+    Accrual cycle  &   679  & 16 & 10\,864\\
+    Adjustments    &   205  & 14 &  2\,870\\
+    Others         &   104  & 20 &  2\,080\\
+    \midrule
+    \textbf{Total} & \textbf{8\,662} & \textbf{$\approx$21} & \textbf{179\,636}\\
+    \bottomrule
+  \end{tabular}%
+};
+
+% ============ PANNEAU AFTERCARE ============
+\node[panel=orange, anchor=north west] (ac) at ([xshift=12mm]ep.north east) {%
+  \begin{tabular}{@{}l r@{}}
+    \multicolumn{2}{@{}l}{\textcolor{orange!60!black}{\bfseries Aftercare (SAV)}}\\
+    \multicolumn{2}{@{}l}{\footnotesize\textcolor{gray}{post-traitement (estimé)}}\\[4pt]
+    \toprule
+    Rôle              & Agent \\
+    Prêteurs          & 600 \\
+    Facilités         & 8 \\
+    Événements aval   & 31\,820 \\
+    Mails (Hobart)    & 50\,000 \\
+    \midrule
+    \textbf{$\hat T_{\text{AC}}$} & \textbf{$\approx$79\,000 min} \\
+    \bottomrule
+  \end{tabular}%
+};
+
+% ============ NŒUD TOTAL (convergence) ============
+\coordinate (mid) at ($(ep.south)!0.5!(ac.south)$);
+\node[res=teal, below=16mm of mid] (tot) {Charge totale\\$\approx$ 259\,000 min};
+
+\draw[flow] (ep.south) |- ([yshift=6mm]tot.north) -- (tot.north);
+\draw[flow] (ac.south) |- ([yshift=6mm]tot.north);
+\node[op] at ($(ep.south)!0.5!(ac.south)!0.55!(tot.north)$) {$+$};
+
+% ============ CHAÎNE DE CONVERSION ============
+\node[kpi=teal,   below=14mm of tot] (h)   {\textbf{$\approx$4\,317}\\heures};
+\node[kpi=blue,   below=10mm of h]   (etp) {\textbf{$\approx$2,7}\\ETP};
+\node[kpi=red,    below=10mm of etp] (eur) {\textbf{$\approx$259\,000}\\EUR};
+
+\draw[flow] (tot) -- (h)   node[midway, above, font=\scriptsize, text=gray]{$\div\,60$};
+\draw[flow] (h)   -- (etp) node[midway, above, font=\scriptsize, text=gray]{$\div\,1\,600$};
+\draw[flow] (etp) -- (eur) node[midway, above, font=\scriptsize, text=gray]{$\times\,60\,\text{EUR}/h$};
+
+% ============ FORMULE ============
+\node[below=7mm of tot.south west, anchor=north west, font=\footnotesize]
+  {$C = (T_{\text{LIQ}} + T_{\text{AC}}) \times N \times w_s
+     \;\approx\; 30\ \text{min/évt} \times 8\,662 \times 60\,\text{EUR}/h$};
+
+\end{tikzpicture}
+\caption{Exemple de calcul du coût d'un deal (rôle Agent, profil \emph{jumbo}, anonymisé). Le \textit{booking} est mesuré par clocking ($\bar t \approx 20$~min/événement, 8\,662 événements) ; l'\textit{aftercare} est estimé à partir des inducteurs du deal. Les deux composantes forment une charge totale de $\approx$~259\,000~minutes, soit $\approx$~2,7~ETP, valorisée à $\approx$~259\,000~\EUR{} au coût horaire chargé de 60~\EUR/h.}
+\label{fig:exemple-cout-deal}
+\end{figure}
+
+
 \paragraph{Un résultat structurant~: la dispersion extrême des coûts.}
 Appliquée au portefeuille, cette reconstruction révèle une dispersion considérable du coût par deal. Un deal simple --- rôle de participant, peu de prêteurs, monodevise, faible volume --- se traite pour l'équivalent de quelques milliers d'euros. Un deal complexe --- rôle d'agent, plusieurs centaines de prêteurs, multidevise, volume d'événements élevé --- peut atteindre plusieurs centaines de milliers d'euros.
 

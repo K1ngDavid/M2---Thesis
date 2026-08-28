@@ -1,0 +1,104 @@
+\section*{Glossaire}
+\addcontentsline{toc}{section}{Glossaire}
+\markboth{Glossaire}{Glossaire}
+
+\subsection*{Crédit syndiqué et cycle de vie}
+\begin{description}
+  \item[Crédit syndiqué] Crédit accordé à un emprunteur par un groupe de banques agissant conjointement, afin de répartir le risque et de mobiliser des montants élevés.
+  \item[Facilité (\textit{facility})] Ligne de financement définie au contrat (montant, devise, échéancier). Un deal peut comporter plusieurs facilités.
+  \item[Prêteur (\textit{lender})] Banque participant au financement d'un crédit syndiqué.
+  \item[Rôle (Agent / Participant / Bilatéral)] Position de la banque dans le deal : \textit{Agent} (coordonne la syndication et le servicing), \textit{Participant} (apporte une quote-part), \textit{Bilatéral} (prêteur unique).
+  \item[Syndication] Répartition d'un financement entre plusieurs banques participantes.
+  \item[Term sheet] Document synthétisant les conditions principales d'un financement avant contractualisation.
+  \item[Covenant] Clause contractuelle imposant à l'emprunteur des engagements (ratios financiers, obligations d'information).
+  \item[Spread] Marge de taux appliquée au-dessus d'un taux de référence.
+  \item[Quote-part] Fraction d'un tirage ou d'un remboursement revenant à chaque prêteur.
+  \item[Multidevise / Monodevise] Deal libellé en plusieurs devises / en une seule devise.
+  \item[Encours] Montant de crédit restant dû à un instant donné.
+\end{description}
+
+\subsection*{Événements opérationnels (Loan Servicing)}
+\begin{description}
+  \item[Deal setup (mise en place)] Création de la facilité dans le système et paramétrage des conditions contractuelles.
+  \item[Tirage (\textit{drawdown})] Mise à disposition effective des fonds au profit de l'emprunteur.
+  \item[Remboursement (\textit{repayment})] Retour partiel ou total du principal, selon l'échéancier ou par anticipation.
+  \item[Rollover] Renouvellement d'une période d'intérêt.
+  \item[Fixing] Fixation du taux de référence pour une période donnée.
+  \item[Commission (\textit{commitment fee, agency fee})] Frais périodiques liés à la mise à disposition d'une ligne ou au rôle d'agent.
+  \item[Amendement (\textit{amendment})] Modification des termes contractuels du crédit.
+  \item[Waiver] Renonciation temporaire à l'application d'une clause.
+  \item[Restructuration] Refonte des conditions d'un crédit, souvent en situation dégradée.
+  \item[Clôture (\textit{deal closure})] Solde des positions, vérification de l'absence d'encours et archivage.
+  \item[Reprise (\textit{rework})] Correction consécutive à une erreur de saisie ou à des données amont incomplètes.
+  \item[Réconciliation] Contrôle de cohérence des données entre plusieurs systèmes.
+  \item[Quarter-end] Fin de trimestre, période de pic de volume opérationnel.
+\end{description}
+
+\subsection*{Systèmes et automatisation}
+\begin{description}
+  \item[Loan~IQ] Progiciel de gestion des prêts (\textit{loan servicing}) dans lequel sont exécutés les événements.
+  \item[Hobart] Système interne de gestion des demandes et pièces (création des notices SR/SAR). % à préciser selon l'usage exact chez GCO
+  \item[Ambre] Système interne de réconciliation et de contrôle final. % à préciser
+  \item[SR / SAR] Notice/demande de service créée dans Hobart, initiant le traitement d'un événement. % expansion interne à confirmer
+  \item[Booking (LIQ)] Temps de traitement d'un événement dans Loan~IQ : création, paramétrage, saisie, validation.
+  \item[Aftercare] Tâches de post-traitement hors Loan~IQ (contrôles, réconciliations, échanges, gestion des exceptions).
+  \item[Event Processing] Composante standardisée de la charge : le \textit{booking} dans Loan~IQ (temps unitaire stable, $\approx$~20~min).
+  \item[RPA (\textit{Robotic Process Automation})] Automatisation logicielle de tâches répétitives et structurées.
+  \item[OCR (\textit{Optical Character Recognition})] Reconnaissance automatique de caractères, permettant l'extraction de données depuis des documents.
+  \item[RAG (\textit{Retrieval-Augmented Generation})] Architecture d'IA couplant un modèle de langage à une base documentaire interrogée à la volée.
+\end{description}
+
+\subsection*{Organisation et sites}
+\begin{description}
+  \item[Front Office (FO)] Origination et syndication ; interface commerciale avec le client.
+  \item[Middle Office (MO)] Contrôle des conditions, suivi des covenants, gestion des exceptions.
+  \item[Back Office (BO)] Exécution opérationnelle, paiements, reporting.
+  \item[Loan Servicing (LS)] Équipes Back Office assurant le traitement des événements sur toute la vie du crédit.
+  \item[GCO (\textit{Global Credit Operations})] Département de BNP Paribas gérant les opérations de crédit.
+  \item[CIB (\textit{Corporate \& Institutional Banking})] Banque de financement et d'investissement.
+  \item[Nearshoring / Offshoring] Délocalisation d'activités vers des sites proches (ex. Lisbonne) ou lointains, à coûts réduits.
+  \item[Onshore] Traitement sur le site historique (ex. Paris).
+\end{description}
+
+\subsection*{Coût et mesure du travail}
+\begin{description}
+  \item[Charge de travail unitaire] Temps de traitement effectif d'un événement : $T_s = T_{\text{LIQ}} + T_{\text{AC}}$.
+  \item[Charge de travail totale] Somme des charges unitaires des événements traités sur une période.
+  \item[Coût opérationnel (par deal)] Charge totale d'un deal valorisée au coût horaire chargé.
+  \item[ABC (\textit{Activity-Based Costing})] Méthode imputant les coûts indirects aux objets via les activités qu'ils déclenchent.
+  \item[TDABC (\textit{Time-Driven ABC})] Variante de l'ABC fondée sur deux paramètres : un coût par minute et des équations de temps.
+  \item[Duration driver / Transaction driver] Inducteur mesurant respectivement le \textit{temps} consommé par une activité, ou son \textit{nombre} d'occurrences.
+  \item[Capacity cost rate] Coût total d'un groupe de ressources divisé par sa capacité pratique (coût par minute).
+  \item[Temps standard] Temps de référence d'une tâche, issu de l'étude du travail.
+  \item[Facteur d'allure] Jugement porté sur le rythme d'un opérateur par rapport à une cadence « normale ».
+  \item[Clocking] Chronométrage manuel ciblé du temps effectif par composante d'événement.
+  \item[MTM (\textit{Methods-Time Measurement})] Système de temps prédéterminés attribués aux mouvements élémentaires.
+  \item[Process Mining] Reconstruction du processus réel à partir des logs horodatés des systèmes.
+  \item[Effet Hawthorne] Biais de réactivité : le fait d'être observé modifie le comportement observé.
+  \item[Cost to serve] Coût unitaire de traitement d'un processus opérationnel.
+  \item[Hard savings / Cost avoidance] Économies effectivement réalisées / coûts évités par rapport à une trajectoire de référence.
+  \item[FTE / ETP] Équivalent temps plein.
+\end{description}
+
+\subsection*{Modélisation et statistiques}
+\begin{description}
+  \item[Régression (linéaire / polynomiale)] Modèle exprimant une variable cible comme combinaison des variables explicatives.
+  \item[CART] Arbre de décision partitionnant récursivement l'espace des variables.
+  \item[Random Forest] Agrégation de nombreux arbres entraînés sur des échantillons aléatoires.
+  \item[Gradient boosting (XGBoost)] Construction séquentielle d'arbres corrigeant les erreurs des précédents.
+  \item[SHAP] Méthode d'explication attribuant à chaque variable sa contribution à une prédiction (valeurs de Shapley).
+  \item[MAE / RMSE / $R^2$] Métriques d'erreur et de qualité d'ajustement d'un modèle prédictif.
+  \item[Design science] Démarche de recherche visant à construire et évaluer un artefact résolvant un problème réel.
+\end{description}
+
+\subsection*{Contexte réglementaire et stratégique}
+\begin{description}
+  \item[Coefficient d'exploitation] Rapport charges d'exploitation / produit net bancaire ; plus il est bas, plus la banque est efficiente.
+  \item[PNB (Produit Net Bancaire)] Équivalent du chiffre d'affaires pour une banque.
+  \item[P\&L (\textit{Profit \& Loss})] Compte de résultat ; mesure directe de la valeur générée par le Front Office.
+  \item[Bâle III] Cadre réglementaire prudentiel international du secteur bancaire.
+  \item[GTS 2025 / GB Indus] Plans stratégiques de BNP Paribas visant l'industrialisation et la réduction des coûts.
+  \item[KPI] Indicateur clé de performance.
+  \item[RGPD] Règlement général sur la protection des données.
+  \item[CSE] Comité social et économique (instance représentative du personnel).
+\end{description}

@@ -4,108 +4,20 @@
 \subsection{Contexte organisationnel}
 \label{subsec:organisation}
 
-\subsubsection{Organisation du département GCO (Global Credit Operations)}
-\label{subsec:gco-organisation}
-
-Le département \textbf{Global Credit Operations} (GCO) de BNP Paribas structure ses activités autour de pôles complémentaires, chacun jouant un rôle clé dans la chaîne de traitement des opérations de crédit syndiqué.
-Le \textit{crédit syndiqué} est un crédit accordé à une entreprise par un groupe de banques agissant conjointement, permettant de répartir le risque de financement tout en mobilisant des montants élevés \cite{finance-club}.
-
-\begin{itemize}
-    \item \textbf{Équipes transversales} : elles jouent un rôle de \textit{surplomb}, en veillant à la cohérence et à la performance de l'ensemble de la chaîne opérationnelle. Elles pilotent les initiatives de transformation stratégique (automatisation des processus, intégration d'outils d'intelligence artificielle, déploiement de KPI de suivi), garantissent la conformité réglementaire, et produisent des analyses destinées au top management. Leur rôle est d'assurer la gouvernance et la standardisation des pratiques au niveau global.
-
-    \item \textbf{Front Office (Origination \& Syndication)} : il constitue le point d'entrée commercial et relationnel avec les clients. Le Front Office identifie les besoins de financement, conçoit la structure du crédit, négocie les conditions avec l'emprunteur et organise la syndication, c'est-à-dire la répartition du financement entre les différentes banques participantes. Il est à la fois force de proposition stratégique et interface principale avec le marché.
-
-    \item \textbf{Middle Office (Credit Transaction Management)} : il agit comme \textit{pivot de contrôle et de sécurisation}. Ses missions consistent à vérifier la bonne mise en place des conditions négociées (clauses contractuelles, covenants, pricing), à évaluer les risques associés à la transaction, à s'assurer de la qualité des données saisies dans les systèmes et à gérer les exceptions opérationnelles. Le Middle Office se situe entre la relation commerciale (FO) et l'exécution opérationnelle (BO), garantissant l'intégrité et la conformité des transactions.
-
-    \item \textbf{Back Office (Loan Servicing Team)} : il représente le \textit{cœur opérationnel} du dispositif. Responsable de l'exécution quotidienne, il prend en charge le cycle de vie complet des crédits : décaissements (drawdowns), appels de fonds, paiements d'intérêts et de commissions, remboursements, gestion des échéances, ainsi que la clôture finale du prêt. Il assure également la maintenance des systèmes de gestion (tels que Loan IQ) et la production de reportings réglementaires et financiers.
-\end{itemize}
-
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[
-        node distance=2cm,
-        rect/.style={draw, rectangle, align=center, minimum width=6cm, minimum height=1cm, rounded corners, fill=blue!10, font=\small},
-        transv/.style={draw, rectangle, align=center, minimum width=6cm, minimum height=1cm, rounded corners, fill=green!20, font=\small, thick}
-    ]
-
-    % Acteurs
-    \node[rect] (fo) {Front Office \\ \footnotesize{Origination \& Syndication}};
-    \node[rect, below=of fo] (mo) {Middle Office \\ \footnotesize{Contrôles techniques, suivi covenants}};
-    \node[rect, below=of mo] (bo) {Back Office \\ \footnotesize{Exécution, paiements, reporting}};
-
-    % Flèches verticales
-    \draw[->, thick] (fo.south) -- (mo.north)
-        node[above, sloped] {\footnotesize Term sheet \& dossier de syndication};
-    \draw[->, thick] (mo.south) -- (bo.north)
-        node[above, sloped] {\footnotesize Instructions validées \& paramétrage systèmes};
-    % Supervision transversale sur la droite
-    \node[transv, right=3.5cm of mo] (transv) {Équipes transversales \\ \footnotesize{Pilotage stratégique, automatisation, reporting}};
-    \draw[->, dashed, thick] (transv.west) -- (fo.east);
-    \draw[->, dashed, thick] (transv.west) -- (mo.east);
-    \draw[->, dashed, thick] (transv.west) -- (bo.east);
-
-    \end{tikzpicture}
-    \caption{Chaîne de valeur du crédit syndiqué : organisation verticale et supervision transversale}
-    \label{fig:chaine-valeur-credit-vertical}
-\end{figure}
-
-
-\subsubsection{Organisation de l'équipe Strategic Transformation \& Data Analytics}
-\label{subsec:organisationequipe}
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[
-        node distance=0.8cm,
-        rect/.style={draw, rectangle, align=center, minimum width=3.2cm, rounded corners, font=\footnotesize},
-        subrect/.style={rect, minimum width=2.8cm, font=\scriptsize},
-        flag/.style={circle, minimum size=0.7cm, font=\tiny, text=white}
-    ]
-    % Noeuds Principaux
-    % Premier noeud
-    \node[rect, fill=green!10] (main) {Strategic Transformation \\ \& Data Analytics};
-    \node[rect, fill=blue!20, below left=1.5cm and 0cm of main]  (n1) {Strategic Transformation};
-    \node[subrect, fill=blue!10, below=of n1] (n11) {Transformation Associate};
-    \node[subrect, fill=blue!10, below=of n11] (n12) {Project Manager};
-    \node[subrect, fill=blue!10, below=of n12] (n13) {Senior Project Manager};
-    %Deuxième noeud
-    \node[rect, fill=orange!20, below right=1.5cm and 0cm of main] (n2) {Data Analytics};
-    \node[subrect, fill=orange!10, below=of n2] (n21) {Data Analyst};
-    \node[subrect, fill=orange!10, below=of n21] (n22){Data Scientist};
-    \node[subrect, fill=orange!10, below=of n22] (n23){Senior Data Scientist};
-    \node[flag, fill=blue!80!red!50, left=0.3cm of n1] (fr){\textbf{FR}};
-    \node[flag, fill=orange!70!black, right=0.3cm of n2] (pt){\textbf{PT}};
-    % Flèches du premier noeud
-    \draw[->, thick] (main.south) -- ++(0,-0.5) -| (n1.north);
-    \draw[->, thick] (main.south) -- ++(0,-0.5) -| (n2.north);
-    \draw[->, dashed] (n1.south) -- (n11);
-    \draw[->, dashed] (n11) -- (n12);
-    \draw[->, dashed] (n12) -- (n13);
-
-    % Flèches du deuxième noeud
-    \draw[->, dashed] (n2.south) -- (n21);
-    \draw[->, dashed] (n21) -- (n22);
-    \draw[->, dashed] (n22) -- (n23);
-    \end{tikzpicture}
-    \caption{Structure hiérarchique de l'équipe {\scriptsize (FR = France, PT = Portugal)}}
-    \label{fig:org-hier-structure}
-\end{figure}
-
-L'équipe Strategic Transformation \& Data Analytics est scindée en deux sous-équipes complémentaires, réparties sur deux sites : Strategic Transformation (France), qui pilote la modernisation des opérations de crédit, et Data Analytics (Portugal), référente sur la donnée.
-
-
-\subsubsection{Organisation générale de la banque}
+% ============================================================================
+\subsubsection{Du secteur bancaire au crédit syndiqué}
 \label{subsec:banque-structure}
+% ============================================================================
 
-Le secteur bancaire se divise en trois grandes catégories d'établissements :
+Le secteur bancaire se divise en trois grandes catégories d'établissements~:
 \begin{itemize}
     \item \textbf{Banque de détail} : services courants et prêts pour particuliers et PME.
     \item \textbf{Banque privée} : gestion de patrimoine pour une clientèle fortunée.
     \item \textbf{Banque de financement et d'investissement (CIB)} : financement structuré, marchés de capitaux, couverture des risques.
 \end{itemize}
 
-Ce mémoire se concentre sur la \textbf{CIB}, et plus précisément le \textit{crédit syndiqué}, dont le cycle de vie opérationnel est schématisé ci‑dessous :
+Ce mémoire se concentre sur la \textbf{CIB}, et plus précisément sur le \textit{crédit syndiqué}~: un crédit accordé à une entreprise par un groupe de banques agissant conjointement, qui permet de répartir le risque de financement tout en mobilisant des montants élevés~\cite{finance-club}. % TODO : remplacer finance-club par une source solide (Loan Market Association, ou manuel de finance d'entreprise)
+Son cycle de vie opérationnel mobilise successivement les trois offices de la banque, comme le schématise la figure~\ref{fig:cyclevie}.
 
 \begin{figure}[htbp]\centering
 \begin{tikzpicture}[>=Stealth,node distance=4mm,
@@ -126,7 +38,95 @@ Ce mémoire se concentre sur la \textbf{CIB}, et plus précisément le \textit{c
 \caption{Cycle de vie opérationnel d'un crédit syndiqué : cinq étapes et rôles respectifs du Front, Middle et Back Office.}
 \label{fig:cyclevie}\end{figure}
 
+% ============================================================================
+\subsubsection{Organisation du département GCO (Global Credit Operations)}
+\label{subsec:gco-organisation}
+% ============================================================================
 
+Le département \textbf{Global Credit Operations} (GCO) de BNP Paribas prend en charge le traitement de ces opérations de crédit syndiqué. Il structure ses activités autour de pôles complémentaires, chacun jouant un rôle clé dans la chaîne de traitement~:
+
+\begin{itemize}
+    \item \textbf{Équipes transversales} : elles jouent un rôle de \textit{surplomb}, en veillant à la cohérence et à la performance de l'ensemble de la chaîne opérationnelle. Elles pilotent les initiatives de transformation stratégique (automatisation des processus, intégration d'outils d'intelligence artificielle, déploiement de KPI de suivi), garantissent la conformité réglementaire, et produisent des analyses destinées au top management. Leur rôle est d'assurer la gouvernance et la standardisation des pratiques au niveau global.
+
+    \item \textbf{Front Office (Origination \& Syndication)} : il constitue le point d'entrée commercial et relationnel avec les clients. Le Front Office identifie les besoins de financement, conçoit la structure du crédit, négocie les conditions avec l'emprunteur et organise la syndication, c'est-à-dire la répartition du financement entre les différentes banques participantes. Il est à la fois force de proposition stratégique et interface principale avec le marché.
+
+    \item \textbf{Middle Office (Credit Transaction Management)} : il agit comme \textit{pivot de contrôle et de sécurisation}. Ses missions consistent à vérifier la bonne mise en place des conditions négociées (clauses contractuelles, covenants, pricing), à évaluer les risques associés à la transaction, à s'assurer de la qualité des données saisies dans les systèmes et à gérer les exceptions opérationnelles. Le Middle Office se situe entre la relation commerciale (FO) et l'exécution opérationnelle (BO), garantissant l'intégrité et la conformité des transactions.
+
+    \item \textbf{Back Office (Loan Servicing Team)} : il représente le \textit{cœur opérationnel} du dispositif. Responsable de l'exécution quotidienne, il prend en charge le cycle de vie complet des crédits : décaissements (drawdowns), appels de fonds, paiements d'intérêts et de commissions, remboursements, gestion des échéances, ainsi que la clôture finale du prêt. Il assure également la maintenance des systèmes de gestion (tels que Loan~IQ) et la production de reportings réglementaires et financiers.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        >=Stealth,
+        rect/.style={draw, rectangle, rounded corners, align=center,
+            text width=3.2cm, minimum height=1.5cm, fill=blue!10, font=\small\bfseries},
+        transv/.style={draw, rectangle, rounded corners, thick, align=center,
+            text width=11cm, minimum height=1cm, fill=green!20, font=\small\bfseries},
+        flow/.style={->, thick},
+        supervise/.style={->, dashed, thick, color=green!45!black}
+    ]
+    % --- Flux opérationnel horizontal ---
+    \node[rect] (fo) {Front Office\\[2pt]\footnotesize\mdseries Origination \& Syndication};
+    \node[rect, right=32mm of fo] (mo) {Middle Office\\[2pt]\footnotesize\mdseries Contrôles techniques, suivi covenants};
+    \node[rect, right=32mm of mo] (bo) {Back Office\\[2pt]\footnotesize\mdseries Exécution, paiements, reporting};
+
+    \draw[flow] (fo) -- (mo)
+        node[midway, below, font=\scriptsize, align=center] {Term sheet \&\\ dossier de syndication};
+    \draw[flow] (mo) -- (bo)
+        node[midway, below, font=\scriptsize, align=center] {Instructions validées\\ \& paramétrage systèmes};
+
+    % --- Bandeau transversal au-dessus, couvrant la chaîne ---
+    \node[transv, above=14mm of mo] (transv)
+        {Équipes transversales\\[2pt]\footnotesize\mdseries Pilotage stratégique, automatisation, reporting};
+
+    \draw[supervise] (transv.south) -- (fo.north);
+    \draw[supervise] (transv.south) -- (mo.north);
+    \draw[supervise] (transv.south) -- (bo.north);
+    \end{tikzpicture}
+    \caption{Chaîne de valeur du crédit syndiqué : flux opérationnel Front $\to$ Middle $\to$ Back Office, sous la supervision transversale.}
+    \label{fig:chaine-valeur-credit-vertical}
+\end{figure}
+
+
+% ============================================================================
+\subsubsection{Organisation de l'équipe Strategic Transformation \& Data Analytics}
+\label{subsec:organisationequipe}
+% ============================================================================
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=0.8cm,
+        rect/.style={draw, rectangle, align=center, minimum width=3.2cm, rounded corners, font=\footnotesize},
+        subrect/.style={rect, minimum width=2.8cm, font=\scriptsize},
+        flag/.style={circle, minimum size=0.7cm, font=\tiny, text=white}
+    ]
+    \node[rect, fill=green!10] (main) {Strategic Transformation \\ \& Data Analytics};
+    \node[rect, fill=blue!20, below left=1.5cm and 0cm of main]  (n1) {Strategic Transformation};
+    \node[subrect, fill=blue!10, below=of n1] (n11) {Transformation Associate};
+    \node[subrect, fill=blue!10, below=of n11] (n12) {Project Manager};
+    \node[subrect, fill=blue!10, below=of n12] (n13) {Senior Project Manager};
+    \node[rect, fill=orange!20, below right=1.5cm and 0cm of main] (n2) {Data Analytics};
+    \node[subrect, fill=orange!10, below=of n2] (n21) {Data Analyst};
+    \node[subrect, fill=orange!10, below=of n21] (n22){Data Scientist};
+    \node[subrect, fill=orange!10, below=of n22] (n23){Senior Data Scientist};
+    \node[flag, fill=blue!80!red!50, left=0.3cm of n1] (fr){\textbf{FR}};
+    \node[flag, fill=orange!70!black, right=0.3cm of n2] (pt){\textbf{PT}};
+    \draw[->, thick] (main.south) -- ++(0,-0.5) -| (n1.north);
+    \draw[->, thick] (main.south) -- ++(0,-0.5) -| (n2.north);
+    \draw[->, dashed] (n1.south) -- (n11);
+    \draw[->, dashed] (n11) -- (n12);
+    \draw[->, dashed] (n12) -- (n13);
+    \draw[->, dashed] (n2.south) -- (n21);
+    \draw[->, dashed] (n21) -- (n22);
+    \draw[->, dashed] (n22) -- (n23);
+    \end{tikzpicture}
+    \caption{Structure hiérarchique de l'équipe {\scriptsize (FR = France, PT = Portugal)}}
+    \label{fig:org-hier-structure}
+\end{figure}
+
+L'équipe Strategic Transformation \& Data Analytics est scindée en deux sous-équipes complémentaires, réparties sur deux sites : Strategic Transformation (France), qui pilote la modernisation des opérations de crédit, et Data Analytics (Portugal), référente sur la donnée.
 
 % ============================================================================
 \subsection{Typologie des événements opérationnels}
@@ -135,11 +135,8 @@ Ce mémoire se concentre sur la \textbf{CIB}, et plus précisément le \textit{c
 
 Le cycle de vie d'un crédit syndiqué génère un ensemble d'événements opérationnels dont le traitement incombe aux équipes Loan Servicing. Chaque événement correspond à une unité de travail discrète, déclenchée par une instruction du Front Office ou du Middle Office, et exécutée dans le progiciel Loan~IQ selon des procédures standardisées. La diversité de ces événements --- par leur nature, leur fréquence et leur complexité --- constitue le premier déterminant structurel de la charge de travail.
 
-On distingue cinq grandes familles d'événements, ordonnées selon la chronologie du cycle de vie du crédit.
+Là où la figure~\ref{fig:cyclevie} décrit le cycle de vie du \emph{deal} à l'échelle des trois offices, nous descendons ici à l'échelle des \emph{événements} traités par le seul Loan Servicing. On distingue cinq grandes familles d'événements, ordonnées selon la chronologie du cycle de vie du crédit.
 
-% ---------------------------------------------------------------------------
-% FIGURE : Cycle de vie des événements opérationnels
-% ---------------------------------------------------------------------------
 \begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
@@ -161,39 +158,28 @@ On distingue cinq grandes familles d'événements, ordonnées selon la chronolog
     arrow/.style={->, line width=1pt, color=gray!70},
     rework/.style={->, line width=1pt, color=orange, dashed}
 ]
-
-% --- Nœuds principaux ---
 \node[phase=blue]                      (setup)    {Mise en place \normalfont\scriptsize\textit{Deal Setup}};
 \node[phase=green,  right=of setup]    (drawdown) {Décaissement / Remboursement};
 \node[phase=teal,   right=of drawdown] (servicing){Vie courante \normalfont\scriptsize\textit{Servicing}};
 \node[phase=orange, right=of servicing](amend)    {Modifications contractuelles};
 \node[phase=orange, right=of amend]    (closure)  {Clôture \normalfont\scriptsize\textit{Deal Closure}};
-
-% --- Sous-labels ---
 \node[sublabel, below=0.25cm of setup]     {Création facilité, paramétrage LIQ};
 \node[sublabel, below=0.25cm of drawdown]  {Tirages, repayments, remb. anticipés};
 \node[sublabel, below=0.25cm of servicing] {Intérêts, commissions, rollovers, fixings};
 \node[sublabel, below=0.25cm of amend]     {Amendements, waivers, restructurations};
 \node[sublabel, below=0.25cm of closure]   {Solde positions, archivage};
-
-% --- Flèches principales (flux nominal) ---
 \draw[arrow] (setup)     -- (drawdown);
 \draw[arrow] (drawdown)  -- (servicing);
 \draw[arrow] (servicing) -- (amend);
 \draw[arrow] (amend)     -- (closure);
-
-% --- Boucle de vie courante : servicing -> drawdown, routée haut ---
 \draw[arrow]
     (servicing.north) to[out=90, in=90, looseness=1.3]
     node[above, font=\scriptsize, text=gray] {cycle récurrent}
     (drawdown.north);
-
-% --- Boucle rework : amend -> servicing, routée bas (sous les sous-labels) ---
 \draw[rework]
     (amend.south) to[out=-90, in=-90, looseness=1.6]
     node[below, font=\scriptsize, text=orange] {retour servicing}
     (servicing.south);
-
 \end{tikzpicture}
 \caption{Cycle de vie des événements opérationnels en Loan Servicing. Les flèches pleines représentent le flux nominal ; les flèches en pointillés indiquent les boucles de retour.}
 \label{fig:cycle-evenements}
@@ -214,28 +200,25 @@ Les amendements (\textit{amendments}), les \textit{waivers} (renonciations tempo
 \paragraph{Événements de clôture.}
 Le remboursement final (\textit{final repayment}) et la clôture du deal (\textit{deal closure}) mettent fin au cycle de vie opérationnel. Ces événements impliquent le solde de l'ensemble des positions, la vérification de l'absence d'encours résiduel, la production de confirmations finales et l'archivage dans le système. Bien que ponctuels, ils requièrent un contrôle exhaustif qui les rend chronophages.
 
-% ---------------------------------------------------------------------------
-% TABLE : Synthèse des familles d'événements
-% ---------------------------------------------------------------------------
 \begin{table}[htbp]
 \centering
 \caption{Synthèse des familles d'événements opérationnels en Loan Servicing}
 \label{tab:typologie-evenements}
 \renewcommand{\arraystretch}{1.35}
 \small
-\begin{tabular}{@{} l p{3.4cm} c c c @{}}
+\begin{tabular}{@{} p{2.6cm} p{3.6cm} c c c @{}}
 \toprule
 \textbf{Famille} & \textbf{Événements types} & \textbf{Fréquence} & \textbf{Complexité} & \textbf{Automatisable} \\
 \midrule
-Mise en place     & Deal setup, paramétrage facilité           & Faible   & Élevée   & Partiel \\
-Décaissement /    & Drawdowns, repayments,                     & Élevée   & Variable & Partiel \\
-Remboursement     & remb. anticipés                            &          &          &         \\
-Vie courante      & Intérêts, commissions, rollovers, fixings  & Très élevée & Faible à modérée & Oui \\
-Modifications     & Amendements, waivers, restructurations     & Faible   & Très élevée & Non   \\
-Clôture           & Final repayment, deal closure              & Ponctuelle & Modérée & Partiel \\
+Mise en place & Deal setup, paramétrage facilité & Faible & Élevée & Partiel \\
+Décaissement / Remboursement & Drawdowns, repayments, remb.\ anticipés & Élevée & Variable & Partiel \\
+Vie courante & Intérêts, commissions, rollovers, fixings & Très élevée & Faible à modérée & Oui \\
+Modifications & Amendements, waivers, restructurations & Faible & Très élevée & Non \\
+Clôture & Final repayment, deal closure & Ponctuelle & Modérée & Partiel \\
 \addlinespace
 \rowcolor{gray!10}
-Transversaux       & Reprises, corrections, reporting ad hoc    & Variable & Variable & Non    
+Transversaux & Reprises, corrections, reporting ad hoc & Variable & Variable & Non \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -243,174 +226,76 @@ Transversaux       & Reprises, corrections, reporting ad hoc    & Variable & Var
 
 À ces cinq familles s'ajoutent des \textbf{événements transversaux} qui ne relèvent pas d'une étape spécifique du cycle de vie mais constituent une source significative de charge~: les reprises et corrections (\textit{rework}) consécutives à des erreurs de saisie ou à des données amont incomplètes, les demandes \textit{ad hoc} de reporting, et les réconciliations de données entre systèmes. Ces événements sont particulièrement difficiles à anticiper et à standardiser, car ils résultent de dysfonctionnements plutôt que d'un processus nominal.
 
-% ---------------------------------------------------------------------------
-% NOUVEAU : Les deux composantes de la charge — booking LIQ et aftercare
-% ---------------------------------------------------------------------------
 \paragraph{Les deux composantes de la charge : booking LIQ et aftercare.}
-La charge d'un événement ne se réduit pas à sa saisie dans le progiciel Loan~IQ. L'observation directe des équipes fait apparaître deux composantes distinctes, dont la mesure séparée est indispensable à une estimation fiable du coût. La première est le \textit{booking LIQ}~: le temps de traitement de l'événement dans le système --- création de la transaction, paramétrage, saisie, validation. Ce temps est relativement stable d'un événement à l'autre, de l'ordre d'une vingtaine de minutes en moyenne, et varie peu selon le type d'opération. La seconde est l'\textit{aftercare}~: l'ensemble des tâches de post-traitement qui gravitent autour de l'événement sans être exécutées dans Loan~IQ --- contrôles de cohérence, réconciliations entre systèmes, contrôles de \textit{closing}, audits, gestion des exceptions et interactions avec le Middle Office. Contrairement au booking, l'aftercare est fortement variable~: il dépend du rôle de la banque (Agent, Participant, Bilatéral), de la complexité du deal et de la période. C'est cette composante, largement invisible dans les systèmes d'information, qui explique l'essentiel de la variabilité de la charge --- et donc du coût --- entre deals comparables en volume. Cette distinction est décisive~: le temps de \textit{booking}, seul enregistré dans Loan~IQ, ne suffit pas à mesurer la charge réelle. Toute mesure fiable doit capturer les deux composantes, ce que le protocole de collecte présenté au chapitre~\ref{chap:methodo} s'attache à faire.
-
-% ---------------------------------------------------------------------------
-% FIGURE : Impact de l'automatisation sur le périmètre des événements
-% ---------------------------------------------------------------------------
-\begin{figure}[htbp]
-\centering
-\begin{tikzpicture}[
-    every node/.style={font=\small},
-    bar/.style={
-        rectangle, rounded corners=2pt, minimum height=0.55cm,
-        anchor=west, font=\scriptsize\bfseries, text=white
-    }
-]
-
-% --- Titre des colonnes ---
-\node[font=\small\bfseries, anchor=west] at (0, 4.2) {Famille d'événements};
-\node[font=\small\bfseries, anchor=west] at (5.5, 4.2) {Répartition de la charge};
-
-% --- Légende ---
-\node[bar, fill=green, minimum width=0.5cm] at (5.5, -1.2) {};
-\node[font=\scriptsize, anchor=west] at (6.1, -1.2) {Manuel};
-\node[bar, fill=teal, minimum width=0.5cm] at (8, -1.2) {};
-\node[font=\scriptsize, anchor=west] at (8.6, -1.2) {Partiellement automatisé};
-\node[bar, fill=gray!60, minimum width=0.5cm] at (11.5, -1.2) {};
-\node[font=\scriptsize, anchor=west] at (12.1, -1.2) {Automatisé (RPA)};
-
-% --- Lignes ---
-\foreach \y/\label/\manual/\partial/\auto in {
-    3.2/{Mise en place}/40/45/15,
-    2.2/{Décaissement / Remb.}/25/40/35,
-    1.2/{Vie courante}/15/25/60,
-    0.2/{Modifications contract.}/80/15/5,
-    -0.6/{Clôture}/50/35/15%
-} {
-    % Label
-    \node[anchor=east, font=\small] at (4.8, \y) {\label};
-
-    % Barres empilées (largeur totale = 8cm pour 100%)
-    \pgfmathsetmacro{\wmanual}{\manual * 0.08}
-    \pgfmathsetmacro{\wpartial}{\partial * 0.08}
-    \pgfmathsetmacro{\wauto}{\auto * 0.08}
-    \pgfmathsetmacro{\startpartial}{5.5 + \wmanual}
-    \pgfmathsetmacro{\startauto}{\startpartial + \wpartial}
-
-    % Manuel
-    \node[bar, fill=green, minimum width=\wmanual cm] at (5.5, \y)
-        {\manual\,\%};
-    % Partiel
-    \node[bar, fill=teal, minimum width=\wpartial cm] at (\startpartial, \y)
-        {\partial\,\%};
-    % Auto
-    \node[bar, fill=gray!60, minimum width=\wauto cm] at (\startauto, \y)
-        {\auto\,\%};
-}
-
-\end{tikzpicture}
-\caption{Répartition de la charge entre traitement manuel, partiellement automatisé et entièrement automatisé (RPA), par famille d'événements ; estimation issue d'entretiens avec les équipes Loan Servicing de GCO. Les modifications contractuelles restent quasi exclusivement manuelles.}
-\label{fig:automatisation-evenements}
-\end{figure}
+La charge d'un événement ne se réduit pas à sa saisie dans le progiciel Loan~IQ. L'observation directe des équipes fait apparaître deux composantes distinctes, dont la mesure séparée est indispensable à une estimation fiable du coût. La première est le \textit{booking LIQ}~: le temps de traitement de l'événement dans le système --- création de la transaction, paramétrage, saisie, validation. Ce temps est relativement stable d'un événement à l'autre, de l'ordre d'une vingtaine de minutes en moyenne, et varie peu selon le type d'opération. La seconde est l'\textit{aftercare}~: l'ensemble des tâches de post-traitement qui gravitent autour de l'événement sans être exécutées dans Loan~IQ --- contrôles de cohérence, réconciliations entre systèmes, contrôles de \textit{closing}, audits, gestion des exceptions et interactions avec le Middle Office. Contrairement au booking, l'aftercare est fortement variable~: il dépend du rôle de la banque (Agent, Participant, Bilatéral), de la complexité du deal et de la période. C'est cette composante, largement invisible dans les systèmes d'information, qui explique l'essentiel de la variabilité de la charge --- et donc du coût --- entre deals comparables en volume. Cette distinction est décisive~: le temps de \textit{booking}, seul enregistré dans Loan~IQ, ne suffit pas à mesurer la charge réelle. Toute mesure fiable doit capturer les deux composantes, ce que le protocole de collecte présenté au chapitre~\ref{construction-mesure} s'attache à faire.
 
 L'automatisation modifie le périmètre de cette typologie. Les solutions de RPA déployées au sein de GCO ont permis d'automatiser partiellement certaines opérations à faible valeur ajoutée --- extraction de données, pré-remplissage de champs dans Loan~IQ, génération de confirmations standardisées. Ces tâches, qui figuraient autrefois dans la charge des opérateurs, sortent progressivement du périmètre du travail humain. En contrepartie, le travail résiduel se concentre sur les événements complexes, les cas d'exception et les contrôles qualitatifs --- précisément les opérations dont le temps de traitement est le plus variable et le plus difficile à modéliser. Toute mesure de la charge doit donc intégrer cette distinction entre événements automatisés, partiellement automatisés et manuels, sous peine de surestimer ou sous-estimer la charge réelle supportée par les équipes.
-
-
-% ============================================================================
+\newpage
 % ============================================================================
 \subsection{Définition du concept de charge de travail}
 \label{subsec:definition-charge}
 % ============================================================================
 
-Avant d'en donner une définition, il importe de rappeler pourquoi cette mesure est
-construite. La charge de travail n'est pas ici étudiée pour elle-même~: elle
-constitue la grandeur intermédiaire qui permet de reconstruire le \textit{coût
-opérationnel} d'un contrat de crédit, puis --- rapporté au gain connu du Front
-Office --- sa \textit{rentabilité réelle}. Mesurer la charge, c'est mesurer la
-brique élémentaire du coût.
+Avant d'en donner une définition, il importe de rappeler pourquoi cette mesure est construite. La charge de travail n'est pas ici étudiée pour elle-même~: elle constitue la grandeur intermédiaire qui permet de reconstruire le \textit{coût opérationnel} d'un contrat de crédit, puis --- rapporté au gain connu du Front Office --- sa \textit{rentabilité réelle}. Mesurer la charge, c'est mesurer la brique élémentaire du coût.
 
-La charge de travail est un concept en apparence intuitif --- chaque manager sait
-reconnaître une équipe «~débordée~» --- mais dont la formalisation exige de lever
-une ambiguïté fondamentale~: celle entre la charge \textit{unitaire} d'un événement
-et la charge \textit{totale} supportée par une équipe. Confondre les deux conduit à
-des raisonnements erronés~; les distinguer est la clé du modèle.
+La charge de travail est un concept en apparence intuitif --- chaque manager sait reconnaître une équipe «~débordée~» --- mais dont la formalisation exige de lever une ambiguïté fondamentale~: celle entre la charge \textit{effective} et la charge \textit{totale} supportée par une équipe. Confondre les deux conduit à des raisonnements erronés~; les distinguer est la clé du modèle.
+Faute de définition unifiée adaptée à notre contexte, \textbf{nous proposons la
+définition opérationnelle suivante}, construite à partir de l'observation directe
+des équipes Loan Servicing~:
 
 \begin{quote}
-\textit{La charge de travail d'un événement opérationnel est le temps de traitement
-effectif requis pour l'exécuter dans le respect des standards de qualité. Elle se
-compose de deux temps distincts~: le \textup{booking} dans Loan~IQ (saisie et
-exécution de l'opération) et l'\textup{aftercare} (contrôles, réconciliations et
-post-traitement consécutifs à l'opération). La charge totale supportée par une
-équipe sur une période donnée est la somme des charges unitaires des événements
-traités sur cette période~: elle croît avec le volume d'événements, à charge
-unitaire constante.}
+\textit{La charge de travail d'un événement opérationnel est le temps de traitement effectif requis pour l'exécuter dans le respect des standards de qualité. Elle se compose de deux temps distincts~: le \textup{booking} dans Loan~IQ (saisie et exécution de l'opération) et l'\textup{aftercare} (contrôles, réconciliations et post-traitement consécutifs à l'opération). La charge totale supportée par une équipe sur une période donnée est la somme des charges unitaires des événements traités sur cette période~: elle croît avec le volume d'événements, à charge unitaire constante.}
 \end{quote}
 
-
-Cette définition appelle deux précisions, articulées autour de la distinction
-unitaire~/~total.
+Cette définition appelle deux précisions, articulées autour de la distinction unitaire~/~total.
 
 \paragraph{La charge unitaire.}
-Chaque événement opérationnel consomme une durée de travail qui dépend de sa nature
-(tirage, amendement, clôture), de ses caractéristiques intrinsèques (devise,
-syndication, clauses spécifiques) et des conditions d'exécution. Cette charge
-unitaire est \textbf{indépendante du volume}~: un tirage standard requiert le même
-temps de traitement un jour creux ou en période de pic. Elle se décompose en deux
-temps complémentaires~:
+Chaque événement opérationnel consomme une durée de travail qui dépend de sa nature (tirage, amendement, clôture), de ses caractéristiques intrinsèques (devise, syndication, clauses spécifiques) et des conditions d'exécution. Cette charge unitaire est \textbf{indépendante du volume}~: un tirage standard requiert le même temps de traitement un jour creux ou en période de pic. Elle se décompose en deux temps complémentaires~:
 
 \begin{itemize}
-    \item le \textit{booking} dans Loan~IQ ($T_{\text{LIQ},i}$)~: la saisie et
-    l'exécution de l'opération dans le progiciel, dont la durée moyenne observée
-    est remarquablement stable, de l'ordre de vingt minutes quel que soit le type
-    d'événement~;
-    \item l'\textit{aftercare} ($T_{\text{AC},i}$)~: les contrôles, réconciliations
-    et post-traitements qui suivent le \textit{booking}, dont la durée est bien plus
-    variable et dépend fortement de la complexité du deal.
+    \item le \textit{booking} dans Loan~IQ ($T_{\text{LIQ},i}$)~: la saisie et l'exécution de l'opération dans le progiciel, dont la durée moyenne observée est remarquablement stable, de l'ordre de vingt minutes quel que soit le type d'événement~;
+    \item l'\textit{aftercare} ($T_{\text{AC},i}$)~: les contrôles, réconciliations et post-traitements qui suivent le \textit{booking}, dont la durée est bien plus variable et dépend fortement de la complexité du deal.
 \end{itemize}
 
-\noindent La charge unitaire d'un événement~$i$ est donc la somme de ces deux
-composantes~:
+\noindent La charge unitaire d'un événement~$i$ est donc la somme de ces deux composantes~:
 
 \begin{equation}
 T_{s,i} = T_{\text{LIQ},i} + T_{\text{AC},i}
 \label{eq:charge-unitaire}
 \end{equation}
 
-\noindent Le temps brut ne suffit toutefois pas à mesurer chacune de ces
-composantes~: un opérateur peut consacrer trente minutes à un \textit{booking}
-standard parce qu'il est interrompu, ou l'exécuter en dix minutes sans
-interruption. Il faut donc, pour chaque composante, distinguer le \textit{temps
-effectif de traitement} --- réellement consacré à l'exécution --- du \textit{temps
-écoulé}, qui inclut interruptions et attentes~:
+\noindent Le temps brut ne suffit toutefois pas à mesurer chacune de ces composantes~: un opérateur peut consacrer trente minutes à un \textit{booking} standard parce qu'il est interrompu, ou l'exécuter en dix minutes sans interruption. Il faut donc, pour chaque composante, distinguer le \textit{temps effectif de traitement} --- réellement consacré à l'exécution --- du \textit{temps écoulé}, qui inclut interruptions et attentes~:
 
 \begin{equation}
 T_{\text{eff}} = T_{\text{écoulé}} - T_{\text{interruptions}} - T_{\text{attente}}
 \label{eq:temps-effectif}
 \end{equation}
 
-\noindent C'est ce temps effectif, chronométré puis standardisé par type
-d'événement et par composante, que nous agrégeons dans $T_{s,i}$.
-
+\noindent C'est ce temps effectif, chronométré puis standardisé par type d'événement et par composante, que nous agrégeons dans $T_{s,i}$.
 
 \paragraph{La charge totale.}
-La charge supportée par une équipe sur une période $[t_0, t_1]$ est la somme des
-charges unitaires des événements traités sur cette période~:
+La charge supportée par une équipe sur une période $[t_0, t_1]$ est la somme des charges unitaires des événements traités sur cette période~:
 
 \begin{equation}
 W_{[t_0,t_1]} = \sum_{i=1}^{N} T_{s,i}
 \label{eq:charge-totale}
 \end{equation}
 
+\noindent où $N$ est le volume d'événements traités. C'est cette charge totale --- et elle seule --- qui varie avec l'activité~: les pics observés en fin de trimestre (\textit{quarter-ends}) résultent de l'augmentation du volume $N$, non d'une variation de la charge unitaire $T_{s,i}$. Cette distinction est essentielle pour le pilotage~: dimensionner une équipe, anticiper un pic ou arbitrer une allocation de ressources relève de la dynamique du \textbf{volume} et de la capacité de traitement disponible --- questions traitées au chapitre~\ref{modelisation} --- et non de la mesure de la charge unitaire, qui en constitue seulement le facteur multiplicatif stable.
 
+\medskip
 
-\noindent où $N$ est le volume d'événements traités. C'est cette charge totale ---
-et elle seule --- qui varie avec l'activité~: les pics observés en fin de trimestre
-(\textit{quarter-ends}) résultent de l'augmentation du volume $N$, non d'une
-variation de la charge unitaire $T_{s,i}$. Cette distinction est essentielle pour
-le pilotage~: dimensionner une équipe, anticiper un pic ou arbitrer une allocation
-de ressources relève de la dynamique du \textbf{volume} et de la capacité de
-traitement disponible --- questions traitées au chapitre~\ref{chap:analyse} ---
-et non de la mesure de la charge unitaire, qui en constitue seulement le facteur
-multiplicatif stable.
+Cette décomposition éclaire un résultat central~: le temps de \textit{booking} dans Loan~IQ, stable autour de vingt minutes, ne constitue qu'une composante marginale du coût total. Les deux véritables déterminants de la charge --- et donc du coût --- sont le \textbf{volume d'événements} d'un deal et le poids de son \textbf{aftercare}, ce dernier variant fortement avec la complexité de l'opération. Réduire la charge à son seul temps de saisie conduirait ainsi à sous-estimer massivement le coût réel des deals les plus complexes.
 
-% ---------------------------------------------------------------------------
-% FIGURE : Chaîne de mesure, de la charge unitaire au coût
-% ---------------------------------------------------------------------------
+\paragraph{De la charge au coût.}
+Exprimée en unités de temps, la charge totale se convertit directement en coût opérationnel dès lors qu'on lui associe un coût horaire chargé $w$ (salaire, charges et frais de structure), différencié par site pour refléter les écarts \textit{onshore}~/~\textit{nearshore}~:
+
+\begin{equation}
+C = \sum_{i=1}^{N} T_{s,i} \times w_{s(i)}
+\label{eq:cout-operationnel}
+\end{equation}
+
+\noindent où $w_{s(i)}$ est le coût horaire du site $s$ traitant l'événement~$i$. Rapporté au gain connu du Front Office, ce coût opérationnel ouvre la voie à une mesure de la \textit{rentabilité réelle} du deal --- objectif ultime développé au chapitre~\ref{chap:analyse}. La charge de travail apparaît ainsi comme le \textbf{levier de mesure} du coût, et non comme une fin en soi.
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
@@ -434,41 +319,28 @@ multiplicatif stable.
     brace/.style={decorate, decoration={brace, amplitude=6pt, raise=2pt},
                   line width=0.8pt, color=gray!70}
 ]
-
-% ============ LIGNE 1 : composition de la charge unitaire ============
 \node[sub, draw=blue,   fill=blue!12]  (liq) {Booking Loan~IQ\\$T_{\text{LIQ}}\approx 20$ min};
 \node[sub, draw=orange, fill=orange!14, right=1.4cm of liq] (ac)
     {Aftercare\\$T_{\text{AC}}$ (variable)};
-
 \node[op] at ($(liq)!0.5!(ac)$) {$+$};
-
-% Accolade : les deux composantes = charge unitaire
 \draw[brace] ([yshift=6pt]liq.north west) -- ([yshift=6pt]ac.north east)
     node[midway, above=8pt, font=\scriptsize\bfseries, color=black,
          text width=6cm, align=center]
     {Charge unitaire par événement $T_{s} = T_{\text{LIQ}} + T_{\text{AC}}$\\
      \textnormal{\scriptsize (stable par type d'événement, indépendante du volume)}};
-
-% ============ LIGNE 2 : charge unitaire x volume = charge totale ============
 \node[box, below=2.2cm of liq, anchor=north west] (unit) {Charge unitaire\\$T_{s}$};
 \node[op, right=0.5cm of unit] (m1) {$\times$};
 \node[box, right=0.5cm of m1, draw=teal, fill=teal!8] (vol) {Volume $N$\\\scriptsize (période)};
 \node[op, right=0.5cm of vol] (eq1) {$=$};
 \node[box, right=0.5cm of eq1, draw=teal!70!black, fill=teal!16] (tot)
     {Charge totale\\$W_{N} = T_{s}\times N$};
-
-% flèche depuis l'accolade "charge unitaire" vers la boîte unit
 \draw[->, line width=1pt, color=gray!70]
     ($(liq.south)!0.5!(ac.south)$) -- ++(0,-0.5) -| (unit.north);
-
-% Accolade sous ligne 2
 \draw[brace] ([yshift=-6pt]unit.south west) -- ([yshift=-6pt]tot.south east)
     node[midway, below=8pt, font=\scriptsize, color=black,
          text width=8cm, align=center]
     {Charge totale d'une équipe sur la période $N$\\
      \textnormal{\scriptsize (seul $N$ varie~: pics de \textit{quarter-end})}};
-
-% ============ LIGNE 3 : charge totale x coût horaire = coût ============
 \node[box, below=2.4cm of unit, anchor=north west] (tot2)
     {Charge totale\\$W_{N}$};
 \node[op, right=0.5cm of tot2] (m2) {$\times$};
@@ -477,71 +349,22 @@ multiplicatif stable.
 \node[op, right=0.5cm of wsal] (eq2) {$=$};
 \node[box, right=0.5cm of eq2, draw=red!60!black, fill=red!50] (C)
     {Coût du deal\\$C$};
-
-% flèche charge totale (ligne 2) -> charge totale (ligne 3)
 \draw[->, line width=1pt, color=gray!70] (tot.south) -- ++(0,-0.4) -| (tot2.north);
-
-% Accolade sous ligne 3
 \draw[brace] ([yshift=-6pt]tot2.south west) -- ([yshift=-6pt]C.south east)
     node[midway, below=8pt, font=\scriptsize, color=black,
          text width=8.5cm, align=center]
     {Coût opérationnel du deal $C = (T_{\text{LIQ}} + T_{\text{AC}})\times N \times w_{s}$\\
      \textnormal{\scriptsize comparable au gain connu du Front Office $\Rightarrow$ rentabilité réelle}};
-
 \end{tikzpicture}
-\caption{Chaîne de mesure, de la charge unitaire au coût du deal. La charge unitaire
-$T_{s}$ agrège le \textit{booking} Loan~IQ (stable, $\sim$20~min) et l'\textit{aftercare}
-(variable selon la complexité). Multipliée par le volume d'événements $N$ de la période,
-elle donne la charge totale $W_N$~; valorisée au coût horaire chargé $w_s$, différencié
-par site, elle donne le coût opérationnel du deal. Seul le volume $N$ porte la
-variabilité saisonnière~; la charge unitaire reste stable.}
+\caption{Chaîne de mesure, de la charge unitaire au coût du deal. La charge unitaire $T_{s}$ agrège le \textit{booking} Loan~IQ (stable, $\sim$20~min) et l'\textit{aftercare} (variable selon la complexité). Multipliée par le volume d'événements $N$ de la période, elle donne la charge totale $W_N$~; valorisée au coût horaire chargé $w_s$, différencié par site, elle donne le coût opérationnel du deal. Seul le volume $N$ porte la variabilité saisonnière~; la charge unitaire reste stable.}
 \label{fig:chaine-mesure}
 \end{figure}
-
-
 \medskip
 
-Cette décomposition éclaire un résultat central~: le temps de \textit{booking} dans
-Loan~IQ, stable autour de vingt minutes, ne constitue qu'une composante marginale du
-coût total. Les deux véritables déterminants de la charge --- et donc du coût --- sont
-le \textbf{volume d'événements} d'un deal et le poids de son \textbf{aftercare}, ce
-dernier variant fortement avec la complexité de l'opération. Réduire la charge à son
-seul temps de saisie conduirait ainsi à sous-estimer massivement le coût réel des
-deals les plus complexes.
+La portée de cette formulation apparaît à l'échelle du deal~: parce que le coût combine un volume d'événements et une charge unitaire elle-même pondérée par la complexité, deux deals peuvent présenter des coûts opérationnels dans un rapport de plusieurs dizaines. L'analyse empirique du chapitre~\ref{chap:analyse} met en évidence une variance allant, sur une même année, de quelques milliers à plusieurs centaines de milliers d'euros par deal --- confirmant, à l'échelle du contrat, l'écart de charge déjà observé à l'échelle de l'événement entre un tirage standard et un amendement complexe.
 
+Cette formulation --- charge unitaire stable, charge totale portée par le volume, coût obtenu par valorisation --- fonde la démarche de ce mémoire~: construire une mesure fiable de la charge unitaire par événement, articulant données de chronométrage, caractéristiques objectives des événements et facteurs contextuels, puis la recomposer en coût opérationnel au service du pilotage de la rentabilité.
 
-\paragraph{De la charge au coût.}
-Exprimée en unités de temps, la charge totale se convertit directement en coût
-opérationnel dès lors qu'on lui associe un coût horaire chargé $w$ (salaire,
-charges et frais de structure), différencié par site pour refléter les écarts
-\textit{onshore}~/~\textit{nearshore}~:
+L'observation de terrain débouche sur une conclusion simple, qui commande tout le reste~: l'événement opérationnel est le grain le plus fin de la hiérarchie d'un deal --- un deal se décompose en facilités, une facilité en événements, et l'événement ne se subdivise plus en unités de travail homogènes. Dès lors, savoir mesurer le temps unitaire d'un événement suffit à recomposer le coût d'un deal par simple agrégation~: le coût du deal est la somme des temps de ses événements, valorisée au coût horaire. C'est parce qu'on mesure à ce niveau, et à lui seul, que le coût du deal devient reconstructible.
 
-\begin{equation}
-C = \sum_{i=1}^{N} T_{s,i} \times w_{s(i)}
-\label{eq:cout-operationnel}
-\end{equation}
-
-\noindent où $w_{s(i)}$ est le coût horaire du site $s$ traitant l'événement~$i$.
-Rapporté au gain connu du Front Office, ce coût opérationnel ouvre la voie à une
-mesure de la \textit{rentabilité réelle} du deal --- objectif ultime développé au
-chapitre~\ref{chap:analyse}. La charge de travail apparaît ainsi comme le
-\textbf{levier de mesure} du coût, et non comme une fin en soi.
-
-\medskip
-
-La portée de cette formulation apparaît à l'échelle du deal~: parce que le coût
-combine un volume d'événements et une charge unitaire elle-même pondérée par la
-complexité, deux deals peuvent présenter des coûts opérationnels dans un rapport
-de plusieurs dizaines. L'analyse empirique du chapitre~\ref{chap:analyse} met en
-évidence une variance allant, sur une même année, de quelques milliers à plusieurs
-centaines de milliers d'euros par deal --- confirmant, à l'échelle du contrat,
-l'écart de charge déjà observé à l'échelle de l'événement entre un tirage standard
-et un amendement complexe.
-
-Cette formulation --- charge unitaire stable, charge totale portée par le volume,
-coût obtenu par valorisation --- fonde la démarche de ce mémoire~: construire une
-mesure fiable de la charge unitaire par événement, articulant données de
-chronométrage, caractéristiques objectives des événements et facteurs contextuels,
-puis la recomposer en coût opérationnel au service du pilotage de la rentabilité.
-
-L'observation de terrain débouche sur une conclusion simple, qui commande tout le reste : l'événement opérationnel est le grain le plus fin de la hiérarchie d'un deal — un deal se décompose en facilités, une facilité en événements, et l'événement ne se subdivise plus en unités de travail homogènes. Dès lors, savoir mesurer le temps unitaire d'un événement suffit à recomposer le coût d'un deal par simple agrégation : le coût du deal est la somme des temps de ses événements, valorisée au coût horaire. C’est parce qu’on mesure à ce niveau, et à lui seul, que le coût du deal devient reconstructible.
+\newpage
