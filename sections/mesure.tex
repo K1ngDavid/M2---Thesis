@@ -1,4 +1,4 @@
-\section{Formalisation et construction d'une mesure empirique de la charge de travail}
+\section{Formalisation et construction d'une mesure de la charge de travail}
 \label{construction-mesure}
 \shorthandoff{;:!?}
 
@@ -12,8 +12,16 @@ La conclusion empirique structurante est volontairement simple~: l'\textit{Event
 \end{equation}
 
 \noindent soit environ 500 observations de clocking. Cette constante devient l'intrant standard du calcul de coût~: qui varie d'un deal à l'autre n'est pas d'abord la vitesse de traitement d'un événement, mais \textbf{le nombre d'événements que le deal génère et la charge d'aftercare associée}.
+\noindent où~:
+\begin{itemize}[noitemsep]
+    \item $N$ : nombre d'événements (sans dimension)
+    \item $\bar{t} = 20$ : temps unitaire d'Event Processing en \textbf{minutes}
+    \item $T_{\text{AC}}$ : temps total d'Aftercare en \textbf{minutes}
+    \item $w_s = 60$ : coût horaire chargé en \textbf{€/h}
+    \item $C_{\text{deal}}$ : coût opérationnel total en \textbf{euros}
+\end{itemize}
 
-\subsection{Premier arbitrage~: l'événement comme unité, contre l'équipe et le deal}
+\subsection{Premier arbitrage~: l'événement comme unité, contre \hyphenation{l'équipe et le deal}}
 \label{sec:arbitrage-unite}
 
 Le choix de l'unité de mesure détermine ce qu'on pourra reconstruire ensuite. Trois granularités étaient possibles, et deux sont des impasses. Mesurer la charge au niveau de l'\textbf{équipe} --- un total d'heures mensuel --- est la donnée que fournissent naturellement les systèmes RH, mais elle est inexploitable pour notre finalité~: on ne peut pas en redescendre au coût d'un deal, puisqu'un deal ne consomme qu'une fraction non identifiable de ce total. Mesurer directement au niveau du \textbf{deal} serait la cible, mais c'est circulaire~: le coût d'un deal est justement l'inconnue~; on ne peut pas le chronométrer globalement sans avoir déjà décomposé ce qui le compose.
@@ -94,6 +102,33 @@ Cette dimension est particulièrement sensible dans un contexte de \textit{nears
 Le risque principal est l'effet Hawthorne, ou biais de réactivité~: le fait d'être observé modifie le comportement observé. Dans le cas présent, le biais peut aller dans plusieurs directions. Un opérateur peut ralentir parce qu'il se sait observé, accélérer pour donner une image favorable, éviter les cas complexes pendant la période de mesure, ou commenter son travail différemment parce qu'il anticipe l'usage managérial des résultats. La donnée de clocking n'est donc jamais une donnée purement mécanique~; elle est produite dans une relation sociale.
 
 Trois précautions en découlent. Premièrement, dissocier explicitement la mesure de l'évaluation individuelle~: l'objet mesuré est le type d'activité, non la performance nominative. Deuxièmement, expliquer la finalité de la démarche~: rendre visible une charge souvent invisible, notamment l'Aftercare, et non seulement contrôler la productivité. Troisièmement, interpréter les résultats comme des ordres de grandeur robustes plutôt que comme des chronométrages absolus au dixième de minute. Ce cadrage justifie le choix d'une constante empirique de vingt minutes~: elle est plus honnête méthodologiquement qu'une granularité artificielle qui ferait oublier les conditions sociales de production de la donnée.
+
+Le calendrier de la mesure a lui aussi été pensé pour peser le moins possible sur
+les équipes. Nous avons d'abord reconstitué, sur l'ensemble de l'année, la
+saisonnalité du volume d'événements (figure~\ref{fig:saisonnalite})~; la fenêtre de
+clocking a ensuite été placée en période creuse, hors des pics de fin de trimestre,
+là où l'observation gênait le moins le travail courant.
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.92\textwidth, height=6cm, ymin=0,
+  ymajorgrids, grid style={black!10},
+  xtick={1,2,3,4,5,6,7,8,9,10,11,12},
+  xticklabels={Jan,Fév,Mar,Avr,Mai,Juin,Juil,Août,Sep,Oct,Nov,Déc},
+  ylabel={Volume d'événements}, xlabel={Mois},
+  tick label style={font=\scriptsize}, label style={font=\small}]
+  \fill[blue!8] (axis cs:3.5,0) rectangle (axis cs:5.5,2650);
+  \addplot[thick, mark=*, mark size=1.3pt, color=black!75] coordinates {
+    (1,1200)(2,1000)(3,2100)(4,1300)(5,1250)(6,2200)(7,1050)(8,900)(9,2300)(10,1400)(11,1350)(12,2500)};
+  \node[font=\scriptsize, align=center, text=blue!50!black] at (axis cs:4.5,2500) {fenêtre\\de clocking};
+\end{axis}
+\end{tikzpicture}
+\caption{Saisonnalité du volume d'événements en Loan Servicing sur une année~: les pics de fin de trimestre (mars, juin, septembre, décembre) structurent la charge. La fenêtre de clocking a été placée en période creuse (avril--mai). Valeurs illustratives.}
+\label{fig:saisonnalite}
+\end{figure}
+
+
 
 \subsection{Cinquième arbitrage~: raccorder le temps standard à la volumétrie réelle}
 \label{sec:arbitrage-volumetrie}

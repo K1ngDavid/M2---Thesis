@@ -1,61 +1,36 @@
 \section{Conclusion}
 \label{conclusion}
 
-Ce mémoire partait d'une asymétrie~: le Front Office connaît le gain de chaque deal,
-quand le Back Office ne connaît que son coût global, jamais celui d'un contrat pris
-isolément. Faute d'instrument, le coût opérationnel d'un deal de crédit syndiqué restait
-une inconnue --- et avec lui, la rentabilité réelle du contrat. D'où la problématique~:
-\emph{comment formaliser la charge de travail des équipes Back Office en une mesure
-quantitative fiable au service de la décision~?} La réponse tient en une chaîne de
-mesure, construite le long des trois sous-questions posées en introduction.
+Ce mémoire est parti d'un angle mort~: le Back Office savait qu'il coûtait, sans
+jamais savoir combien pour un deal donné. En reconstruisant ce coût à partir de la
+charge de travail, il a moins produit un chiffre qu'un déplacement du regard --- du
+coût global et subi vers un coût imputable, discutable, et comparable au gain du
+Front Office.
 
-\paragraph{Mesurer.} L'unité retenue est l'événement opérationnel~: assez fin pour être
-chronométré de façon homogène, assez structurant pour que tout deal se recompose comme la
-somme de ses événements. La charge unitaire se scinde en deux objets de nature
-différente --- un \textit{Event Processing} au temps de booking remarquablement stable
-($\bar{t}\approx 20$~minutes, sur environ 500 \textit{clockings}) et un \textit{Aftercare}
-variable, qui porte l'essentiel de la complexité. Cette mesure, inspirée de l'étude des
-temps mais expurgée du facteur d'allure, a été conduite dans une démarche explicitement
-diplomatique et calée hors des pics d'activité, pour peser le moins possible sur les
-équipes observées.
+Trois enseignements structurent ce résultat. D'abord, la charge n'est pas homogène~:
+séparer l'Event Processing (un temps de booking étonnamment stable, $\approx$~20~min)
+de l'Aftercare (la complexité réelle, invisible dans les systèmes) est ce qui rend la
+mesure à la fois juste et industrialisable. Ensuite, la variabilité du coût ne vient
+pas de la vitesse des opérateurs --- hypothèse écartée en démêlant séniorité et
+complexité --- mais du volume d'événements et du poids de l'aftercare, que la
+structure du deal commande. Enfin, cette variabilité est extrême~: un rapport de 1 à
+60 entre deals, 1~\% des contrats concentrant près de 30~\% de la charge. Ce seul fait
+réoriente l'action~: rogner uniformément ne sert à rien, tout se joue sur une poignée
+de deals.
 
-\paragraph{Modéliser.} La charge unitaire, valorisée au coût horaire chargé, reconstruit
-rétrospectivement le coût d'un deal selon l'équation du TDABC,
-$C=(T_{LIQ}+T_{AC})\times N \times w_s$. Pour la prédiction, une architecture à deux étages
-sépare ce qui obéit à des logiques distinctes~: un modèle à base d'arbres (Random Forest,
-XGBoost) pour le volume d'événements, dont les facteurs interagissent de façon non
-additive~; une régression paramétrique pour l'Aftercare, dont la relation aux
-caractéristiques du deal reste proportionnelle et interprétable. Les valeurs SHAP
-restituent, deal par deal, la lisibilité qu'exige un arbitrage porté devant le Front
-Office.
+Au-delà du coût, la mesure répond à des questions qui se réglaient jusqu'ici à
+l'intuition~: quel deal automatiser en priorité~? que vaut réellement le nearshoring,
+effet volume neutralisé~? un projet d'IA a-t-il tenu ses promesses, en ETP économisés~?
+une équipe est-elle objectivement surchargée~? Autant d'arbitrages que le coût par deal
+rend enfin argumentables sur des données plutôt que sur des impressions.
 
-\paragraph{Décider.} La mesure débouche sur trois leviers de pilotage~: cibler les
-initiatives de réduction des coûts sur la frange critique des deals, évaluer le
-\textit{cost avoidance} réel du nearshoring en comparant le coût d'un même portefeuille
-entre sites, et projeter la charge à venir sur le pipeline de deals signés.
+La démarche a ses limites, assumées~: l'effet Hawthorne contenu mais non éliminé, des
+déterminants non observés (complexité juridique, criticité), une validité prédictive à
+entretenir par ré-entraînement. Elles ne fragilisent pas la contribution~; elles en
+dessinent le périmètre honnête.
 
-Le résultat empirique le plus marquant est la dispersion extrême des coûts~: d'un deal
-standard à quelques milliers d'euros à un \textit{jumbo deal} dépassant plusieurs
-centaines de milliers, l'écart atteint un rapport de l'ordre de 1 à 60, et 1~\% des deals
-concentrent près de 30~\% du volume total d'événements. Cette concentration justifie à
-elle seule l'effort de modélisation~: c'est sur une poignée de contrats que se joue
-l'essentiel de la charge Back Office.
-
-La portée de ces résultats appelle des réserves assumées. Les temps mesurés sont des
-ordres de grandeur robustes, non des chronométrages absolus~: l'effet Hawthorne a été
-contenu, non éliminé. Certains déterminants de la charge --- complexité juridique,
-qualité de la documentation amont, clauses atypiques --- échappent aux données
-disponibles et nourrissent le bruit résiduel. Enfin, un modèle appris sur l'historique
-suppose une gouvernance de ré-entraînement pour résister à la dérive des distributions.
-
-Ces limites tracent les prolongements. L'intégration des données de mails (\textit{Hobart})
-affinerait l'estimation de l'Aftercare~; des modèles hybrides capteraient conjointement
-proportionnalité et interactions~; l'extension à un horizon multi-mois servirait la
-planification capacitaire. Surtout, l'irruption de l'IA générative --- qui déplace le
-travail humain vers les cas complexes, précisément les plus coûteux --- fait de la mesure
-de la charge un préalable à toute automatisation raisonnée~: on n'optimise bien que ce
-qu'on a d'abord su mesurer.
-
-En rendant le coût d'un deal comparable au gain qu'en connaît le Front Office, ce travail
-dote le Back Office de l'instrument qui lui manquait pour parler le langage de la
-rentabilité, deal par deal.
+Reste une trajectoire. À mesure que l'IA générative absorbe les tâches routinières et
+concentre le travail humain sur les cas complexes --- les plus coûteux ---, mesurer
+finement la charge cesse d'être un exercice comptable pour devenir la condition d'une
+automatisation lucide~: on n'optimise, et on ne défend, que ce qu'on a d'abord su
+mesurer.

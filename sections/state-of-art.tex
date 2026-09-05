@@ -21,6 +21,18 @@ commun --- le temps unitaire par événement~: \textbf{mesurer} le coût d'un de
 (§\ref{sec:abc}--\ref{sec:mesure-temps}), et le \textbf{prédire} pour un deal futur
 (§\ref{sec:prediction}).
 
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Convention de notation]
+Pour éviter toute confusion entre grandeurs temporelles et monétaires, nous adoptons les conventions suivantes dans l'ensemble du mémoire~:
+
+\begin{itemize}
+    \item \textbf{Variables temporelles} (exprimées en minutes) : $t$, $\bar{t}$, $T$, $T_{\text{AC}}$
+    \item \textbf{Variables monétaires} (exprimées en euros) : $C$, $w$
+    \item \textbf{Passage minutes → heures} : division explicite par 60
+\end{itemize}
+
+\textbf{Exemple} : $C = \frac{T}{60} \times w$ où $T$ [min], $w$ [€/h], donc $C$ [€].
+\end{tcolorbox}
+
 % =============================================================================
 \subsection{Du coût des activités au coût par événement~: ABC et TDABC}
 \label{sec:abc}
@@ -97,7 +109,8 @@ pour dimensionner les équipes FR/PT. D'autre part, l'équation~\ref{eq:tdabc} e
 \emph{nativement prédictive}~: connaître les temps unitaires permet de simuler le coût
 d'un volume ou d'un mix futurs, ce qui fait le pont vers notre seconde finalité.
 
-\paragraph{La limite critique --- et c'est notre gap.}
+
+\paragraph{La limite critique}
 La littérature postérieure, moins promotionnelle que les textes fondateurs, pointe une
 faiblesse unique mais décisive~: \emph{la précision du TDABC dépend entièrement de la
 qualité des estimations de temps}, et la méthode s'applique mal au \textit{knowledge
@@ -424,7 +437,7 @@ d'outils ne construit le pont qui nous occupe --- du temps unitaire mesuré jusq
 mesuré puis prédit, d'un deal de crédit syndiqué hétérogène.
 
 % =============================================================================
-\subsection{Synthèse~: un gap resserré sur l'intrant temps du TDABC}
+\subsection{Synthèse}
 \label{sec:gap}
 % =============================================================================
 
@@ -457,7 +470,7 @@ parties chronométrables --- mais en abandonnons le protocole subjectif. Notre
 \textit{clocking} s'en inspire directement~: nous chronométrons le temps \textbf{par
 parties} du traitement d'un événement --- la création de la notice SR/SAR sur
 \textit{Hobart}, l'exécution de l'événement dans Loan~IQ, puis la réconciliation dans
-\textit{Ambre} (cf. figure~\ref{fig:decomposition}) --- \textbf{sans appliquer de facteur
+\textit{Ambre} (cf. figure~\ref{fig:flux-ep-aftercare-style}) --- \textbf{sans appliquer de facteur
 d'allure}. Là où Taylor corrige le temps observé par un jugement d'allure porté sur le
 rythme de l'opérateur, nous nous en tenons au temps effectif mesuré~: dans un back office
 distribué entre Paris et Lisbonne, l'observation directe n'est ni praticable ni

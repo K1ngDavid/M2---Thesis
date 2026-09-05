@@ -291,11 +291,19 @@ Cette décomposition éclaire un résultat central~: le temps de \textit{booking
 Exprimée en unités de temps, la charge totale se convertit directement en coût opérationnel dès lors qu'on lui associe un coût horaire chargé $w$ (salaire, charges et frais de structure), différencié par site pour refléter les écarts \textit{onshore}~/~\textit{nearshore}~:
 
 \begin{equation}
-C = \sum_{i=1}^{N} T_{s,i} \times w_{s(i)}
-\label{eq:cout-operationnel}
+\hat{C}_{deal} = \frac{\hat{N}(x)\times 20 + \hat{T}_{AC}(x)}{60}\times w_s,
+\qquad w_s = 60\ \text{€/h}
 \end{equation}
 
-\noindent où $w_{s(i)}$ est le coût horaire du site $s$ traitant l'événement~$i$. Rapporté au gain connu du Front Office, ce coût opérationnel ouvre la voie à une mesure de la \textit{rentabilité réelle} du deal --- objectif ultime développé au chapitre~\ref{chap:analyse}. La charge de travail apparaît ainsi comme le \textbf{levier de mesure} du coût, et non comme une fin en soi.
+\noindent où $w_{s(i)}$ est le coût horaire du site $s$ traitant l'événement~$i$. Rapporté au gain connu du Front Office, ce coût opérationnel ouvre la voie à une mesure de la \textit{rentabilité réelle} du deal --- objectif ultime développé au chapitre~\ref{modelisation}. La charge de travail apparaît ainsi comme le \textbf{levier de mesure} du coût, et non comme une fin en soi.
+
+Les temps sont exprimés en minutes et le coût horaire chargé $w_s$ en euros
+par heure. La conversion en euros fait donc intervenir le facteur $1/60$
+(minutes~$\rightarrow$~heures) ; de façon équivalente, on définit un coût par
+minute $c_u = w_s/60$ (€/min), qui est exactement le \emph{capacity cost rate}
+du TDABC.
+
+
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
@@ -361,10 +369,32 @@ C = \sum_{i=1}^{N} T_{s,i} \times w_{s(i)}
 \end{figure}
 \medskip
 
-La portée de cette formulation apparaît à l'échelle du deal~: parce que le coût combine un volume d'événements et une charge unitaire elle-même pondérée par la complexité, deux deals peuvent présenter des coûts opérationnels dans un rapport de plusieurs dizaines. L'analyse empirique du chapitre~\ref{chap:analyse} met en évidence une variance allant, sur une même année, de quelques milliers à plusieurs centaines de milliers d'euros par deal --- confirmant, à l'échelle du contrat, l'écart de charge déjà observé à l'échelle de l'événement entre un tirage standard et un amendement complexe.
+La portée de cette formulation apparaît à l'échelle du deal~: parce que le coût combine un volume d'événements et une charge unitaire elle-même pondérée par la complexité, deux deals peuvent présenter des coûts opérationnels dans un rapport de plusieurs dizaines. L'analyse empirique du chapitre~\ref{modelisation} met en évidence une variance allant, sur une même année, de quelques milliers à plusieurs centaines de milliers d'euros par deal --- confirmant, à l'échelle du contrat, l'écart de charge déjà observé à l'échelle de l'événement entre un tirage standard et un amendement complexe.
 
 Cette formulation --- charge unitaire stable, charge totale portée par le volume, coût obtenu par valorisation --- fonde la démarche de ce mémoire~: construire une mesure fiable de la charge unitaire par événement, articulant données de chronométrage, caractéristiques objectives des événements et facteurs contextuels, puis la recomposer en coût opérationnel au service du pilotage de la rentabilité.
 
-L'observation de terrain débouche sur une conclusion simple, qui commande tout le reste~: l'événement opérationnel est le grain le plus fin de la hiérarchie d'un deal --- un deal se décompose en facilités, une facilité en événements, et l'événement ne se subdivise plus en unités de travail homogènes. Dès lors, savoir mesurer le temps unitaire d'un événement suffit à recomposer le coût d'un deal par simple agrégation~: le coût du deal est la somme des temps de ses événements, valorisée au coût horaire. C'est parce qu'on mesure à ce niveau, et à lui seul, que le coût du deal devient reconstructible.
+Cette formulation soulève enfin une question d'échelle --- à quel niveau mesurer ? ---
+que le chapitre~\ref{construction-mesure} tranche en retenant l'événement comme unité de charge.
+
+\paragraph{Du temps mesuré au coût : hypothèses et limites du passage.}
+Mesurer la charge ne vaut, pour notre problématique, que si elle se convertit en
+coût. Ce passage repose sur l'équation du TDABC, $C = \sum_i T_{s,i}\times w_s$, et
+sur quatre hypothèses explicites :
+\begin{enumerate}
+  \item l'Event Processing est traité comme un temps unitaire constant
+  ($\bar t \approx 20$~min), indépendant du type d'événement et de l'opérateur ;
+  \item l'Aftercare, non chronométrable directement, est approché par des
+  inducteurs de volume (prêteurs, facilités, mails, événements) supposés
+  proportionnels à la charge aval ;
+  \item le coût horaire chargé $w_s$ est constant par site ($\approx$~60~€/h en
+  moyenne), différencié onshore / nearshore ;
+  \item le coût d'un deal est linéaire en son volume d'événements $N$, à charge
+  unitaire constante.
+\end{enumerate}
+Ces hypothèses rendent le coût reconstructible et comparable au gain du Front
+Office, mais en bornent la précision : la constante $\bar t$ lisse la dispersion
+réelle entre types d'événements, l'Aftercare reste estimé et non mesuré, et un
+$w_s$ moyen masque les écarts de grade. Ces limites, assumées, sont détaillées
+au chapitre~\ref{construction-mesure}.
 
 \newpage

@@ -2,7 +2,7 @@
 \label{modelisation}
 \shorthandoff{;:!?}
 
-Ce chapitre exploite la base de mesure construite au chapitre~4 pour répondre aux deux finalités du mémoire~: reconstruire le coût rétrospectif d'un deal traité, et prédire le coût d'un deal futur avant son traitement. Fidèle à la dualité établie (Event Processing et Aftercare), il construit deux modèles distincts, chacun adapté à la nature de sa composante, puis les recombine en un coût total prédit.
+Ce chapitre exploite la base de mesure construite au chapitre~\ref{construction-mesure} pour répondre aux deux finalités du mémoire~: reconstruire le coût rétrospectif d'un deal traité, et prédire le coût d'un deal futur avant son traitement. Fidèle à la dualité établie (Event Processing et Aftercare), il construit deux modèles distincts, chacun adapté à la nature de sa composante, puis les recombine en un coût total prédit.
 
 \subsection{Reconstruire le coût rétrospectif d'un deal}
 \label{sec:cout-retro}
@@ -10,10 +10,9 @@ Ce chapitre exploite la base de mesure construite au chapitre~4 pour répondre a
 La première exploitation est directe~: appliquer l'équation du TDABC à la base de mesures empiriques. Pour un deal donné, le coût opérationnel est la somme, sur tous ses événements, du temps standard valorisé au coût horaire chargé~:
 
 \begin{equation}
-C_{\text{deal}} = \sum_{i=1}^{N} T_{s,i} \times w_{s}
-= \underbrace{\sum_{i=1}^{N} \bar{t} \times w_{s}}_{\text{Event Processing}}
-+ \underbrace{T_{\text{AC}} \times w_{s}}_{\text{Aftercare}}
-\label{eq:cout-retro}
+C_{deal} = \sum_{i=1}^{N} \frac{T_{s,i}}{60}\,w_s
+= \underbrace{\frac{N\,\bar{t}}{60}\,w_s}_{\text{Event Processing}}
+\;+\; \underbrace{\frac{T_{AC}}{60}\,w_s}_{\text{Aftercare}}
 \end{equation}
 
 \noindent où $N$ est le volume d'événements du deal, $\bar{t}\approx 20$ minutes est le temps unitaire empirique d'Event Processing, $T_{\text{AC}}$ le temps d'Aftercare, et $w_{s}$ le coût horaire chargé du site traitant (ici estimé à 60 €/h en moyenne).
@@ -171,6 +170,8 @@ Le volume d'événements $N$ dépend de variables essentiellement \emph{qualitat
 \end{itemize}
 Ces facteurs agissent de façon \emph{non additive}~: l'effet du rôle d'agent n'est pas le même selon le nombre de prêteurs, et se combine avec lui. C'est cette structure d'interactions qui oriente le choix de modèles à base d'arbres (Random Forest, XGBoost) pour prédire $\hat{N}(x)$, le volume d'événements attendu.
 
+
+
 \paragraph{Les facteurs de l'Aftercare~: quantitatifs et proportionnels.}
 Le temps d'Aftercare, lui, dépend de variables \emph{quantitatives} qui mesurent le volume de gestion aval~:
 \begin{itemize}
@@ -237,6 +238,31 @@ Les facteurs de volume d'événements étant qualitatifs et en interaction, une 
 
 L'interprétabilité perdue par l'agrégation est restaurée \emph{a posteriori} par les valeurs SHAP, qui décomposent chaque prédiction en contributions additives --- permettant de présenter au management, pour un deal donné, la part de volume imputable à chaque facteur structurel.
 
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[>=Stealth, font=\scriptsize,
+  dec/.style={draw, rounded corners, fill=blue!8, align=center, text width=24mm, inner sep=3pt},
+  leaf/.style={draw, rounded corners, fill=green!12, align=center, text width=18mm, inner sep=3pt},
+  el/.style={font=\scriptsize\itshape, fill=white, inner sep=1pt}]
+  \node[dec] (r) {Rôle = Agent ?};
+  \node[leaf, below left=12mm and 22mm of r] (p) {Participant\\$\approx$ 4 k€};
+  \node[dec, below right=12mm and 6mm of r] (n1) {Prêteurs $>$ 50 ?};
+  \node[leaf, below left=12mm and 0mm of n1] (l1) {$\approx$ 40 k€};
+  \node[dec, below right=12mm and 0mm of n1] (n2) {Multidevise ?};
+  \node[leaf, below left=10mm and -2mm of n2] (l2) {$\approx$ 120 k€};
+  \node[leaf, below right=10mm and -2mm of n2] (l3) {$\approx$ 259 k€};
+  \draw[->] (r) -- node[el,left]{non} (p);
+  \draw[->] (r) -- node[el,right]{oui} (n1);
+  \draw[->] (n1) -- node[el,left]{non} (l1);
+  \draw[->] (n1) -- node[el,right]{oui} (n2);
+  \draw[->] (n2) -- node[el,left]{non} (l2);
+  \draw[->] (n2) -- node[el,right]{oui} (l3);
+\end{tikzpicture}
+\caption{Exemple illustratif d'arbre de décision~: chaque chemin de la racine à une feuille combine des caractéristiques du deal (rôle, prêteurs, multidevise) et aboutit à un coût estimé. L'arbre capture ainsi les effets d'interaction que la régression linéaire manque. \textbf{Valeurs illustratives}}
+\label{fig:arbre-illustratif}
+\end{figure}
+
+
 \subsubsection{Modéliser l'Aftercare~: régression pour l'interprétabilité}
 \label{sec:modele-ac}
 
@@ -250,13 +276,33 @@ Pour l'Aftercare, le choix s'inverse. La relation étant proportionnelle et les 
 
 \noindent où chaque coefficient $\beta_k$ se lit directement comme le temps d'Aftercare ajouté par une unité supplémentaire du facteur correspondant. Là où la relation présente une courbure --- par exemple un effet d'échelle au-delà d'un certain nombre de prêteurs --- une \textbf{régression polynomiale} l'absorbe sans sacrifier l'interprétabilité.
 
+\begin{table}[htbp]
+\centering
+\caption{Métriques de performance des modèles prédictifs sur données réelles}
+\label{tab:metriques-performance}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Modèle} & \textbf{$R^2$} & \textbf{MAE (min)} & \textbf{RMSE (min)} \\
+\midrule
+Random Forest   & 0.XX & XX.X & XX.X \\
+XGBoost        & 0.XX & XX.X & XX.X \\
+\bottomrule
+\end{tabular}
+\small
+\vspace{2mm}
+\\
+\textit{Note : Évaluation sur un échantillon de XX deals traités entre [dates].}
+\end{table}
+
 \subsubsection{Recomposer le coût prédit}
 \label{sec:cout-predit-recompo}
 
 Les deux modèles se recombinent en un coût total prédit pour un deal caractérisé par son vecteur d'attributs $x$~:
 
 \begin{equation}
-\hat{C}_{\text{deal}} = \Big[ \big(\hat{N}(x) \times 20\text{ min}\big) + \hat{T}_{\text{AC}}(x) \Big] \times 60\text{ €/h}
+c_u = \frac{w_s}{60} = \frac{60\ \text{€/h}}{60} = 1\ \text{€/min}
+\qquad\Longrightarrow\qquad
+\hat{C}_{deal} = \big[\hat{N}(x)\times 20 + \hat{T}_{AC}(x)\big]\times c_u
 \label{eq:cout-predit-total}
 \end{equation}
 
@@ -277,6 +323,17 @@ Le coût par deal étant désormais comparable entre sites (Paris / Lisbonne), o
 
 \paragraph{3. Anticiper la charge et dimensionner les équipes.}
 Le modèle prédictif, appliqué au pipeline de deals signés mais pas encore traités, fournit une projection de charge opérationnelle (en ETP et en euros) sur les mois à venir. Cela transforme la planification d'une logique budgétaire statique en une logique dynamique fondée sur la volumétrie attendue.
+Symétriquement, cette projection fournit un argument objectif pour \emph{défendre}
+un dimensionnement~: en cas de pression sur les effectifs, une surcharge réelle peut
+être démontrée chiffres à l'appui, plutôt que ressentie.
+
+\paragraph{4. Mesurer le gain des initiatives d'automatisation et d'IA.} 
+Parce que la charge est désormais chiffrée avant et après, on peut évaluer l'impact réel d'une
+initiative --- RPA, OCR (DocFactory), IA générative --- en euros et en ETP économisés
+sur les familles d'événements concernées. La mesure devient l'instrument commun de
+justification des initiatives stratégiques de la banque~: elle transforme un « gain
+estimé » en gain constaté, deal par deal et famille par famille.
+
 
 \subsection{Limites et prolongements}
 \label{sec:limites}
