@@ -1,13 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1788642950.31035 "main.aux" "main.bbl" "main" 1788643212.31544 0
-  "./references.bib" 1787919541.51141 4946 7076116215bde72c332048815b3d781c ""
+["bibtex main"] 1788644527.49595 "main.aux" "main.bbl" "main" 1788871085.38998 0
+  "./references.bib" 1788644506.09655 5019 4db55d676b6418830578be1e95b2a897 ""
   "/usr/local/texlive/2026basic/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1788643212.14222 25728 c706f280ee5428d895ca3f035d4f9de5 "pdflatex"
+  "main.aux" 1788871085.26108 25718 187ce1ec23e978e81129e1403d7b58a6 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1788643210.96036 "main.tex" "main.pdf" "main" 1788643212.31556 0
+["pdflatex"] 1788871084.13428 "/Users/davidroufe/Pro/Dauphine/MÉMOIRE/thesis-template/main.tex" "main.pdf" "main" 1788871085.39012 0
+  "/Users/davidroufe/Pro/Dauphine/MÉMOIRE/thesis-template/main.tex" 1788097708.58866 1809 3cc6466dca8b4c2eb20ebe896d59fa63 ""
   "/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2026basic/texmf-dist/fonts/tfm/jknappen/ec/ecbi1200.tfm" 1136768653 3072 ccae1a240ab272417e4399fe942df546 ""
@@ -329,21 +330,20 @@
   "/usr/local/texlive/2026basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1779131953 2966191 ebb4be3cddb4e39615febbf6aed08b64 ""
   "/usr/local/texlive/2026basic/texmf.cnf" 1772405582 628 bbc09d6d38872d53c11bb48dc9b14e88 ""
   "images/dauphine.png" 1779133227.44432 13481 072a953797accea0365e3da99c1d6ff7 ""
-  "main.aux" 1788643212.14222 25728 c706f280ee5428d895ca3f035d4f9de5 "pdflatex"
-  "main.bbl" 1788642950.32343 3406 8037de55ef2c0c54c62ed63e4edbd486 "bibtex main"
-  "main.lof" 1788643212.14447 3348 080e4680814d507cfac0e874b9110091 "pdflatex"
-  "main.lot" 1788643212.14449 309 ec0fc4cf8a93c5fcffdd34fe185a36f7 "pdflatex"
-  "main.out" 1788643212.14421 12898 1ddb08fa176711f86d6591e321b1df94 "pdflatex"
-  "main.tex" 1788097708.58866 1809 3cc6466dca8b4c2eb20ebe896d59fa63 ""
-  "main.toc" 1788643212.14441 7683 ab1a2db24ad31ee6e689a826abcc040d "pdflatex"
+  "main.aux" 1788871085.26108 25718 187ce1ec23e978e81129e1403d7b58a6 "pdflatex"
+  "main.bbl" 1788644527.50851 3492 3bfeb35281adbc37dc22654d296ddc3b "bibtex main"
+  "main.lof" 1788871085.26337 3348 080e4680814d507cfac0e874b9110091 "pdflatex"
+  "main.lot" 1788871085.26339 309 ec0fc4cf8a93c5fcffdd34fe185a36f7 "pdflatex"
+  "main.out" 1788871085.26305 12898 1ddb08fa176711f86d6591e321b1df94 "pdflatex"
+  "main.toc" 1788871085.26323 7683 4962d110c0b1eb7f7d4edb963f6c3acc "pdflatex"
   "packages.tex" 1788641059.73193 1655 d765750c337ea84b5b7eaa8158c4e566 ""
-  "sections/abstract.tex" 1788097560.43409 542 1cbe3061c37e1897558c096e2bb92c13 ""
+  "sections/abstract.tex" 1788644304.63661 543 ef45f0052d331ed0710fead4875e7775 ""
   "sections/conclusion.tex" 1787951135.72773 2283 3f1fbc052e44eab89529930cbec20f03 ""
-  "sections/contexte.tex" 1788293413.15167 32856 0a9e31bcde0ff040e87f8bed0aadf5c8 ""
+  "sections/contexte.tex" 1788871083.95789 32843 3bc28da3eaed6308910c20b2368743bb ""
   "sections/glossaire.tex" 1787854465.48936 8742 0b83ab1b12bc8f1a0e6ff056baabb742 ""
-  "sections/introduction.tex" 1788625736.39 13509 06688d51c97e72e8a887a03c9d2f7b97 ""
-  "sections/mesure.tex" 1788642831.85024 16302 f597900ce85f35e320b435a1d7b28803 ""
-  "sections/modelisation.tex" 1788638016.598 23138 77e21064cd4a882690a0f41c6eebd424 ""
+  "sections/introduction.tex" 1788870872.90884 13505 12b5d98f4027767f490515a72d55dbb3 ""
+  "sections/mesure.tex" 1788644359.25441 15900 1c41981b15f09d0a933c3fac3610be75 ""
+  "sections/modelisation.tex" 1788644327.45904 23152 2c0de3ae5215cc59d641bc7692408265 ""
   "sections/state-of-art.tex" 1788641603.94368 32003 95559f6cb7322c43c04426f43dd37515 ""
   "sections/thanks.tex" 1787924203.7679 2021 47b55632c12fdc6f99842e8a4dad254d ""
   (generated)

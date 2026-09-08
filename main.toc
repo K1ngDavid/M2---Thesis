@@ -63,13 +63,13 @@
 \contentsline {subsubsection}{\numberline {4.3.3}Recomposer le coût prédit}{42}{subsubsection.4.3.3}%
 \contentsline {subsection}{\numberline {4.4}Pilotage opérationnel et usages décisionnels}{43}{subsection.4.4}%
 \contentsline {paragraph}{1. Cibler les initiatives de réduction des coûts.}{43}{subsection.4.4}%
-\contentsline {paragraph}{2. Évaluer le \textit {cost avoidance} du nearshoring.}{43}{subsection.4.4}%
+\contentsline {paragraph}{2. Évaluer le \textit {cost avoidance} du nearshoring.}{44}{subsection.4.4}%
 \contentsline {paragraph}{3. Anticiper la charge et dimensionner les équipes.}{44}{subsection.4.4}%
 \contentsline {paragraph}{4. Mesurer le gain des initiatives d'automatisation et d'IA.}{44}{subsection.4.4}%
 \contentsline {subsection}{\numberline {4.5}Limites et prolongements}{44}{subsection.4.5}%
 \contentsline {paragraph}{Biais résiduels et contextualisation.}{44}{subsection.4.5}%
 \contentsline {paragraph}{Variables non observées.}{44}{subsection.4.5}%
-\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{44}{subsection.4.5}%
+\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{45}{subsection.4.5}%
 \contentsline {paragraph}{Prolongements possibles.}{45}{subsection.4.5}%
 \contentsline {section}{\numberline {5}Conclusion}{45}{section.5}%
 \contentsline {section}{Glossaire}{46}{section.5}%

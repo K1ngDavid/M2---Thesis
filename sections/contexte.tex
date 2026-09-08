@@ -16,7 +16,7 @@ Le secteur bancaire se divise en trois grandes catégories d'établissements~:
     \item \textbf{Banque de financement et d'investissement (CIB)} : financement structuré, marchés de capitaux, couverture des risques.
 \end{itemize}
 
-Ce mémoire se concentre sur la \textbf{CIB}, et plus précisément sur le \textit{crédit syndiqué}~: un crédit accordé à une entreprise par un groupe de banques agissant conjointement, qui permet de répartir le risque de financement tout en mobilisant des montants élevés~\cite{finance-club}. % TODO : remplacer finance-club par une source solide (Loan Market Association, ou manuel de finance d'entreprise)
+Ce mémoire se concentre sur la \textbf{CIB}, et plus précisément sur le \textit{crédit syndiqué}~: un crédit accordé à une entreprise par un groupe de banques agissant conjointement, qui permet de répartir le risque de financement tout en mobilisant des montants élevés~\cite{lma2024}.
 Son cycle de vie opérationnel mobilise successivement les trois offices de la banque, comme le schématise la figure~\ref{fig:cyclevie}.
 
 \begin{figure}[htbp]\centering
@@ -297,8 +297,7 @@ Exprimée en unités de temps, la charge totale se convertit directement en coû
 
 \noindent où $w_{s(i)}$ est le coût horaire du site $s$ traitant l'événement~$i$. Rapporté au gain connu du Front Office, ce coût opérationnel ouvre la voie à une mesure de la \textit{rentabilité réelle} du deal --- objectif ultime développé au chapitre~\ref{modelisation}. La charge de travail apparaît ainsi comme le \textbf{levier de mesure} du coût, et non comme une fin en soi.
 
-Les temps sont exprimés en minutes et le coût horaire chargé $w_s$ en euros
-par heure. La conversion en euros fait donc intervenir le facteur $1/60$
+Les temps sont exprimés en minutes et le coût horaire chargé $w_s$ en €/h. La conversion en euros fait donc intervenir le facteur $1/60$
 (minutes~$\rightarrow$~heures) ; de façon équivalente, on définit un coût par
 minute $c_u = w_s/60$ (€/min), qui est exactement le \emph{capacity cost rate}
 du TDABC.
@@ -369,7 +368,7 @@ du TDABC.
 \end{figure}
 \medskip
 
-La portée de cette formulation apparaît à l'échelle du deal~: parce que le coût combine un volume d'événements et une charge unitaire elle-même pondérée par la complexité, deux deals peuvent présenter des coûts opérationnels dans un rapport de plusieurs dizaines. L'analyse empirique du chapitre~\ref{modelisation} met en évidence une variance allant, sur une même année, de quelques milliers à plusieurs centaines de milliers d'euros par deal --- confirmant, à l'échelle du contrat, l'écart de charge déjà observé à l'échelle de l'événement entre un tirage standard et un amendement complexe.
+Cette formulation prend tout son sens à l'échelle du deal. Le coût combine un volume d'événements et une charge unitaire, elle-même pondérée par la complexité, et comme ces éléments se multiplient, les écarts s'amplifient vite. Entre un deal à faible volume et faible complexité et un deal à l'inverse, le coût opérationnel peut ainsi varier d'un facteur de plusieurs dizaines. L'analyse empirique du chapitre~\ref{modelisation} met en évidence une variance allant, sur une même année, de quelques milliers à plusieurs centaines de milliers d'euros par deal --- confirmant, à l'échelle du contrat, l'écart de charge déjà observé à l'échelle de l'événement entre un tirage standard et un amendement complexe.
 
 Cette formulation --- charge unitaire stable, charge totale portée par le volume, coût obtenu par valorisation --- fonde la démarche de ce mémoire~: construire une mesure fiable de la charge unitaire par événement, articulant données de chronométrage, caractéristiques objectives des événements et facteurs contextuels, puis la recomposer en coût opérationnel au service du pilotage de la rentabilité.
 
