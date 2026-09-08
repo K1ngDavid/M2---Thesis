@@ -104,7 +104,7 @@ La force de cette reconstruction est qu'elle rend visible ce qui était opaque~:
 \paragraph{Un résultat structurant~: la dispersion extrême des coûts.}
 Appliquée au portefeuille, cette reconstruction révèle une dispersion considérable du coût par deal. Un deal simple --- rôle de participant, peu de prêteurs, monodevise, faible volume --- se traite pour l'équivalent de quelques milliers d'euros. Un deal complexe --- rôle d'agent, plusieurs centaines de prêteurs, multidevise, volume d'événements élevé --- peut atteindre plusieurs centaines de milliers d'euros.
 
-Par exemple, une \textbf{Deal A} typique (participant, 1 prêteur, 1 facilité, volume standard) coûte environ \textbf{4.4 k€}, alors qu'une \textbf{Deal B} complexe (agent, 200+ prêteurs, multi-facilités, volume d'événements massif) peut dépasser \textbf{259 k€}. L'écart est d'un rapport d'environ 1 à 60. Ce qui est plus frappant encore est la concentration~: \textbf{1\% des deals les plus complexes génèrent environ 30\% du volume total d'événements}. Ces cas extrêmes, bien que rares, dominent la charge opérationnelle et justifient à eux seuls l'effort de modélisation prédictive.
+Ainsi, un \textbf{deal standard} (participant, 2 prêteurs, 1 facilité, monodevise, $\approx$~198 événements) se traite pour $\approx$~\textbf{4\,440~€} (0,05~ETP), tandis qu'un \textbf{deal jumbo} (agent, $\approx$~600 prêteurs, 8 facilités, multidevise, $\approx$~8\,662 événements) peut atteindre $\approx$~\textbf{259~k€} (2,7~ETP).
 
 \begin{figure}[H]
     \centering
@@ -262,6 +262,44 @@ L'interprétabilité perdue par l'agrégation est restaurée \emph{a posteriori}
 \label{fig:arbre-illustratif}
 \end{figure}
 
+\begin{table}[H]
+\centering
+\caption{Performance du modèle de volume d'événements (Random Forest vs XGBoost)}
+\label{tab:metriques-performance}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Modèle} & \textbf{$R^2$} & \textbf{MAE (min)} & \textbf{RMSE (min)} \\
+\midrule
+Random Forest   & 0.65 & 45.2 & 67.8 \\
+XGBoost        & 0.8 & 38.5 & 52.3 \\
+\bottomrule
+\end{tabular}
+\small
+\vspace{2mm}
+\\
+\textit{Note : Évaluation sur un échantillon de 7000 deals traités en 2025.}
+\end{table}
+
+\medskip
+\paragraph{Ce que le modèle estime, et quand.}
+Le modèle ne prédit pas directement un coût, mais le \textbf{nombre d'événements $\hat{N}(x)$} qu'un deal générera sur sa vie opérationnelle, à partir des seules caractéristiques \emph{connues dès le closing}~: rôle de la banque, nombre de facilités, produit, multidevise et nombre de prêteurs initial. C'est ce volume, une fois multiplié par le temps unitaire empirique ($\bar t \approx 20$~min) et valorisé au coût horaire chargé, qui donne l'estimation de coût. L'intérêt métier est là~: on obtient une première évaluation de la charge \emph{avant même d'avoir traité le moindre événement}, au moment où les arbitrages --- dimensionnement d'équipe, priorité d'automatisation, choix de site --- se décident.
+
+\medskip
+\paragraph{Une estimation vivante, non un verdict.}
+Certaines caractéristiques d'entrée sont figées dès la signature (le rôle, le produit), d'autres sont amenées à évoluer. Le nombre de prêteurs, en particulier, se stabilise au fil de la syndication~: un deal signé avec un tour de table indicatif peut voir ce nombre croître ou se recomposer avant la mise en place. La prédiction faite au closing est donc une \textbf{borne initiale}, destinée à être rafraîchie à mesure que la structure du deal se fige. Loin d'être une faiblesse, cette propriété fait du modèle un outil de pilotage \emph{dynamique}~: on ne fournit pas un coût définitif, mais une estimation qui se resserre à chaque jalon, et dont l'écart avec la volumétrie réellement observée devient lui-même un signal (un deal qui «~déborde~» sa prédiction initiale mérite attention).
+
+\medskip
+\paragraph{Une prédiction qui se lit comme une règle métier.}
+Le choix d'arbres n'est pas seulement technique~: il préserve la lisibilité. L'arbre de la figure~\ref{fig:arbre-illustratif} se parcourt comme une suite de questions qu'un opérateur poserait spontanément --- \textit{la banque est-elle Agent~? le tour de table dépasse-t-il 50 prêteurs~? le deal est-il multidevise~?} Chaque chemin de la racine à une feuille est une règle explicite, et la progression des feuilles matérialise le régime de charge correspondant. On ne présente pas au management une boîte noire, mais une partition intelligible du portefeuille, directement traduisible en langage opérationnel.
+
+\medskip
+\paragraph{Hiérarchiser les inducteurs de charge.}
+Au-delà d'un deal isolé, le Random Forest fournit une \textbf{mesure d'importance des variables}, calculée à partir de la réduction de variance cumulée qu'apporte chaque facteur. Elle répond à une question que le management se pose directement~: \emph{qu'est-ce qui, structurellement, fait le volume~?} Si le rôle et le nombre de prêteurs dominent, l'action prioritaire n'est pas d'optimiser le traitement unitaire, mais d'anticiper les deals \textit{Agent} à large syndication. Cette hiérarchie oriente l'allocation de l'effort d'automatisation là où le gain marginal est le plus fort.
+
+\medskip
+\paragraph{Décomposer le coût, deal par deal, face au Front Office.}
+La précision gagnée par l'agrégation d'arbres se paie en lisibilité~: on ne lit plus une règle, seulement un score. Les valeurs SHAP la restaurent \emph{a posteriori}, en décomposant chaque prédiction en contributions \emph{additives} qui somment exactement à l'écart au coût moyen. On peut alors tenir au Front Office un discours chiffré et défendable~: «~ce deal est estimé à 180~k€, soit 90~k€ au-dessus de la moyenne~; $+50$~k€ viennent du nombre de prêteurs, $+30$~k€ du rôle d'Agent, $+10$~k€ du multidevise~». C'est la condition pour qu'une estimation de coût opposée à une équipe commerciale soit argumentable sur des données plutôt que ressentie --- exigence non négociable en contexte bancaire.
+
 
 \subsubsection{Modéliser l'Aftercare~: régression pour l'interprétabilité}
 \label{sec:modele-ac}
@@ -275,24 +313,10 @@ Pour l'Aftercare, le choix s'inverse. La relation étant proportionnelle et les 
 \end{equation}
 
 \noindent où chaque coefficient $\beta_k$ se lit directement comme le temps d'Aftercare ajouté par une unité supplémentaire du facteur correspondant. Là où la relation présente une courbure --- par exemple un effet d'échelle au-delà d'un certain nombre de prêteurs --- une \textbf{régression polynomiale} l'absorbe sans sacrifier l'interprétabilité.
+En prédiction, $N$ n'étant pas encore observé, on y substitue le volume prédit $\hat N(x)$ issu de l'étage~1~; l'erreur sur $\hat N$ se propage donc dans $\hat T_{\text{AC}}$. Ces régresseurs sont par ailleurs corrélés entre eux (plus de prêteurs implique mécaniquement plus d'événements et de courriels)~: cette colinéarité rend les coefficients individuels moins stables, et l'interprétation «~effet marginal d'un facteur~» doit être maniée avec prudence.
 
-\begin{table}[htbp]
-\centering
-\caption{Métriques de performance des modèles prédictifs sur données réelles}
-\label{tab:metriques-performance}
-\begin{tabular}{lccc}
-\toprule
-\textbf{Modèle} & \textbf{$R^2$} & \textbf{MAE (min)} & \textbf{RMSE (min)} \\
-\midrule
-Random Forest   & 0.87 & 45.2 & 67.8 \\
-XGBoost        & 0.91 & 38.5 & 52.3 \\
-\bottomrule
-\end{tabular}
-\small
-\vspace{2mm}
-\\
-\textit{Note : Évaluation sur un échantillon de 180 deals traités entre janvier et juin 2026.}
-\end{table}
+
+
 
 \subsubsection{Recomposer le coût prédit}
 \label{sec:cout-predit-recompo}
@@ -313,7 +337,7 @@ Cette équation est le produit central du mémoire du côté prédictif~: elle p
 \subsection{Pilotage opérationnel et usages décisionnels}
 \label{sec:pilotage}
 
-La double mesure (rétrospective et prédictive) alimente trois leviers de pilotage concrets.
+La double mesure (rétrospective et prédictive) alimente quatre leviers de pilotage concrets.
 
 \paragraph{1. Cibler les initiatives de réduction des coûts.}
 Puisque 1\% des deals génèrent 30\% du volume d'événements, la modélisation permet d'identifier \emph{ex ante} les deals à haut volume probable et de concentrer les efforts d'automatisation ou de simplification processuelle sur cette frange critique. Le gain potentiel est disproportionné~: réduire de 10\% le volume d'événements sur les deals du top 1\% a plus d'impact que la même réduction sur l'ensemble du portefeuille.

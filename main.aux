@@ -182,48 +182,55 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Impact de la complexité structurale sur le coût opérationnel et la charge Back Office}}{39}{figure.10}\protected@file@percent }
 \newlabel{fig:dispersion-couts-style}{{10}{39}{Impact de la complexité structurale sur le coût opérationnel et la charge Back Office}{figure.10}{}}
 \@writefile{toc}{\contentsline {paragraph}{Ce que la mesure débloque.}{39}{figure.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Identifier les facteurs explicatifs de la charge}{39}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:facteurs}{{4.2}{39}{Identifier les facteurs explicatifs de la charge}{subsection.4.2}{}}
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Identifier les facteurs explicatifs de la charge}{40}{subsection.4.2}\protected@file@percent }
-\newlabel{sec:facteurs}{{4.2}{40}{Identifier les facteurs explicatifs de la charge}{subsection.4.2}{}}
 \@writefile{toc}{\contentsline {paragraph}{Les facteurs de l'Event Processing~: qualitatifs et catégoriels.}{40}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Les facteurs de l'Aftercare~: quantitatifs et proportionnels.}{40}{subsection.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Construire un modèle prédictif du coût}{40}{subsection.4.3}\protected@file@percent }
 \newlabel{sec:modele-predictif}{{4.3}{40}{Construire un modèle prédictif du coût}{subsection.4.3}{}}
-\def\@LN@column{1}
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Architecture à deux étages du modèle prédictif du coût par deal}}{41}{figure.11}\protected@file@percent }
 \newlabel{fig:modele-deux-etages}{{11}{41}{Architecture à deux étages du modèle prédictif du coût par deal}{figure.11}{}}
+\def\@LN@column{1}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Modéliser le volume d'événements~: Random Forest et XGBoost}{41}{subsubsection.4.3.1}\protected@file@percent }
 \newlabel{sec:modele-ep}{{4.3.1}{41}{Modéliser le volume d'événements~: Random Forest et XGBoost}{subsubsection.4.3.1}{}}
-\def\@LN@column{1}
 \@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Exemple illustratif d'arbre de décision~: chaque chemin de la racine à une feuille combine des caractéristiques du deal (rôle, prêteurs, multidevise) et aboutit à un coût estimé. L'arbre capture ainsi les effets d'interaction que la régression linéaire manque. \textbf  {Valeurs illustratives}}}{42}{figure.12}\protected@file@percent }
 \newlabel{fig:arbre-illustratif}{{12}{42}{Exemple illustratif d'arbre de décision~: chaque chemin de la racine à une feuille combine des caractéristiques du deal (rôle, prêteurs, multidevise) et aboutit à un coût estimé. L'arbre capture ainsi les effets d'interaction que la régression linéaire manque. \textbf {Valeurs illustratives}}{figure.12}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Modéliser l'Aftercare~: régression pour l'interprétabilité}{42}{subsubsection.4.3.2}\protected@file@percent }
-\newlabel{sec:modele-ac}{{4.3.2}{42}{Modéliser l'Aftercare~: régression pour l'interprétabilité}{subsubsection.4.3.2}{}}
-\newlabel{eq:reg-aftercare}{{15}{42}{Modéliser l'Aftercare~: régression pour l'interprétabilité}{equation.15}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Recomposer le coût prédit}{42}{subsubsection.4.3.3}\protected@file@percent }
-\newlabel{sec:cout-predit-recompo}{{4.3.3}{42}{Recomposer le coût prédit}{subsubsection.4.3.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Métriques de performance des modèles prédictifs sur données réelles}}{43}{table.2}\protected@file@percent }
-\newlabel{tab:metriques-performance}{{2}{43}{Métriques de performance des modèles prédictifs sur données réelles}{table.2}{}}
 \def\@LN@column{1}
-\newlabel{eq:cout-predit-total}{{16}{43}{Recomposer le coût prédit}{equation.16}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Pilotage opérationnel et usages décisionnels}{43}{subsection.4.4}\protected@file@percent }
-\newlabel{sec:pilotage}{{4.4}{43}{Pilotage opérationnel et usages décisionnels}{subsection.4.4}{}}
-\@writefile{toc}{\contentsline {paragraph}{1. Cibler les initiatives de réduction des coûts.}{43}{subsection.4.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Performance du modèle de volume d'événements (Random Forest vs XGBoost)}}{42}{table.2}\protected@file@percent }
+\newlabel{tab:metriques-performance}{{2}{42}{Performance du modèle de volume d'événements (Random Forest vs XGBoost)}{table.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Ce que le modèle estime, et quand.}{42}{table.2}\protected@file@percent }
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {paragraph}{2. Évaluer le \textit  {cost avoidance} du nearshoring.}{44}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{3. Anticiper la charge et dimensionner les équipes.}{44}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{4. Mesurer le gain des initiatives d'automatisation et d'IA.}{44}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Limites et prolongements}{44}{subsection.4.5}\protected@file@percent }
-\newlabel{sec:limites}{{4.5}{44}{Limites et prolongements}{subsection.4.5}{}}
-\@writefile{toc}{\contentsline {paragraph}{Biais résiduels et contextualisation.}{44}{subsection.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Variables non observées.}{44}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Une estimation vivante, non un verdict.}{43}{table.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Une prédiction qui se lit comme une règle métier.}{43}{table.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Hiérarchiser les inducteurs de charge.}{43}{table.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Décomposer le coût, deal par deal, face au Front Office.}{43}{table.2}\protected@file@percent }
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{45}{subsection.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Prolongements possibles.}{45}{subsection.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{45}{section.5}\protected@file@percent }
-\newlabel{conclusion}{{5}{45}{Conclusion}{section.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Modéliser l'Aftercare~: régression pour l'interprétabilité}{44}{subsubsection.4.3.2}\protected@file@percent }
+\newlabel{sec:modele-ac}{{4.3.2}{44}{Modéliser l'Aftercare~: régression pour l'interprétabilité}{subsubsection.4.3.2}{}}
+\newlabel{eq:reg-aftercare}{{15}{44}{Modéliser l'Aftercare~: régression pour l'interprétabilité}{equation.15}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Recomposer le coût prédit}{44}{subsubsection.4.3.3}\protected@file@percent }
+\newlabel{sec:cout-predit-recompo}{{4.3.3}{44}{Recomposer le coût prédit}{subsubsection.4.3.3}{}}
+\newlabel{eq:cout-predit-total}{{16}{44}{Recomposer le coût prédit}{equation.16}{}}
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {section}{Glossaire}{46}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Pilotage opérationnel et usages décisionnels}{45}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:pilotage}{{4.4}{45}{Pilotage opérationnel et usages décisionnels}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{1. Cibler les initiatives de réduction des coûts.}{45}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{2. Évaluer le \textit  {cost avoidance} du nearshoring.}{45}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{3. Anticiper la charge et dimensionner les équipes.}{45}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{4. Mesurer le gain des initiatives d'automatisation et d'IA.}{45}{subsection.4.4}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Limites et prolongements}{46}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:limites}{{4.5}{46}{Limites et prolongements}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Biais résiduels et contextualisation.}{46}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Variables non observées.}{46}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Extrapolation et stabilité temporelle.}{46}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Prolongements possibles.}{46}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{46}{section.5}\protected@file@percent }
+\newlabel{conclusion}{{5}{46}{Conclusion}{section.5}{}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{Glossaire}{47}{section.5}\protected@file@percent }
+\def\@LN@column{1}
 \def\@LN@column{1}
 \def\@LN@column{1}
 \def\@LN@column{1}
@@ -231,8 +238,6 @@
 \bibdata{references}
 \bibcite{bengal2010}{{1}{}{{}}{{}}}
 \bibcite{ccaf2026}{{2}{}{{}}{{}}}
-\def\@LN@column{1}
-\@writefile{toc}{\contentsline {section}{Bibliography}{50}{section.5}\protected@file@percent }
 \bibcite{gilbreth1917}{{3}{}{{}}{{}}}
 \bibcite{groover2007}{{4}{}{{}}{{}}}
 \bibcite{hatchworks-nearshore}{{5}{}{{}}{{}}}
@@ -240,12 +245,13 @@
 \bibcite{jans2013}{{7}{}{{}}{{}}}
 \bibcite{kaplan2004}{{8}{}{{}}{{}}}
 \bibcite{kaplan1988}{{9}{}{{}}{{}}}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{Bibliography}{52}{section.5}\protected@file@percent }
 \bibcite{koster2023}{{10}{}{{}}{{}}}
 \bibcite{lma2024}{{11}{}{{}}{{}}}
 \bibcite{lundberg2017}{{12}{}{{}}{{}}}
 \bibcite{maynard1948}{{13}{}{{}}{{}}}
 \bibcite{park2026}{{14}{}{{}}{{}}}
-\def\@LN@column{1}
 \bibcite{summittrails}{{15}{}{{}}{{}}}
 \bibcite{taylor1911}{{16}{}{{}}{{}}}
 \bibcite{vanderaalst2016}{{17}{}{{}}{{}}}
@@ -253,4 +259,4 @@
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
 \def\@LN@column{1}
 \xdef \mintedoldcachechecksum{\detokenize{\minted@cachechecksum }}
-\gdef \@abspage@last{59}
+\gdef \@abspage@last{60}

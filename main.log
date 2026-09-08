@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.18)  8 SEP 2026 14:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.18)  8 SEP 2026 17:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1157,8 +1157,8 @@ l.108
 pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.162 
-      ] [40]
+l.166     \item
+                le \textbf{rÃ´le} de la banque (agent, participant, bilatÃ©r...] [40]
 Overfull \hbox (23.26677pt too wide) in paragraph at lines 260--261
  [][] 
  []
@@ -1167,28 +1167,28 @@ Overfull \hbox (23.26677pt too wide) in paragraph at lines 260--261
 pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.263 \end{figure}
-                  ]
-Overfull \hbox (1.47427pt too wide) detected at line 307
-[][][]\OML/cmm/m/it/12 c[] \OT1/cmr/m/n/12 = [] = [] = 1 []  =[]\OMS/cmsy/m/n/12 )  [] \OT1/cmr/m/n/12 = [][](\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^B \OT1/cmr/m/n/12 20 + [](\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 )[] \OMS/cmsy/m/n/12 ^^B \OML/cmm/m/it/12 c[]
- []
-
-[42
+l.282 
+      ] [42
 pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.307 \end{equation}
-                    ] [43
+l.290 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.323 
-      ] [44]) (./sections/conclusion.tex [45]) (./sections/glossaire.tex [46] [47]
+l.290 
+      ] [43]
+Overfull \hbox (1.47427pt too wide) detected at line 331
+[][][]\OML/cmm/m/it/12 c[] \OT1/cmr/m/n/12 = [] = [] = 1 []  =[]\OMS/cmsy/m/n/12 )  [] \OT1/cmr/m/n/12 = [][](\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^B \OT1/cmr/m/n/12 20 + [](\OML/cmm/m/it/12 x\OT1/cmr/m/n/12 )[] \OMS/cmsy/m/n/12 ^^B \OML/cmm/m/it/12 c[]
+ []
+
+[44] [45]) (./sections/conclusion.tex [46]) (./sections/glossaire.tex [47] [48]
 Underfull \hbox (badness 10000) in paragraph at lines 46--47
 []\T1/cmr/m/n/12 Automatisation lo-gi-cielle de
  []
 
-[48]
+[49] [50]
 Underfull \hbox (badness 5217) in paragraph at lines 79--80
 []\T1/cmr/m/n/12 Économies ef-fec-ti-ve-ment réa-li-sées /
  []
@@ -1198,23 +1198,23 @@ Underfull \hbox (badness 2088) in paragraph at lines 85--86
 []\T1/cmr/m/n/12 Modèle ex-pri-mant une va-riable
  []
 
-[49]) (./main.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 10--17
+[51]) (./main.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 9--13
 \T1/cmtt/m/n/12 jbs . cam . ac . uk / faculty-[]research / centres / alternative-[]finance /
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 10--17
+Underfull \hbox (badness 10000) in paragraph at lines 9--13
 \T1/cmtt/m/n/12 publications / 2026-[]global-[]ai-[]in-[]financial-[]services-[]report/$[][]\T1/cmr/m/n/12 ,
  []
 
-[50]
-Underfull \hbox (badness 1983) in paragraph at lines 30--36
+
+Underfull \hbox (badness 1983) in paragraph at lines 25--29
 []\T1/cmr/m/n/12 HatchWorks.  Near-shore vs. off-shore out-sour-cing : Cost, ta-lent
  []
 
-[51]) [52]
-runsystem(latexminted cleantemp  --timestamp 20260908143804 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
+[52]) [53]
+runsystem(latexminted cleantemp  --timestamp 20260908174016 FAD58DE7366495DB4650CFEFAC2FCD61)...executed safely (allowed).
 
  (./main.aux)
  ***********
@@ -1225,18 +1225,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 1DDB08FA176711F86D6591E321B1DF94;12898.
  ) 
 Here is how much of TeX's memory you used:
- 48102 strings out of 469006
- 1147869 string characters out of 5454813
+ 48104 strings out of 469006
+ 1147885 string characters out of 5454813
  1806655 words of memory out of 5000000
- 75863 multiletter control sequences out of 15000+600000
+ 75864 multiletter control sequences out of 15000+600000
  655881 words of font info for 99 fonts, out of 8000000 for 9000
  323 hyphenation exceptions out of 8191
  99i,16n,111p,2233b,2021s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/eurosym/feymr10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfbi1200.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfbx0600.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfbx0800.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfti0800.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on main.pdf (59 pages, 812103 bytes).
+Output written on main.pdf (60 pages, 815418 bytes).
 PDF statistics:
- 890 PDF objects out of 1000 (max. 8388607)
- 722 compressed objects within 8 object streams
- 156 named destinations out of 1000 (max. 500000)
+ 893 PDF objects out of 1000 (max. 8388607)
+ 724 compressed objects within 8 object streams
+ 157 named destinations out of 1000 (max. 500000)
  506 words of extra memory for PDF output out of 10000 (max. 10000000)
 

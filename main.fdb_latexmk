@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1788644527.49595 "main.aux" "main.bbl" "main" 1788871085.38998 0
+["bibtex main"] 1788882011.63889 "main.aux" "main.bbl" "main" 1788882018.08514 0
   "./references.bib" 1788644506.09655 5019 4db55d676b6418830578be1e95b2a897 ""
   "/usr/local/texlive/2026basic/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1788871085.26108 25718 187ce1ec23e978e81129e1403d7b58a6 "pdflatex"
+  "main.aux" 1788882017.94169 26379 1044519d523d778cd4ccc07793155e32 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1788871084.13428 "/Users/davidroufe/Pro/Dauphine/MÉMOIRE/thesis-template/main.tex" "main.pdf" "main" 1788871085.39012 0
+["pdflatex"] 1788882016.66538 "/Users/davidroufe/Pro/Dauphine/MÉMOIRE/thesis-template/main.tex" "main.pdf" "main" 1788882018.08528 0
   "/Users/davidroufe/Pro/Dauphine/MÉMOIRE/thesis-template/main.tex" 1788097708.58866 1809 3cc6466dca8b4c2eb20ebe896d59fa63 ""
   "/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2026basic/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -330,12 +330,12 @@
   "/usr/local/texlive/2026basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1779131953 2966191 ebb4be3cddb4e39615febbf6aed08b64 ""
   "/usr/local/texlive/2026basic/texmf.cnf" 1772405582 628 bbc09d6d38872d53c11bb48dc9b14e88 ""
   "images/dauphine.png" 1779133227.44432 13481 072a953797accea0365e3da99c1d6ff7 ""
-  "main.aux" 1788871085.26108 25718 187ce1ec23e978e81129e1403d7b58a6 "pdflatex"
-  "main.bbl" 1788644527.50851 3492 3bfeb35281adbc37dc22654d296ddc3b "bibtex main"
-  "main.lof" 1788871085.26337 3348 080e4680814d507cfac0e874b9110091 "pdflatex"
-  "main.lot" 1788871085.26339 309 ec0fc4cf8a93c5fcffdd34fe185a36f7 "pdflatex"
-  "main.out" 1788871085.26305 12898 1ddb08fa176711f86d6591e321b1df94 "pdflatex"
-  "main.toc" 1788871085.26323 7683 4962d110c0b1eb7f7d4edb963f6c3acc "pdflatex"
+  "main.aux" 1788882017.94169 26379 1044519d523d778cd4ccc07793155e32 "pdflatex"
+  "main.bbl" 1788882011.65602 3470 e2075b1b82fa5727cd3bf46b512aa203 "bibtex main"
+  "main.lof" 1788882017.9442 3348 080e4680814d507cfac0e874b9110091 "pdflatex"
+  "main.lot" 1788882017.94422 311 6a59891d9d5f927b90d70fb29d9e1e7c "pdflatex"
+  "main.out" 1788882017.94393 12898 1ddb08fa176711f86d6591e321b1df94 "pdflatex"
+  "main.toc" 1788882017.94418 8116 f0ea648bc3e92e37b34f50b95bc8d1d0 "pdflatex"
   "packages.tex" 1788641059.73193 1655 d765750c337ea84b5b7eaa8158c4e566 ""
   "sections/abstract.tex" 1788644304.63661 543 ef45f0052d331ed0710fead4875e7775 ""
   "sections/conclusion.tex" 1787951135.72773 2283 3f1fbc052e44eab89529930cbec20f03 ""
@@ -343,7 +343,7 @@
   "sections/glossaire.tex" 1787854465.48936 8742 0b83ab1b12bc8f1a0e6ff056baabb742 ""
   "sections/introduction.tex" 1788870872.90884 13505 12b5d98f4027767f490515a72d55dbb3 ""
   "sections/mesure.tex" 1788644359.25441 15900 1c41981b15f09d0a933c3fac3610be75 ""
-  "sections/modelisation.tex" 1788644327.45904 23152 2c0de3ae5215cc59d641bc7692408265 ""
+  "sections/modelisation.tex" 1788882016.3907 27221 1f93903dfbdb880774b1b9afd4fac7c6 ""
   "sections/state-of-art.tex" 1788641603.94368 32003 95559f6cb7322c43c04426f43dd37515 ""
   "sections/thanks.tex" 1787924203.7679 2021 47b55632c12fdc6f99842e8a4dad254d ""
   (generated)
